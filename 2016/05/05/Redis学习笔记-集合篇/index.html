@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Redis命令学习笔记-集合篇 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="学习笔记,Redis">
+    <meta name="description" content="HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “hash” to look, with field-value pairs:实际是一种散列集合结构，结构也如下：{key} {domain1} {value1} {domain 2} {value2} … {domain n} {valuen}
+HMS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis命令学习笔记-集合篇">
+<meta property="og:url" content="https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “hash” to look, with field-value pairs:实际是一种散列集合结构，结构也如下：{key} {domain1} {value1} {domain 2} {value2} … {domain n} {valuen}
+HMS">
+<meta property="og:updated_time" content="2017-01-03T05:52:19.778Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis命令学习笔记-集合篇">
+<meta name="twitter:description" content="HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “hash” to look, with field-value pairs:实际是一种散列集合结构，结构也如下：{key} {domain1} {value1} {domain 2} {value2} … {domain n} {valuen}
+HMS">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Redis命令学习笔记-集合篇</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Redis命令学习笔记-集合篇</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-05-05T13:14:50.000Z" itemprop="datePublished" class="page-time">
+  2016-05-05
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Hash"><span class="post-toc-number">1.</span> <span class="post-toc-text">Hash</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HMSET-key-field-value-field-value-…"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">HMSET key field value [field value …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HSET-key-field-value"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">HSET key field value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HSETNX-key-field-value"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">HSETNX key field value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HGET-key-field"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">HGET key field</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HMGET-key-field-field-…"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">HMGET key field [field …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HGETALL-key"><span class="post-toc-number">1.0.6.</span> <span class="post-toc-text">HGETALL key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HINCRBY-key-field-increment"><span class="post-toc-number">1.0.7.</span> <span class="post-toc-text">HINCRBY key field increment</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HINCRBYFLOAT-key-field-increment"><span class="post-toc-number">1.0.8.</span> <span class="post-toc-text">HINCRBYFLOAT key field increment</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HINCRBY、HINCRBYFLOAT"><span class="post-toc-number">1.0.9.</span> <span class="post-toc-text">HINCRBY、HINCRBYFLOAT</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HLEN-key"><span class="post-toc-number">1.0.10.</span> <span class="post-toc-text">HLEN key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HKEYS-key-HVALS-key"><span class="post-toc-number">1.0.11.</span> <span class="post-toc-text">HKEYS key/HVALS key</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#List"><span class="post-toc-number">2.</span> <span class="post-toc-text">List</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LPOP-LPUSH"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">LPOP/LPUSH</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BLPOP-BLPUSH"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">BLPOP/BLPUSH</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BRPOP-BRPOP"><span class="post-toc-number">2.0.3.</span> <span class="post-toc-text">BRPOP/BRPOP</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LINDEX-key-index"><span class="post-toc-number">2.0.4.</span> <span class="post-toc-text">LINDEX key index</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LINSERT-key-BEFORE-AFTER-pivot-value"><span class="post-toc-number">2.0.5.</span> <span class="post-toc-text">LINSERT key BEFORE|AFTER pivot value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LRANGE-key-start-stop"><span class="post-toc-number">2.0.6.</span> <span class="post-toc-text">LRANGE key start stop</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LREM-key-count-value"><span class="post-toc-number">2.0.7.</span> <span class="post-toc-text">LREM key count value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LSET-key-index-value"><span class="post-toc-number">2.0.8.</span> <span class="post-toc-text">LSET key index value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LTRIM-key-start-stop"><span class="post-toc-number">2.0.9.</span> <span class="post-toc-text">LTRIM key start stop</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SET"><span class="post-toc-number">3.</span> <span class="post-toc-text">SET</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SADD-key-member-member-…"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">SADD key member [member …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SCARD-key"><span class="post-toc-number">3.0.2.</span> <span class="post-toc-text">SCARD key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SDIFF-key-key-…"><span class="post-toc-number">3.0.3.</span> <span class="post-toc-text">SDIFF key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SDIFFSTORE-destination-key-key-…"><span class="post-toc-number">3.0.4.</span> <span class="post-toc-text">SDIFFSTORE destination key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SINTER-key-key-…"><span class="post-toc-number">3.0.5.</span> <span class="post-toc-text">SINTER key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SINTERSTORE-destination-key-key-…"><span class="post-toc-number">3.0.6.</span> <span class="post-toc-text">SINTERSTORE destination key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SUNION-key-key-…"><span class="post-toc-number">3.0.7.</span> <span class="post-toc-text">SUNION key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SUNIONSTORE-destination-key-key-…"><span class="post-toc-number">3.0.8.</span> <span class="post-toc-text">SUNIONSTORE destination key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SISMEMBER-key-member"><span class="post-toc-number">3.0.9.</span> <span class="post-toc-text">SISMEMBER key member</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SMEMBERS-key"><span class="post-toc-number">3.0.10.</span> <span class="post-toc-text">SMEMBERS key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SMOVE-source-destination-member"><span class="post-toc-number">3.0.11.</span> <span class="post-toc-text">SMOVE source destination member</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SRANDMEMBER-key-count"><span class="post-toc-number">3.0.12.</span> <span class="post-toc-text">SRANDMEMBER key [count]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SPOP-key"><span class="post-toc-number">3.0.13.</span> <span class="post-toc-text">SPOP key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SREM-key-member-member-…"><span class="post-toc-number">3.0.14.</span> <span class="post-toc-text">SREM key member [member …]</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#有序集合-SortedSet"><span class="post-toc-number">4.</span> <span class="post-toc-text">有序集合 SortedSet</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZADD-key-score-member-score-member-score-member-…"><span class="post-toc-number">4.0.1.</span> <span class="post-toc-text">ZADD key score member [[score member] [score member] …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZCARD-key"><span class="post-toc-number">4.0.2.</span> <span class="post-toc-text">ZCARD key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZCOUNT-key-min-max"><span class="post-toc-number">4.0.3.</span> <span class="post-toc-text">ZCOUNT key min max</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZINCRBY-key-increment-member"><span class="post-toc-number">4.0.4.</span> <span class="post-toc-text">ZINCRBY key increment member</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZRANGE-key-start-stop-WITHSCORES"><span class="post-toc-number">4.0.5.</span> <span class="post-toc-text">ZRANGE key start stop [WITHSCORES]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZRANGEBYSCORE-key-min-max-WITHSCORES-LIMIT-offset-count"><span class="post-toc-number">4.0.6.</span> <span class="post-toc-text">ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZRANK-key-member"><span class="post-toc-number">4.0.7.</span> <span class="post-toc-text">ZRANK key member</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZREM-key-member-member-…"><span class="post-toc-number">4.0.8.</span> <span class="post-toc-text">ZREM key member [member …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZREMRANGEBYRANK-key-start-stop"><span class="post-toc-number">4.0.9.</span> <span class="post-toc-text">ZREMRANGEBYRANK key start stop</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZREMRANGEBYSCORE-key-min-max"><span class="post-toc-number">4.0.10.</span> <span class="post-toc-text">ZREMRANGEBYSCORE key min max</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZREVRANGE-key-start-stop-WITHSCORES"><span class="post-toc-number">4.0.11.</span> <span class="post-toc-text">ZREVRANGE key start stop [WITHSCORES]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZSCORE-key-member"><span class="post-toc-number">4.0.12.</span> <span class="post-toc-text">ZSCORE key member</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZUNIONSTORE-destination-numkeys-key-key-…-WEIGHTS-weight-weight-…"><span class="post-toc-number">4.0.13.</span> <span class="post-toc-text">ZUNIONSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZINTERSTORE-destination-numkeys-key-key-…-WEIGHTS-weight-weight-…"><span class="post-toc-number">4.0.14.</span> <span class="post-toc-text">ZINTERSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]]</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Redis学习笔记-集合篇"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Redis命令学习笔记-集合篇</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-05-05 21:14:50" datetime="2016-05-05T13:14:50.000Z"  itemprop="datePublished">2016-05-05</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><p>Hash是什么？ redis的文档解释是<br>Redis hashes look exactly how one might expect a “hash” to look, with field-value pairs:<br>实际是一种散列集合结构，结构也如下：<br>{key} {domain1} {value1} {domain 2} {value2} … {domain n} {valuen}</p>
+<h3 id="HMSET-key-field-value-field-value-…"><a href="#HMSET-key-field-value-field-value-…" class="headerlink" title="HMSET key field value [field value …]"></a>HMSET key field value [field value …]</h3><p>同时将多个 field-value (域-值)对设置到哈希表 key 中。<br>此命令会覆盖哈希表中已存在的域。<br>如果 key 不存在，一个空哈希表被创建并执行 HMSET 操作。</p>
+<h3 id="HSET-key-field-value"><a href="#HSET-key-field-value" class="headerlink" title="HSET key field value"></a>HSET key field value</h3><p>将哈希表 key 中的域 field 的值设为 value 。<br>如果 key 不存在，一个新的哈希表被创建并进行 HSET 操作。<br>如果域 field 已经存在于哈希表中，旧值将被覆盖。</p>
+<h3 id="HSETNX-key-field-value"><a href="#HSETNX-key-field-value" class="headerlink" title="HSETNX key field value"></a>HSETNX key field value</h3><p>上述版本的不覆盖set版本 如果存在返回为false</p>
+<h3 id="HGET-key-field"><a href="#HGET-key-field" class="headerlink" title="HGET key field"></a>HGET key field</h3><p>返回哈希表 key 中给定域 field 的值。<br><a id="more"></a></p>
+<h3 id="HMGET-key-field-field-…"><a href="#HMGET-key-field-field-…" class="headerlink" title="HMGET key field [field …]"></a>HMGET key field [field …]</h3><p>返回哈希表 key 中，一个或多个给定域的值。<br>如果给定的域不存在于哈希表，那么返回一个 nil 值。<br>HSET key field value<br>将哈希表 key 中的域 field 的值设为 value 。<br>如果 key 不存在，一个新的哈希表被创建并进行 HSET 操作。<br>如果域 field 已经存在于哈希表中，旧值将被覆盖。</p>
+<h3 id="HGETALL-key"><a href="#HGETALL-key" class="headerlink" title="HGETALL key"></a>HGETALL key</h3><p>返回哈希表 key 中，所有的域和值。<br>在返回值里，紧跟每个域名(field name)之后是域的值(value)，所以返回值的长度是哈希表大<br>小的两倍。</p>
+<h3 id="HINCRBY-key-field-increment"><a href="#HINCRBY-key-field-increment" class="headerlink" title="HINCRBY key field increment"></a>HINCRBY key field increment</h3><p>为哈希表 key 中的域 field 的值加上增量 increment 。<br>增量也可以为负数，相当于对给定域进行减法操作。<br>如果 key 不存在，一个新的哈希表被创建并执行 HINCRBY 命令。<br>如果域 field 不存在，那么在执行命令前，域的值被初始化为 0 。</p>
+<h3 id="HINCRBYFLOAT-key-field-increment"><a href="#HINCRBYFLOAT-key-field-increment" class="headerlink" title="HINCRBYFLOAT key field increment"></a>HINCRBYFLOAT key field increment</h3><p>上面命令的float版本</p>
+<h3 id="HINCRBY、HINCRBYFLOAT"><a href="#HINCRBY、HINCRBYFLOAT" class="headerlink" title="HINCRBY、HINCRBYFLOAT"></a>HINCRBY、HINCRBYFLOAT</h3><p>上面命令的增加指定增量版本</p>
+<h3 id="HLEN-key"><a href="#HLEN-key" class="headerlink" title="HLEN key"></a>HLEN key</h3><p>返回哈希表 key 中域的数量。</p>
+<h3 id="HKEYS-key-HVALS-key"><a href="#HKEYS-key-HVALS-key" class="headerlink" title="HKEYS key/HVALS key"></a>HKEYS key/HVALS key</h3><p>返回哈希表 key 中的所有域/值。</p>
+<h1 id="List"><a href="#List" class="headerlink" title="List"></a>List</h1><p>是一种线性的集合结构，支持常见的push/pop等操作</p>
+<h3 id="LPOP-LPUSH"><a href="#LPOP-LPUSH" class="headerlink" title="LPOP/LPUSH"></a>LPOP/LPUSH</h3><p>弹入弹出</p>
+<h3 id="BLPOP-BLPUSH"><a href="#BLPOP-BLPUSH" class="headerlink" title="BLPOP/BLPUSH"></a>BLPOP/BLPUSH</h3><p>阻塞版弹出/弹入原语<br>可以在最后加入超时时间</p>
+<h3 id="BRPOP-BRPOP"><a href="#BRPOP-BRPOP" class="headerlink" title="BRPOP/BRPOP"></a>BRPOP/BRPOP</h3><p>弹出List尾部元素，在尾部弹入</p>
+<h3 id="LINDEX-key-index"><a href="#LINDEX-key-index" class="headerlink" title="LINDEX key index"></a>LINDEX key index</h3><p>返回列表 key 中，下标为 index 的元素。<br>下标</p>
+<h3 id="LINSERT-key-BEFORE-AFTER-pivot-value"><a href="#LINSERT-key-BEFORE-AFTER-pivot-value" class="headerlink" title="LINSERT key BEFORE|AFTER pivot value"></a>LINSERT key BEFORE|AFTER pivot value</h3><p>将值 value 插入到列表 key 当中，位于值 pivot 之前或之后。<br>当 pivot 不存在于列表 key 时，不执行任何操作。<br>当 key 不存在时， key 被视为空列表，不执行任何操作。<br>如果 key 不是列表类型，返回一个错误。</p>
+<h3 id="LRANGE-key-start-stop"><a href="#LRANGE-key-start-stop" class="headerlink" title="LRANGE key start stop"></a>LRANGE key start stop</h3><p>返回列表 key 中指定区间内的元素，区间以偏移量 start 和 stop 指定。</p>
+<h3 id="LREM-key-count-value"><a href="#LREM-key-count-value" class="headerlink" title="LREM key count value"></a>LREM key count value</h3><p>根据参数 count 的值，移除列表中与参数 value 相等的元素。</p>
+<h3 id="LSET-key-index-value"><a href="#LSET-key-index-value" class="headerlink" title="LSET key index value"></a>LSET key index value</h3><p>将列表 key 下标为 index 的元素的值设置为 value 。<br>当 index 参数超出范围，或对一个空列表( key 不存在)进行 LSET 时，返回一个错误。</p>
+<h3 id="LTRIM-key-start-stop"><a href="#LTRIM-key-start-stop" class="headerlink" title="LTRIM key start stop"></a>LTRIM key start stop</h3><p>对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的<br>元素都将被删除。</p>
+<h1 id="SET"><a href="#SET" class="headerlink" title="SET"></a>SET</h1><p>Redis Sets are unordered collections of strings. The SADD command adds new elements to a set. It’s also possible to do a number of other operations against sets like testing if a given element already exists, performing the intersection, union or difference between multiple sets, and so forth.</p>
+<h3 id="SADD-key-member-member-…"><a href="#SADD-key-member-member-…" class="headerlink" title="SADD key member [member …]"></a>SADD key member [member …]</h3><p>将一个或多个 member 元素加入到集合 key 当中，已经存在于集合的 member 元素将被忽<br>略。</p>
+<h3 id="SCARD-key"><a href="#SCARD-key" class="headerlink" title="SCARD key"></a>SCARD key</h3><p>集合中元素的数量。</p>
+<h3 id="SDIFF-key-key-…"><a href="#SDIFF-key-key-…" class="headerlink" title="SDIFF key [key …]"></a>SDIFF key [key …]</h3><p>返回一个集合的全部成员，该集合是所有给定集合之间的差（补）集。<br>不存在的 key 被视为空集。</p>
+<h3 id="SDIFFSTORE-destination-key-key-…"><a href="#SDIFFSTORE-destination-key-key-…" class="headerlink" title="SDIFFSTORE destination key [key …]"></a>SDIFFSTORE destination key [key …]</h3><p>上一个命令的保留到destination集合的版本</p>
+<h3 id="SINTER-key-key-…"><a href="#SINTER-key-key-…" class="headerlink" title="SINTER key [key …]"></a>SINTER key [key …]</h3><p>返回一个集合的全部成员，该集合是所有给定集合的交集。<br>不存在的 key 被视为空集。<br>当给定集合当中有一个空集时，结果也为空集(根据集合运算定律)。.</p>
+<h3 id="SINTERSTORE-destination-key-key-…"><a href="#SINTERSTORE-destination-key-key-…" class="headerlink" title="SINTERSTORE destination key [key …]"></a>SINTERSTORE destination key [key …]</h3><p>上一个命令的保留到destination集合的版本</p>
+<h3 id="SUNION-key-key-…"><a href="#SUNION-key-key-…" class="headerlink" title="SUNION key [key …]"></a>SUNION key [key …]</h3><p>返回一个集合的全部成员，该集合是所有给定集合的并集。<br>不存在的 key 被视为空集。</p>
+<h3 id="SUNIONSTORE-destination-key-key-…"><a href="#SUNIONSTORE-destination-key-key-…" class="headerlink" title="SUNIONSTORE destination key [key …]"></a>SUNIONSTORE destination key [key …]</h3><p>上一个命令的保留到destination集合的版本</p>
+<h3 id="SISMEMBER-key-member"><a href="#SISMEMBER-key-member" class="headerlink" title="SISMEMBER key member"></a>SISMEMBER key member</h3><p>判断 member 元素是否集合 key 的成员。</p>
+<h3 id="SMEMBERS-key"><a href="#SMEMBERS-key" class="headerlink" title="SMEMBERS key"></a>SMEMBERS key</h3><p>返回集合 key 中的所有成员。<br>不存在的 key 被视为空集合。</p>
+<h3 id="SMOVE-source-destination-member"><a href="#SMOVE-source-destination-member" class="headerlink" title="SMOVE source destination member"></a>SMOVE source destination member</h3><p>将 member 元素从 source 集合移动到 destination 集合。</p>
+<h3 id="SRANDMEMBER-key-count"><a href="#SRANDMEMBER-key-count" class="headerlink" title="SRANDMEMBER key [count]"></a>SRANDMEMBER key [count]</h3><p>如果命令执行时，只提供了 key 参数，那么返回集合中的一个随机元素。</p>
+<h3 id="SPOP-key"><a href="#SPOP-key" class="headerlink" title="SPOP key"></a>SPOP key</h3><p>移除并返回集合中的一个随机元素。<br>如果只想获取一个随机元素，但不想该元素从集合中被移除的话，可以使用<br>SRANDMEMBER 命令。</p>
+<h3 id="SREM-key-member-member-…"><a href="#SREM-key-member-member-…" class="headerlink" title="SREM key member [member …]"></a>SREM key member [member …]</h3><p>移除集合 key 中的一个或多个 member 元素，不存在的 member 元素会被忽略。<br>当 key 不是集合类型，返回一个错误。</p>
+<h1 id="有序集合-SortedSet"><a href="#有序集合-SortedSet" class="headerlink" title="有序集合 SortedSet"></a>有序集合 SortedSet</h1><p>有序集合是一种带Socore的集合，可以根据score进行一些排序，查找工作。</p>
+<h3 id="ZADD-key-score-member-score-member-score-member-…"><a href="#ZADD-key-score-member-score-member-score-member-…" class="headerlink" title="ZADD key score member [[score member] [score member] …]"></a>ZADD key score member [[score member] [score member] …]</h3><p>将一个或多个 member 元素及其 score 值加入到有序集 key 当中。<br>如果某个 member 已经是有序集的成员，那么更新这个 member 的 score 值，并通过重新<br>插入这个 member 元素，来保证该 member 在正确的位置上。</p>
+<h3 id="ZCARD-key"><a href="#ZCARD-key" class="headerlink" title="ZCARD key"></a>ZCARD key</h3><p>返回有序集 key 的基数。</p>
+<h3 id="ZCOUNT-key-min-max"><a href="#ZCOUNT-key-min-max" class="headerlink" title="ZCOUNT key min max"></a>ZCOUNT key min max</h3><p>返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或<br>max )的成员的数量。</p>
+<h3 id="ZINCRBY-key-increment-member"><a href="#ZINCRBY-key-increment-member" class="headerlink" title="ZINCRBY key increment member"></a>ZINCRBY key increment member</h3><p>为有序集 key 的成员 member 的 score 值加上增量 increment 。</p>
+<h3 id="ZRANGE-key-start-stop-WITHSCORES"><a href="#ZRANGE-key-start-stop-WITHSCORES" class="headerlink" title="ZRANGE key start stop [WITHSCORES]"></a>ZRANGE key start stop [WITHSCORES]</h3><p>返回有序集 key 中，指定区间内的成员。<br>其中成员的位置按 score 值递增(从小到大)来排序。<br>具有相同 score 值的成员按字典序( lexicographical order )来排列。</p>
+<h3 id="ZRANGEBYSCORE-key-min-max-WITHSCORES-LIMIT-offset-count"><a href="#ZRANGEBYSCORE-key-min-max-WITHSCORES-LIMIT-offset-count" class="headerlink" title="ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]"></a>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</h3><p>返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成<br>员。有序集成员按 score 值递增(从小到大)次序排列。</p>
+<h3 id="ZRANK-key-member"><a href="#ZRANK-key-member" class="headerlink" title="ZRANK key member"></a>ZRANK key member</h3><p>返回有序集 key 中成员 member 的排名。其中有序集成员按 score 值递增(从小到大)顺序<br>排列。</p>
+<h3 id="ZREM-key-member-member-…"><a href="#ZREM-key-member-member-…" class="headerlink" title="ZREM key member [member …]"></a>ZREM key member [member …]</h3><p>移除有序集 key 中的一个或多个成员，不存在的成员将被忽略。<br>当 key 存在但不是有序集类型时，返回错误。</p>
+<h3 id="ZREMRANGEBYRANK-key-start-stop"><a href="#ZREMRANGEBYRANK-key-start-stop" class="headerlink" title="ZREMRANGEBYRANK key start stop"></a>ZREMRANGEBYRANK key start stop</h3><p>移除有序集 key 中，指定排名(rank)区间内的所有成员。<br>区间分别以下标参数 start 和 stop 指出，包含 start 和 stop 在内。</p>
+<h3 id="ZREMRANGEBYSCORE-key-min-max"><a href="#ZREMRANGEBYSCORE-key-min-max" class="headerlink" title="ZREMRANGEBYSCORE key min max"></a>ZREMRANGEBYSCORE key min max</h3><p>移除有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成<br>员。</p>
+<h3 id="ZREVRANGE-key-start-stop-WITHSCORES"><a href="#ZREVRANGE-key-start-stop-WITHSCORES" class="headerlink" title="ZREVRANGE key start stop [WITHSCORES]"></a>ZREVRANGE key start stop [WITHSCORES]</h3><p>返回有序集 key 中，指定区间内的成员。<br>其中成员的位置按 score 值递减(从大到小)来排列。具有相同 score 值的成员按字典序的<br>逆序( reverse lexicographical order)排列。</p>
+<h3 id="ZSCORE-key-member"><a href="#ZSCORE-key-member" class="headerlink" title="ZSCORE key member"></a>ZSCORE key member</h3><p>返回有序集 key 中，成员 member 的 score 值。<br>如果 member 元素不是有序集 key 的成员，或 key 不存在，返回 nil 。</p>
+<h3 id="ZUNIONSTORE-destination-numkeys-key-key-…-WEIGHTS-weight-weight-…"><a href="#ZUNIONSTORE-destination-numkeys-key-key-…-WEIGHTS-weight-weight-…" class="headerlink" title="ZUNIONSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]]"></a>ZUNIONSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]]</h3><p>[AGGREGATE SUM|MIN|MAX]<br>计算给定的一个或多个有序集的并集，其中给定 key 的数量必须以 numkeys 参数指定，并<br>将该并集(结果集)储存到 destination 。</p>
+<h3 id="ZINTERSTORE-destination-numkeys-key-key-…-WEIGHTS-weight-weight-…"><a href="#ZINTERSTORE-destination-numkeys-key-key-…-WEIGHTS-weight-weight-…" class="headerlink" title="ZINTERSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]]"></a>ZINTERSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]]</h3><p>[AGGREGATE SUM|MIN|MAX]<br>计算给定的一个或多个有序集的交集，其中给定 key 的数量必须以 numkeys 参数指定，并<br>将该交集(结果集)储存到 destination 。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:19.778Z" itemprop="dateUpdated">2017-01-03 13:52:19</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2016/05/05/Redis学习笔记-集合篇/" target="_blank" rel="external">https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/&title=《Redis命令学习笔记-集合篇》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/&title=《Redis命令学习笔记-集合篇》 — Sequarius&source=HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “has..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis命令学习笔记-集合篇》 — Sequarius&url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/05/12/一键评教是怎么通过Java实现的/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">一键评教是怎么通过OkHttp实现的</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Redis命令学习笔记part1:Key/String篇</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/&title=《Redis命令学习笔记-集合篇》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/&title=《Redis命令学习笔记-集合篇》 — Sequarius&source=HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “has..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis命令学习笔记-集合篇》 — Sequarius&url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/05/05/Redis学习笔记-集合篇/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrklEQVR42u3aMW4DMQwEQP//00mTIkBgZUmKtou5yjAOOs4Vlrzk4xFfX7+uv9/37j9//rvCs2dduPDw8PAGpZ+XPn+TPOVZoclzz98/rQcPDw9vjVctKH9ByYvIN4y8Zjw8PLxP5p2Rkzur9eDh4eF9Jq8XQEwOynh4eHifyZssncQWveg2ecq1rAUPDw+vkwmUj7Pv+rzS38PDw8Mbd9XvbhJ5U21e5886eHh4eAu8XkRbDRomcXB1TAEPDw9vm3f+Wc9jgsWf9aCGpy8RDw8Pb4F3a0QgHwvoHaDzjao5cYCHh4cX8/J21N0oNi86eXp5S8DDw8O7xOvFAdXQoRoxjHp6eHh4eAu8PCzorVA9uCevqTx6hYeHh3eVl5SSBxC9iKEX5kbr4+Hh4b2El28M1c2gNwTQ+wPQnGvAw8PDGzTDJsNVvTGsavCR3ImHh4e3wesNQk0K7cW7vReEh4eHt8fLZ5aS4qrttLzoauCLh4eHt8GrFlENefNQI39ic9QADw8P7xIvb9KXA9PWhlENR/7ZwPDw8PDWeJNGV/5z3yt6tAnh4eHhrfEexSs/7OaH43nwgYeHh/dKXq/1NT86J/hzPYWZMjw8PLxLvF5ImkcS1fAif2659YWHh4d3lZc0wOaP6cUZ1W0g2gPx8PDwxrzq0Tk/ds/XvLD94OHh4a3xei2o/JieD1RVVx6lznh4eHhjXq+R34uG88GFXnMODw8Pb4M3f/wZOQmLkw3m2ugAHh4eXszrtaDuNs+SovPPve0EDw8Pr8rLw9lz7PtYuOYvAg8PD2+PVw1M5/FEdZ1msIuHh4f3AbzqD3Q+YjU5vv8zTYaHh4f3Vl41wJ0MK/RGEPDw8PBew5sPofbGs/L7e5EuHh4e3gav+of/1rhA9cC9GBzj4eHhpbxvm01UuRiGwXAAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

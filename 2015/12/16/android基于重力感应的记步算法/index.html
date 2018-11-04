@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>android基于重力感应的计步算法 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="android,计步,sensor,pedemoter">
+    <meta name="description" content="早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多算法，发现这个算法最好，下面是SensorEventListener的实现，更多细节参阅https://github.com/bagilevi/android-pedometer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android基于重力感应的计步算法">
+<meta property="og:url" content="https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多算法，发现这个算法最好，下面是SensorEventListener的实现，更多细节参阅https://github.com/bagilevi/android-pedometer">
+<meta property="og:updated_time" content="2017-01-03T05:52:16.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android基于重力感应的计步算法">
+<meta name="twitter:description" content="早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多算法，发现这个算法最好，下面是SensorEventListener的实现，更多细节参阅https://github.com/bagilevi/android-pedometer">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">android基于重力感应的计步算法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">android基于重力感应的计步算法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-12-16T07:58:36.000Z" itemprop="datePublished" class="page-time">
+  2015-12-16
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-android基于重力感应的记步算法"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">android基于重力感应的计步算法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015-12-16 15:58:36" datetime="2015-12-16T07:58:36.000Z"  itemprop="datePublished">2015-12-16</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多算法，发现这个算法最好，<br>下面是SensorEventListener的实现，更多细节参阅<a href="https://github.com/bagilevi/android-pedometer" target="_blank" rel="external">https://github.com/bagilevi/android-pedometer</a><br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> name.bagi.levente.pedometer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.hardware.Sensor;</div><div class="line"><span class="keyword">import</span> android.hardware.SensorEvent;</div><div class="line"><span class="keyword">import</span> android.hardware.SensorEventListener;</div><div class="line"><span class="keyword">import</span> android.hardware.SensorManager;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Detects steps and notifies all listeners (that implement StepListener).</div><div class="line"> * <span class="doctag">@author</span> Levente Bagi</div><div class="line"> * <span class="doctag">@todo</span> REFACTOR: SensorListener is deprecated</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StepDetector</span> <span class="keyword">implements</span> <span class="title">SensorEventListener</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String TAG = <span class="string">"StepDetector"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mLimit = <span class="number">10</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mLastValues[] = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>*<span class="number">2</span>];</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mScale[] = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">2</span>];</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mYOffset;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mLastDirections[] = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>*<span class="number">2</span>];</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mLastExtremes[][] = &#123; <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>*<span class="number">2</span>], <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>*<span class="number">2</span>] &#125;;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span>   mLastDiff[] = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>*<span class="number">2</span>];</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>     mLastMatch = -<span class="number">1</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> ArrayList&lt;StepListener&gt; mStepListeners = <span class="keyword">new</span> ArrayList&lt;StepListener&gt;();</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StepDetector</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> h = <span class="number">480</span>; <span class="comment">// <span class="doctag">TODO:</span> remove this constant</span></div><div class="line">        mYOffset = h * <span class="number">0.5f</span>;</div><div class="line">        mScale[<span class="number">0</span>] = - (h * <span class="number">0.5f</span> * (<span class="number">1.0f</span> / (SensorManager.STANDARD_GRAVITY * <span class="number">2</span>)));</div><div class="line">        mScale[<span class="number">1</span>] = - (h * <span class="number">0.5f</span> * (<span class="number">1.0f</span> / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSensitivity</span><span class="params">(<span class="keyword">float</span> sensitivity)</span> </span>&#123;</div><div class="line">        mLimit = sensitivity; <span class="comment">// 1.97  2.96  4.44  6.66  10.00  15.00  22.50  33.75  50.62</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addStepListener</span><span class="params">(StepListener sl)</span> </span>&#123;</div><div class="line">        mStepListeners.add(sl);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//public void onSensorChanged(int sensor, float[] values) &#123;</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSensorChanged</span><span class="params">(SensorEvent event)</span> </span>&#123;</div><div class="line">        Sensor sensor = event.sensor; </div><div class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (sensor.getType() == Sensor.TYPE_ORIENTATION) &#123;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">int</span> j = (sensor.getType() == Sensor.TYPE_ACCELEROMETER) ? <span class="number">1</span> : <span class="number">0</span>;</div><div class="line">                <span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</div><div class="line">                    <span class="keyword">float</span> vSum = <span class="number">0</span>;</div><div class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span> ; i&lt;<span class="number">3</span> ; i++) &#123;</div><div class="line">                        <span class="keyword">final</span> <span class="keyword">float</span> v = mYOffset + event.values[i] * mScale[j];</div><div class="line">                        vSum += v;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">int</span> k = <span class="number">0</span>;</div><div class="line">                    <span class="keyword">float</span> v = vSum / <span class="number">3</span>;</div><div class="line">                    </div><div class="line">                    <span class="keyword">float</span> direction = (v &gt; mLastValues[k] ? <span class="number">1</span> : (v &lt; mLastValues[k] ? -<span class="number">1</span> : <span class="number">0</span>));</div><div class="line">                    <span class="keyword">if</span> (direction == - mLastDirections[k]) &#123;</div><div class="line">                        <span class="comment">// Direction changed</span></div><div class="line">                        <span class="keyword">int</span> extType = (direction &gt; <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>); <span class="comment">// minumum or maximum?</span></div><div class="line">                        mLastExtremes[extType][k] = mLastValues[k];</div><div class="line">                        <span class="keyword">float</span> diff = Math.abs(mLastExtremes[extType][k] - mLastExtremes[<span class="number">1</span> - extType][k]);</div><div class="line"></div><div class="line">                        <span class="keyword">if</span> (diff &gt; mLimit) &#123;</div><div class="line">                            </div><div class="line">                            <span class="keyword">boolean</span> isAlmostAsLargeAsPrevious = diff &gt; (mLastDiff[k]*<span class="number">2</span>/<span class="number">3</span>);</div><div class="line">                            <span class="keyword">boolean</span> isPreviousLargeEnough = mLastDiff[k] &gt; (diff/<span class="number">3</span>);</div><div class="line">                            <span class="keyword">boolean</span> isNotContra = (mLastMatch != <span class="number">1</span> - extType);</div><div class="line">                            </div><div class="line">                            <span class="keyword">if</span> (isAlmostAsLargeAsPrevious &amp;&amp; isPreviousLargeEnough &amp;&amp; isNotContra) &#123;</div><div class="line">                                Log.i(TAG, <span class="string">"step"</span>);</div><div class="line">                                <span class="keyword">for</span> (StepListener stepListener : mStepListeners) &#123;</div><div class="line">                                    stepListener.onStep();</div><div class="line">                                &#125;</div><div class="line">                                mLastMatch = extType;</div><div class="line">                            &#125;</div><div class="line">                            <span class="keyword">else</span> &#123;</div><div class="line">                                mLastMatch = -<span class="number">1</span>;</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                        mLastDiff[k] = diff;</div><div class="line">                    &#125;</div><div class="line">                    mLastDirections[k] = direction;</div><div class="line">                    mLastValues[k] = v;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAccuracyChanged</span><span class="params">(Sensor sensor, <span class="keyword">int</span> accuracy)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:16.496Z" itemprop="dateUpdated">2017-01-03 13:52:16</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2015/12/16/android基于重力感应的记步算法/" target="_blank" rel="external">https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pedemoter/">pedemoter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sensor/">sensor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计步/">计步</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/&title=《android基于重力感应的计步算法》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/&title=《android基于重力感应的计步算法》 — Sequarius&source=早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《android基于重力感应的计步算法》 — Sequarius&url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/12/06/spring-boot-1.3.0-初探踩坑日记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">spring-boot 1.3.0 初探踩坑日记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/&title=《android基于重力感应的计步算法》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/&title=《android基于重力感应的计步算法》 — Sequarius&source=早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《android基于重力感应的计步算法》 — Sequarius&url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/16/android基于重力感应的记步算法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3ay27kMAwEwPz/T+9eF1jE7qbEPICaUzCJRyoPYDFNfnzErz//vD57J/+E52v/f79dq37h4eHhHWz9s+Wft5VsqL0Rz+sme8bDw8Pb5iXL5Msnm0uOn2Q/LxY8PDy8H8BLiuwEMCvK8fDw8H4vL3/0J789uQoPDw/vu3hJGPF8SCSfNjtO2lXw8PDwtnkn5ex3/bzS38PDw8M77qpvHBLn8W6xWzw8PLwFXv7ATTZ6K+BoG2Mvf4mHh4d3ldeGCDNAPlKQtNaKwBcPDw9vgXfS1M/L4gQw20kR4OLh4eFd5c0eu237v21undwaPDw8vD3erKg9KbuTgnvWnIu+Nzw8PLxLvFm5nGy9DXDbAj3q7+Hh4eFd5bUP8Vlc2xbus6MiinHx8PDwrvJuRbptCd5i2nYaHh4e3jZv1pSaRcB5kJGvXt8bPDw8vJI3C3Dbe9a2vvL446Xcx8PDw1vmJdtNytl2GCuPdOvoAQ8PD2+BN4sh2od1HmTMblN+COHh4eGd8/KLT46EPGLIj4co/sDDw8P7Et6sAdY2omajBkk4goeHh7fNyyvP9qGfbze59uR9PDw8vLu858fr4oRCeTtmxwweHh7eHu8keE2uTYrjWWPs5evBw8PDW+DNGlH58dAOdZ205fDw8PC+kpePC+SRbj5MMAuRVwat8PDw8EpeWy7nB8Pd8DdfEQ8PD2+bdz4CNRuNSorpk0MIDw8P7y7vJG5ox6HyTc9uystMGR4eHt4lXvuonZXXSWutDYVPRhbw8PDwznl321rPyPMBhbZ8x8PDw9vjnZe2bTneDhDkgQUeHh7ez+TlkWvbsrocCuPh4eH9GN6tUHU2FlAU6Hh4eHhrvFkpnEexSbmcHAn14YSHh4e3wJv9w59Hrnksm29upb+Hh4eH9877C4fUnHHP/L2nAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

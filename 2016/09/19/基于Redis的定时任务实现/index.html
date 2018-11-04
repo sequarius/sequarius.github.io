@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>基于Redis的计划任务实现 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Redise,xpired,失败重试,计划任务">
+    <meta name="description" content="使用场景常有一些使用场景，比如操作远程服务失败，需要在指定时间后重试。业务方面，比如有订单在X分钟后没有完成操作则变更状态等需求，这里使用RedisTemplete，利用expired消息实现了一个基于Redis在指时间后进行操作的服务实现。
+redis 远程访问redis-cli -h {redis_host} -p {redis_port}配置修改Redis配置文件/etc/redis/red">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Redis的计划任务实现">
+<meta property="og:url" content="https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="使用场景常有一些使用场景，比如操作远程服务失败，需要在指定时间后重试。业务方面，比如有订单在X分钟后没有完成操作则变更状态等需求，这里使用RedisTemplete，利用expired消息实现了一个基于Redis在指时间后进行操作的服务实现。
+redis 远程访问redis-cli -h {redis_host} -p {redis_port}配置修改Redis配置文件/etc/redis/red">
+<meta property="og:updated_time" content="2017-02-12T14:27:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Redis的计划任务实现">
+<meta name="twitter:description" content="使用场景常有一些使用场景，比如操作远程服务失败，需要在指定时间后重试。业务方面，比如有订单在X分钟后没有完成操作则变更状态等需求，这里使用RedisTemplete，利用expired消息实现了一个基于Redis在指时间后进行操作的服务实现。
+redis 远程访问redis-cli -h {redis_host} -p {redis_port}配置修改Redis配置文件/etc/redis/red">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于Redis的计划任务实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于Redis的计划任务实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-09-19T13:50:14.000Z" itemprop="datePublished" class="page-time">
+  2016-09-19
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#redis-远程访问"><span class="post-toc-number">2.</span> <span class="post-toc-text">redis 远程访问</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#键空间通知"><span class="post-toc-number">3.</span> <span class="post-toc-text">键空间通知</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现思路"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置redisconfig"><span class="post-toc-number">5.</span> <span class="post-toc-text">配置redisconfig</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现MessageListener接口"><span class="post-toc-number">6.</span> <span class="post-toc-text">实现MessageListener接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现序列化接口"><span class="post-toc-number">7.</span> <span class="post-toc-text">实现序列化接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SubMessageListener"><span class="post-toc-number">8.</span> <span class="post-toc-text">SubMessageListener</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BaseRetry"><span class="post-toc-number">9.</span> <span class="post-toc-text">BaseRetry</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一个简单的http失败重试示例"><span class="post-toc-number">10.</span> <span class="post-toc-text">一个简单的http失败重试示例</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-基于Redis的定时任务实现"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于Redis的计划任务实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-09-19 21:50:14" datetime="2016-09-19T13:50:14.000Z"  itemprop="datePublished">2016-09-19</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>常有一些使用场景，比如操作远程服务失败，需要在指定时间后重试。业务方面，比如有订单在X分钟后没有完成操作则变更状态等需求，这里使用RedisTemplete，利用<code>expired</code>消息实现了一个基于Redis在指时间后进行操作的服务实现。</p>
+<h3 id="redis-远程访问"><a href="#redis-远程访问" class="headerlink" title="redis 远程访问"></a>redis 远程访问</h3><p><code>redis-cli -h {redis_host} -p {redis_port}</code><br>配置<br>修改Redis配置文件/etc/redis/redis.conf，找到bind那行配置：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">bind 127.0.0.1</div><div class="line"></div><div class="line">bind 0.0.0.0</div></pre></td></tr></table></figure></p>
+<p>指定配置文件然后重启Redis服务即可：</p>
+<p><code>$ sudo redis-server /etc/redis/redis.conf</code></p>
+<h3 id="键空间通知"><a href="#键空间通知" class="headerlink" title="键空间通知"></a>键空间通知</h3><p>这里需要配置 notify-keyspace-events 的参数为 “Ex”。x 代表了过期事件。 <code>notify-keyspace-events &quot;Ex&quot;</code></p>
+<p>添加键值事件订阅<br><code>127.0.0.1:6379&gt; psubscribe __keyevent@0__:expired</code></p>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><ul>
+<li>定义一个TimeKey表示该字段已重试的次数，在开始尝试重试操作的时候校验重试次数是否达到上限，并确定下次重试时间，目前实现是以<code>1s,10s,1min,10min,1h,3h,6h</code>的间隔重试。</li>
+<li>定义一个EntityKey表示该重试传入的实体，这里使用了Json序列化实体，当然也可以用其他的方法序列化，可以通过<code>RedisSerializer&lt;T&gt;</code>接口实现序列化与反序列化过程，并在使用<code>RedisTemplete</code>或者初始化时候<code>setKeySerializer(RedisSerializer&lt;?&gt; serializer)</code>和<code>setValueSerializer(RedisSerializer&lt;?&gt; serializer)</code></li>
+<li>定义一个NotifyKey表示订阅过期事件的key，当接受到该key过期事件的时候，检索EntityKey并分发到指定的RetryImplement。</li>
+</ul>
+<h3 id="配置redisconfig"><a href="#配置redisconfig" class="headerlink" title="配置redisconfig"></a>配置redisconfig</h3><p>要监听过期事件，需要配置RedisMessageListenerContainer<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import lombok.extern.slf4j.Slf4j;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.data.redis.connection.RedisConnectionFactory;</div><div class="line">import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;</div><div class="line">import org.springframework.data.redis.core.RedisTemplate;</div><div class="line">import org.springframework.data.redis.listener.ChannelTopic;</div><div class="line">import org.springframework.data.redis.listener.RedisMessageListenerContainer;</div><div class="line">import org.springframework.data.redis.listener.Topic;</div><div class="line">import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;</div><div class="line">import org.springframework.data.redis.serializer.StringRedisSerializer;</div><div class="line"></div><div class="line">import javax.annotation.Resource;</div><div class="line">import java.util.HashSet;</div><div class="line">import java.util.Set;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by Sequarius on 2016/9/7.</div><div class="line"> */</div><div class="line">@Configuration</div><div class="line">public class RedisConfig &#123;</div><div class="line">    @Resource</div><div class="line">    private JedisConnectionFactory jedisConnectionFactory;</div><div class="line"></div><div class="line">    @Resource</div><div class="line">    private ExpiresMessageController expiresMessageController;</div><div class="line"></div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public StringRedisSerializer stringRedisSerializer()&#123;</div><div class="line">        return new StringRedisSerializer();</div><div class="line">    &#125;</div><div class="line">    @Bean</div><div class="line">    public GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer()&#123;</div><div class="line">        return new GenericJackson2JsonRedisSerializer();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public RedisMessageListenerContainer redisMessageListenerContainer() &#123;</div><div class="line">        RedisMessageListenerContainer container = new RedisMessageListenerContainer();</div><div class="line">        container.setConnectionFactory(jedisConnectionFactory);</div><div class="line">        container.setConnectionFactory(jedisConnectionFactory);</div><div class="line">        Set&lt;Topic&gt; topics = new HashSet&lt;Topic&gt;() &#123;&#123;</div><div class="line">            add(new ChannelTopic(&quot;__keyevent@0__:expired&quot;));</div><div class="line">        &#125;&#125;;</div><div class="line">        container.addMessageListener(expiresMessageController, topics);</div><div class="line">        return container;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public RedisTemplate redisTemplate(RedisConnectionFactory connectionFactory,</div><div class="line">                                       StringRedisSerializer serializer,</div><div class="line">                                       GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer</div><div class="line">                                       ) &#123;</div><div class="line">        RedisTemplate template = new RedisTemplate();</div><div class="line">        template.setConnectionFactory(connectionFactory);</div><div class="line">        template.setKeySerializer(serializer);</div><div class="line">        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());</div><div class="line">        return template;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="实现MessageListener接口"><a href="#实现MessageListener接口" class="headerlink" title="实现MessageListener接口"></a>实现MessageListener接口</h3><p>MessageListener是接受message的一个回调接口，在<code>public void onMessage(Message message, byte[] bytes)</code>中回调接收到的消息，message有两个属性，一个是’byte[]’的MessageBody,一个也是<code>byte[]</code>的MessageChannel,该属性表示该message发生的时间频段，在这个项目下为<code>&quot;__keyevent@0__:expired&quot;</code>，即为0号库的过期事件。</p>
+<p>这里使用了类名+Tag的方式标注一个unique的重试实体，在分发过程中检索对应的<code>RetryListener</code>初始化传入的类名进行消息分发。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import lombok.extern.slf4j.Slf4j;</div><div class="line">import org.springframework.data.redis.connection.Message;</div><div class="line">import org.springframework.data.redis.connection.MessageListener;</div><div class="line">import org.springframework.data.redis.core.RedisTemplate;</div><div class="line">import org.springframework.data.redis.core.StringRedisTemplate;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">import javax.annotation.PostConstruct;</div><div class="line">import javax.annotation.Resource;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by Sequarius on 2016/9/7.</div><div class="line"> */</div><div class="line">@Component</div><div class="line">public class ExpiresMessageController implements MessageListener &#123;</div><div class="line">    @Resource</div><div class="line">    private RedisTemplate redisTemplate;</div><div class="line"></div><div class="line">    @Resource</div><div class="line">    private StringRedisTemplate stringRedisTemplate;</div><div class="line"></div><div class="line">    private Map&lt;String, SubMessageListener&gt; subMessageListeners;</div><div class="line"></div><div class="line">    @PostConstruct</div><div class="line">    void init() &#123;</div><div class="line">        subMessageListeners = new HashMap&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onMessage(Message message, byte[] bytes) &#123;</div><div class="line">        byte[] bodyBytes = message.getBody();</div><div class="line"></div><div class="line">        String notifyKey = (String) stringRedisTemplate.getValueSerializer().deserialize(bodyBytes);</div><div class="line"></div><div class="line">        //no subscribe for us</div><div class="line">        if (!notifyKey.startsWith(Constant.PREFIX_PAYMENT_KEY)) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        String subScribeObjName = notifyKey.replaceAll(Constant.PREFIX_PAYMENT_KEY, &quot;&quot;);</div><div class="line">//        Object o = redisTemplate.opsForValue().get(Constant.PREFIX_PAYMENT_ENTITY_KEY + subScribeObjName);</div><div class="line">        String[] objInfo = subScribeObjName.split(&quot;:&quot;);</div><div class="line">        String className = objInfo[0];</div><div class="line">        String tag=objInfo[1];</div><div class="line">        log.debug(&quot;getmessage==&#123;&#125;&quot;, notifyKey);</div><div class="line">        log.debug(&quot;className==&#123;&#125;&quot;, className);</div><div class="line">        try &#123;</div><div class="line">            Class target=Class.forName(className);</div><div class="line">            redisTemplate.setValueSerializer(new FastJsonSerializer&lt;&gt;(target));</div><div class="line">            Object o = redisTemplate.opsForValue().get(Constant.PREFIX_PAYMENT_ENTITY_KEY + subScribeObjName);</div><div class="line">            subMessageListeners.get(className).onMessage(o,tag);</div><div class="line">        &#125; catch (ClassNotFoundException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public &lt;E,T&gt; void addSubMessageListener(Class&lt;?&gt; clazz, SubMessageListener&lt;E,T&gt; subMessageListener) &#123;</div><div class="line">        log.debug(&quot;puted:&#123;&#125;&quot;,clazz.getName());</div><div class="line">        subMessageListeners.put(clazz.getName(), subMessageListener);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="实现序列化接口"><a href="#实现序列化接口" class="headerlink" title="实现序列化接口"></a>实现序列化接口</h3><p>由于项目使用的FastJson，就用FastJson实现了一个简单的序列化与反序列化，当然在初始化传入了class，以便在反序列化时使用<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import com.alibaba.fastjson.JSON;</div><div class="line">import com.alibaba.fastjson.serializer.SerializerFeature;</div><div class="line">import lombok.extern.slf4j.Slf4j;</div><div class="line">import org.springframework.data.redis.serializer.RedisSerializer;</div><div class="line">import org.springframework.data.redis.serializer.SerializationException;</div><div class="line"></div><div class="line">import java.nio.charset.Charset;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by Sequarius on 2016/9/8.</div><div class="line"> */</div><div class="line">@Slf4j</div><div class="line">public class FastJsonSerializer&lt;T&gt; implements RedisSerializer&lt;T&gt; &#123;</div><div class="line">    public static final Charset DEFAULT_CHARSET = Charset.forName(&quot;UTF-8&quot;);</div><div class="line"></div><div class="line">    private Class&lt;T&gt; targetClass;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public byte[] serialize(T t) throws SerializationException &#123;</div><div class="line">        if (t == null) &#123;</div><div class="line">            return new byte[0];</div><div class="line">        &#125;</div><div class="line">        try &#123;</div><div class="line">            return JSON.toJSONString(t, SerializerFeature.WriteClassName)</div><div class="line">                    .getBytes(DEFAULT_CHARSET);</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            log.debug(e.getMessage(), e);</div><div class="line">            return new byte[0];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public FastJsonSerializer(Class&lt;T&gt; targetClass) &#123;</div><div class="line">        this.targetClass = targetClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public T deserialize(byte[] bytes) throws SerializationException &#123;</div><div class="line">        if (bytes == null || bytes.length &lt;= 0) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        String jsonStr = new String(bytes, DEFAULT_CHARSET);</div><div class="line">        try &#123;</div><div class="line">            return JSON.parseObject(jsonStr, targetClass);</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            log.debug(e.getMessage(), e);</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="SubMessageListener"><a href="#SubMessageListener" class="headerlink" title="SubMessageListener"></a>SubMessageListener</h3><p>自定义的一个消息分发，分发给指定的订阅任务，而避免了全局的广播<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public interface SubMessageListener&lt;E,T&gt; &#123;</div><div class="line">    void onMessage(E entity,T tag);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="BaseRetry"><a href="#BaseRetry" class="headerlink" title="BaseRetry"></a>BaseRetry<e,t></e,t></h3><p>定义了一个基础的retry方法，提供了尝试重试等基础方法的实现，实现类自需要定义<code>setMessageListener()</code>并在初始化后调用便可以接收到指定Entity的消息。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import lombok.extern.slf4j.Slf4j;</div><div class="line">import org.springframework.data.redis.core.RedisTemplate;</div><div class="line">import org.springframework.data.redis.core.StringRedisTemplate;</div><div class="line"></div><div class="line">import javax.annotation.Resource;</div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.List;</div><div class="line">import java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by Sequarius on 2016/9/7.</div><div class="line"> */</div><div class="line">@Slf4j</div><div class="line">public abstract class BaseRetry&lt;E, T&gt; &#123;</div><div class="line">    @Resource</div><div class="line">    private ExpiresMessageController expiresMessageController;</div><div class="line">    @Resource</div><div class="line">    private RedisTemplate redisTemplate;</div><div class="line">    @Resource</div><div class="line">    private StringRedisTemplate stringRedisTemplate;</div><div class="line"></div><div class="line">    public Class&lt;E&gt; clazz;</div><div class="line">    // 重试尝试间隔为1s,10s,1min,10min,1h,3h,6h一次递增</div><div class="line">    private final List&lt;Long&gt; RETRY_TABLE = new ArrayList&lt;Long&gt;() &#123;</div><div class="line">        &#123;</div><div class="line">            add(0L);</div><div class="line">            add(1L);</div><div class="line">            add(10L);</div><div class="line">            add(60L);</div><div class="line">            add(10 * 60L);</div><div class="line">            add(60 * 60L);</div><div class="line">            add(3 * 60 * 60L);</div><div class="line">            add(6 * 60 * 60L);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    public BaseRetry(Class&lt;E&gt; clazz) &#123;</div><div class="line">        this.clazz = clazz;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void retry(E entity, T tag) &#123;</div><div class="line">        RetryEntity retryEntity = new RetryEntity(entity, tag).invoke();</div><div class="line">        String timeKey = retryEntity.getTimeKey();</div><div class="line">        String entryKey = retryEntity.getEntryKey();</div><div class="line">        StringBuffer entityTag = retryEntity.getEntityTag();</div><div class="line">        String memoryValue = stringRedisTemplate.opsForValue().get(timeKey);</div><div class="line"></div><div class="line">        int lastRetryTime = (memoryValue == null) ? 0 : Integer.valueOf(memoryValue);</div><div class="line">        //first Retry save entity</div><div class="line">        if (lastRetryTime == 0) &#123;</div><div class="line">            redisTemplate.setDefaultSerializer(new FastJsonSerializer&lt;&gt;(clazz));</div><div class="line">            redisTemplate.opsForValue().set(entryKey, entity);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        //max Retry delete entity</div><div class="line">        if (lastRetryTime &gt;= RETRY_TABLE.size() - 1) &#123;</div><div class="line">            log.warn(&quot;retry in max times entityTag==&#123;&#125;&quot;, entityTag.toString());</div><div class="line">            log.warn(&quot;retry entity==&#123;&#125;&quot;,stringRedisTemplate.opsForValue().get(entryKey));</div><div class="line">            redisTemplate.delete(entryKey);</div><div class="line">            stringRedisTemplate.delete(timeKey);</div><div class="line">            throw new RetryTimeOutOfRangeException();</div><div class="line">        &#125;</div><div class="line">        log.debug(&quot;time key=&#123;&#125;;entrykey=&#123;&#125;;lastRetryTime=&#123;&#125;&quot;, timeKey, entryKey, lastRetryTime);</div><div class="line">        //add 1 times</div><div class="line">        stringRedisTemplate.opsForValue().increment(timeKey, 1);</div><div class="line"></div><div class="line">        stringRedisTemplate.opsForValue().set(entityTag.insert(0, Constant.PREFIX_PAYMENT_KEY).toString(),</div><div class="line">                &quot;notify_key&quot;, RETRY_TABLE.get(lastRetryTime + 1), TimeUnit.SECONDS);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">//</div><div class="line"></div><div class="line">    protected void addListenner(Class&lt;?&gt; clazz, SubMessageListener listener) &#123;</div><div class="line">        expiresMessageController.addSubMessageListener(clazz, listener);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public abstract void setMessageListener();</div><div class="line">    public void retrySuccess(E entity, T tag)&#123;</div><div class="line">        RetryEntity retryEntity = new RetryEntity(entity, tag).invoke();</div><div class="line">        redisTemplate.delete(retryEntity.getTimeKey());</div><div class="line">        redisTemplate.delete(retryEntity.getEntryKey());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private class RetryEntity &#123;</div><div class="line">        private E entity;</div><div class="line">        private T tag;</div><div class="line">        private StringBuffer entityTag;</div><div class="line">        private String timeKey;</div><div class="line">        private String entryKey;</div><div class="line"></div><div class="line">        public RetryEntity(E entity, T tag) &#123;</div><div class="line">            this.entity = entity;</div><div class="line">            this.tag = tag;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public StringBuffer getEntityTag() &#123;</div><div class="line">            return entityTag;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public String getTimeKey() &#123;</div><div class="line">            return timeKey;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public String getEntryKey() &#123;</div><div class="line">            return entryKey;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public RetryEntity invoke() &#123;</div><div class="line">            entityTag = new StringBuffer(entity.getClass().getName())</div><div class="line">                    .append(&quot;:&quot;).append(tag.toString());</div><div class="line">            //retry times key</div><div class="line">            timeKey = new StringBuffer(Constant.PREFIX_PAYMENT_TIME_KEY).append(entityTag).toString();</div><div class="line">            //retry entity key</div><div class="line">            entryKey = new StringBuffer(Constant.PREFIX_PAYMENT_ENTITY_KEY).append(entityTag).toString();</div><div class="line">            return this;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="一个简单的http失败重试示例"><a href="#一个简单的http失败重试示例" class="headerlink" title="一个简单的http失败重试示例"></a>一个简单的http失败重试示例</h3><p>为了简单起见，这里使用了String作为Entity，通常建议使用自定义bean作为Entity<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import lombok.extern.slf4j.Slf4j;</div><div class="line">import okhttp3.OkHttpClient;</div><div class="line">import okhttp3.Request;</div><div class="line">import okhttp3.Response;</div><div class="line">import org.springframework.http.HttpStatus;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">import javax.annotation.PostConstruct;</div><div class="line">import javax.annotation.Resource;</div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by Sequarius on 2016/9/12.</div><div class="line"> */</div><div class="line">@Component</div><div class="line">@Slf4j</div><div class="line">public class HttpGetRequestRetry extends BaseRetry&lt;String, String&gt; &#123;</div><div class="line">    @Resource</div><div class="line">    OkHttpClient okHttpClient;</div><div class="line"></div><div class="line"></div><div class="line">    public HttpGetRequestRetry() &#123;</div><div class="line">        super(String.class);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    @PostConstruct</div><div class="line">    public void setMessageListener() &#123;</div><div class="line">        addListenner(String.class, new SubMessageListener&lt;String, String&gt;() &#123;</div><div class="line">            @Override</div><div class="line">            public void onMessage(String url, String tag) &#123;</div><div class="line">                makeRequest(url, tag);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void makeRequest(String url, String tag) &#123;</div><div class="line">        Request request = new Request.Builder().url(url).get().build();</div><div class="line">        try &#123;</div><div class="line">            Response response = okHttpClient.newCall(request).execute();</div><div class="line">            String body = response.body().string();</div><div class="line">            int responseCode = response.code();</div><div class="line">            if (responseCode != HttpStatus.OK.value() || !body.equals(&quot;SUCCESS&quot;)) &#123;</div><div class="line">                log.warn(&quot;call back url=&#123;&#125; ,response code=&#123;&#125;,body=&#123;&#125;,fail, try again &quot;, url, responseCode, body);</div><div class="line">                this.retry(url, tag);</div><div class="line">            &#125;else&#123;</div><div class="line">                log.debug(&quot;call back url=&#123;&#125; ,response code=&#123;&#125;,body=&#123;&#125;,ok &quot;, url, responseCode, body);</div><div class="line">                retrySuccess(url,tag);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            log.debug(e.getMessage(), e);</div><div class="line">            try &#123;</div><div class="line">                this.retry(url, tag);</div><div class="line">            &#125; catch (RetryTimeOutOfRangeException e1) &#123;</div><div class="line">                log.error(e1.getMessage(), e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>至此，对于使用<code>HttpGetRequestRetry</code>的<code>makeRequest(String url, String tag)</code>的Http请求便可以在失败时完成重试了。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-02-12T14:27:08.000Z" itemprop="dateUpdated">2017-02-12 22:27:08</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2016/09/19/基于Redis的定时任务实现/" target="_blank" rel="external">https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redise/">Redise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xpired/">xpired</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/失败重试/">失败重试</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计划任务/">计划任务</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/&title=《基于Redis的计划任务实现》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/&title=《基于Redis的计划任务实现》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于Redis的计划任务实现》 — Sequarius&url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用MyBatisGenerator 自定义生成的XML</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/05/26/RxJava初探-一些细节/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">RxJava初探，一些细节</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/&title=《基于Redis的计划任务实现》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/&title=《基于Redis的计划任务实现》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于Redis的计划任务实现》 — Sequarius&url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/09/19/基于Redis的定时任务实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3aQW7jMAwFUN//0h2gqwE6ST4/rSYYPK0KV7X1tJBYktcVj6/v8fPJz+f5G56/5+8n02+NBx4eHl619Efj0ZxkEfnM6fxkzXh4eHinec+P8hevqOYkm5LPefgcDw8P7628PMjORxd24+Hh4f0fvC55kScd8PDw8D6NlyQj9pnS/FLJ0xO35Vrw8PDwYt60fPUJPx+s7+Hh4eEtqupJMWxavuounnK1eHh4eAd4eTg7TSvkhbG72q0G/zHg4eHhLXjTV38txl2J40HaAg8PD+9XeNNkxIkgOwnlo3AfDw8P7wCva6KalvOnofBzUhnc4+Hh4d3ESw7fZCl5+iBJeSStAFG7AB4eHt4x3iaZ25Ws7oK9+Fs8PDy8A7x9ceve4356qg+qfHh4eHgHeF0YnYTX3Vc2zQdXd5/g4eHhxby7AuhuQV0BLLHg4eHhneMlZf5pSSw5vrtAOV8nHh4e3gneZj/2wXReSEu29R/vwcPDw/sVXncc75MOOWyw9Xh4eHjHeJtwOdmgaWa1vAYeXQx4eHh4B3j7NGvXELBp5LqhXQAPDw+v4m0KWvlCuwREByipeHh4eDEvvxjyQLkLuzctCy/aBfDw8PCO8ablqC6FsWmiGl9LeHh4eAd4eVtAV/qaXiH5VwZBOR4eHt6tvH34Oy2Y5Rs6TVXg4eHhvYs3DV7zFHA3v9u+a3934eHh4W1XOL4YppdEl3S4eeDh4eEtGgK61tV8O7ruhjyVjIeHh3eOtw9zk3M42crp1kwLaXh4eHj38pIPJ7/dFPg37QurwBoPDw9vwUs+v09edIf+6ot4eHh4b+V1MztkQo0CdDw8PLyP5OXp3eklNE18HLkY8PDw8IZlsHzRXcvptCE1v4rw8PDwzvG6XGiXrk3Svl171rUZeHh4eCnvD3rBK/DO4WwLAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

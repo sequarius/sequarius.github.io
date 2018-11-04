@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>OkHttp开启SSL证书支持 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="OkHttp,SSL">
+    <meta name="description" content="前段时间，遇到了一个微信支付调用Rest接口需要SSL授信的问题，遂看了一段时间自SSL证书的集成方式。
+Java对安全证书的支持JDK在java.security下有一个KeyStore的工具类，可以通过工厂方法getInstance(String type, String provider)初始化一个密钥存储对象，该对象对主流的密钥格式，如PKCS12、PEM都有了默认支持。
+以下是初始化密钥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OkHttp开启SSL证书支持">
+<meta property="og:url" content="https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="前段时间，遇到了一个微信支付调用Rest接口需要SSL授信的问题，遂看了一段时间自SSL证书的集成方式。
+Java对安全证书的支持JDK在java.security下有一个KeyStore的工具类，可以通过工厂方法getInstance(String type, String provider)初始化一个密钥存储对象，该对象对主流的密钥格式，如PKCS12、PEM都有了默认支持。
+以下是初始化密钥">
+<meta property="og:updated_time" content="2017-08-06T04:00:55.984Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OkHttp开启SSL证书支持">
+<meta name="twitter:description" content="前段时间，遇到了一个微信支付调用Rest接口需要SSL授信的问题，遂看了一段时间自SSL证书的集成方式。
+Java对安全证书的支持JDK在java.security下有一个KeyStore的工具类，可以通过工厂方法getInstance(String type, String provider)初始化一个密钥存储对象，该对象对主流的密钥格式，如PKCS12、PEM都有了默认支持。
+以下是初始化密钥">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">OkHttp开启SSL证书支持</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">OkHttp开启SSL证书支持</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-06T03:23:33.000Z" itemprop="datePublished" class="page-time">
+  2017-08-06
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java对安全证书的支持"><span class="post-toc-number">1.</span> <span class="post-toc-text">Java对安全证书的支持</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SSLSocketFactory"><span class="post-toc-number">2.</span> <span class="post-toc-text">SSLSocketFactory</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#OkHttp使用SSLSocketFactory"><span class="post-toc-number">3.</span> <span class="post-toc-text">OkHttp使用SSLSocketFactory</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#后记"><span class="post-toc-number">4.</span> <span class="post-toc-text">后记</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-OKHttp开启SSL证书支持"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">OkHttp开启SSL证书支持</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-06 11:23:33" datetime="2017-08-06T03:23:33.000Z"  itemprop="datePublished">2017-08-06</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>前段时间，遇到了一个微信支付调用Rest接口需要SSL授信的问题，遂看了一段时间自SSL证书的集成方式。</p>
+<h3 id="Java对安全证书的支持"><a href="#Java对安全证书的支持" class="headerlink" title="Java对安全证书的支持"></a>Java对安全证书的支持</h3><p>JDK在<code>java.security</code>下有一个<code>KeyStore</code>的工具类，可以通过工厂方法<code>getInstance(String type, String provider)</code>初始化一个密钥存储对象，该对象对主流的密钥格式，如PKCS12、PEM都有了默认支持。</p>
+<p>以下是初始化密钥的方法描述。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">String KEYSTORE_TYPE = <span class="string">"PKCS12"</span>;</div><div class="line"><span class="keyword">try</span> (FileInputStream fis = <span class="keyword">new</span> FileInputStream(certPath)) &#123;</div><div class="line">    <span class="comment">// 实例化密钥库</span></div><div class="line">    KeyStore ks = KeyStore.getInstance(KEYSTORE_TYPE);</div><div class="line">    <span class="comment">// 加载密钥库</span></div><div class="line">    ks.load(fis, certPass.toCharArray());</div><div class="line">    <span class="comment">// 实例化密钥库</span></div><div class="line">    KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());</div><div class="line">        <span class="comment">// 初始化密钥工厂</span></div><div class="line">    kmf.init(ks, certPass.toCharArray());</div><div class="line">&#125;<span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    log.error(e.getMessage(), e);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="SSLSocketFactory"><a href="#SSLSocketFactory" class="headerlink" title="SSLSocketFactory"></a>SSLSocketFactory</h3><p>有了密钥，在应用上加解密的配置便完成了，可以使用密钥工厂对SSLSocket进行适配，产生安全连接。使用<code>SSLContext</code>可以初始化一个SSLSocketFactory。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">String PROTOCOL_TYPE = <span class="string">"SSL"</span>;</div><div class="line">SSLContext sslContext = SSLContext.getInstance(PROTOCOL_TYPE, <span class="string">"SunJSSE"</span>);</div><div class="line">sslContext.init(kmf.getKeyManagers(), <span class="keyword">null</span>, <span class="keyword">new</span> SecureRandom());</div><div class="line"><span class="comment">// 获取SSLSocketFactory对象</span></div><div class="line">SSLSocketFactory ssf = sslContext.getSocketFactory();</div></pre></td></tr></table></figure></p>
+<p>至此，整个SSL连接已经构建完成。</p>
+<h3 id="OkHttp使用SSLSocketFactory"><a href="#OkHttp使用SSLSocketFactory" class="headerlink" title="OkHttp使用SSLSocketFactory"></a>OkHttp使用SSLSocketFactory</h3><p><code>OkHttpClient.Builder()</code>提供了一个<code>public Builder sslSocketFactory(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager)</code>方法可以给OKhttp配置一个SSL连接工厂，所有通过该Client的Request都会附带认证信息，其中X509TrustManager为X509密钥标准的抽象管理类。</p>
+<p>OKhttp的文档中提供了X509TrustManager的初始化方法。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());</div><div class="line">trustManagerFactory.init((KeyStore) <span class="keyword">null</span>);</div><div class="line">TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();</div><div class="line"><span class="keyword">if</span> (trustManagers.length != <span class="number">1</span> || !(trustManagers[<span class="number">0</span>] <span class="keyword">instanceof</span> X509TrustManager)) &#123;</div><div class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Unexpected default trust managers:"</span></div><div class="line">        + Arrays.toString(trustManagers));</div><div class="line">     &#125;</div><div class="line">    X509TrustManager trustManager = (X509TrustManager) trustManagers[<span class="number">0</span>];</div></pre></td></tr></table></figure></p>
+<p>最后通过<code>OkHttpClient okHttpClient = new OkHttpClient.Builder().sslSocketFactory(sslSocketFactory,trustManager).build()</code><br>便可以完成整个Client的初始化工作。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>作为后起之秀，OkHttp对于Java原有的证书授信机制有着深入的理解，并提供了使用SSLSocketFactory的适配方法，整个API设计简洁自然，杜绝了重复的设计。当然，没有所谓的绝对安全，对于重要的证书密钥应该妥善保管，并且及时更新，避免泄露带来的连锁反应。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-08-06T04:00:55.984Z" itemprop="dateUpdated">2017-08-06 12:00:55</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2017/08/06/OKHttp开启SSL证书支持/" target="_blank" rel="external">https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/&title=《OkHttp开启SSL证书支持》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/&title=《OkHttp开启SSL证书支持》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《OkHttp开启SSL证书支持》 — Sequarius&url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/22/JShell源码带逛，Java-REPL实现分析/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JShell源码解读，REPL实现分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">使用MyBatisGenerator 自定义生成的XML</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/&title=《OkHttp开启SSL证书支持》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/&title=《OkHttp开启SSL证书支持》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《OkHttp开启SSL证书支持》 — Sequarius&url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/08/06/OKHttp开启SSL证书支持/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuElEQVR42u3cwW4iQQwE0Pz/T+9Ke8ohQJXdDVnpzQkRmOk3SOOS28rXV3z8+Xd8f/39nUeffP7O8/O0n1wdeHh4eKOlPzoeLfE5+9EZHp1z9tfnV8TDw8O7zUuWnnyrvXxSZma3Gw8PD+838PLFtfE3id14eHh4/yMvxycLaqM8Hh4e3m/jbVoJSTjOmw55pD7ca8HDw8OLebMNsM++vr6/h4eHhzdqtrZHsiXWtjxW68HDw8O7wMujcNu6bUNz1FaIw320XDw8PLwRL28xzC6fNwvyIYMi9OPh4eFd4OVDTnkTNj/DvhmRDDfg4eHh3eC1hSEfhGrHBWa378XvhoeHh3eU1/YtZrH4VIFJysCLBi4eHh7emrd/fOeZvS0k+XlefBcPDw/vLbyWvRnbym/N7Cbi4eHhneXtY2vbIGj7ypstMTw8PLz38NqhgbydMVziPkzj4eHhHeVtYnQegtvCsInXxV4fHh4e3pqXRNs8r+aRvd0YG5YZPDw8vEO8zQhUfvmkeZGcv/4Z8PDw8K7xZoF49n7etvgqjx9uGR4eHt4FXh6C22ZEu8V1qnGMh4eHd5s3ezS3wwH147ukHqt7eHh4eGl/4Nz/lFqMCCTg4YGHh4d3mZdj8uZscsvy1L+ahsDDw8M7xJuB9zMLszHZZFSrGFrFw8PDW/M2zdm8SdE+7mcbaXh4eHj3ePmp963VtrQksLoY4OHh4V3gPQ/BswmFWdPhQDHDw8PDO8qbDVflpSIP35tzvhi6wsPDwzvK2+y/txebAfYRHA8PD+8G71QxSD6Zjxe0hQEPDw/v/bx2oTkgKQzthlnda8HDw8P7KO9sk2ITyqOwjoeHh/dR3j4Knxq3yt/Hw8PDu8dLHtbtoEAevturFJteeHh4eBd4sw2wTQFIisEsxB/b38PDw8P7+ep/Ad2C5CmoJmFwAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

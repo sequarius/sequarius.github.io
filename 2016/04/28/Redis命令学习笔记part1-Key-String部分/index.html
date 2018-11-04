@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Redis命令学习笔记part1:Key/String篇 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="学习笔记,Redis">
+    <meta name="description" content="最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/GET key存取值的通用方法
+DUMP key序列化给定 key ，并返回被序列化的值，使用 RESTORE 命令可以将这个值反序列化为Redis 键。序列化生成的值有以下几个特点：1.它带有 64 位的校验和，用于检测错误， RESTORE 在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis命令学习笔记part1:Key/String篇">
+<meta property="og:url" content="https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/GET key存取值的通用方法
+DUMP key序列化给定 key ，并返回被序列化的值，使用 RESTORE 命令可以将这个值反序列化为Redis 键。序列化生成的值有以下几个特点：1.它带有 64 位的校验和，用于检测错误， RESTORE 在">
+<meta property="og:updated_time" content="2017-02-12T13:45:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis命令学习笔记part1:Key/String篇">
+<meta name="twitter:description" content="最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/GET key存取值的通用方法
+DUMP key序列化给定 key ，并返回被序列化的值，使用 RESTORE 命令可以将这个值反序列化为Redis 键。序列化生成的值有以下几个特点：1.它带有 64 位的校验和，用于检测错误， RESTORE 在">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Redis命令学习笔记part1:Key/String篇</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Redis命令学习笔记part1:Key/String篇</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-04-28T07:13:52.000Z" itemprop="datePublished" class="page-time">
+  2016-04-28
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SET-key-value-GET-key"><span class="post-toc-number">1.</span> <span class="post-toc-text">SET key value/GET key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DUMP-key"><span class="post-toc-number">2.</span> <span class="post-toc-text">DUMP key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EXPIRE-key-time"><span class="post-toc-number">3.</span> <span class="post-toc-text">EXPIRE key time</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EXPIREAT-key-timestamp"><span class="post-toc-number">4.</span> <span class="post-toc-text">EXPIREAT key timestamp</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MIGRATE-host-port-key-destination-db-timeout-COPY-REPLACE"><span class="post-toc-number">5.</span> <span class="post-toc-text">MIGRATE host port key destination-db timeout [COPY] [REPLACE]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MOVE-key-db"><span class="post-toc-number">6.</span> <span class="post-toc-text">MOVE key db</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#OBJECT"><span class="post-toc-number">7.</span> <span class="post-toc-text">OBJECT</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PERSIST-key"><span class="post-toc-number">8.</span> <span class="post-toc-text">PERSIST key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PEXPIRE-key"><span class="post-toc-number">9.</span> <span class="post-toc-text">PEXPIRE key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PEXPIREAT-key"><span class="post-toc-number">10.</span> <span class="post-toc-text">PEXPIREAT key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PTTL-key"><span class="post-toc-number">11.</span> <span class="post-toc-text">PTTL key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RANDOMKEY"><span class="post-toc-number">12.</span> <span class="post-toc-text">RANDOMKEY</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RENAME-key-newkey"><span class="post-toc-number">13.</span> <span class="post-toc-text">RENAME key newkey</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RENAMENX-key-new-key"><span class="post-toc-number">14.</span> <span class="post-toc-text">RENAMENX key new key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RESTORE-key-ttl-serialized-value-REPLACE"><span class="post-toc-number">15.</span> <span class="post-toc-text">RESTORE key ttl serialized-value [REPLACE]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SORT"><span class="post-toc-number">16.</span> <span class="post-toc-text">SORT</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TYPE-key"><span class="post-toc-number">17.</span> <span class="post-toc-text">TYPE key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#APPEND-key-value"><span class="post-toc-number">18.</span> <span class="post-toc-text">APPEND key value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BITCOUNT-key-start-end"><span class="post-toc-number">19.</span> <span class="post-toc-text">BITCOUNT key [start] [end]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GETRANGE-key-start-end"><span class="post-toc-number">20.</span> <span class="post-toc-text">GETRANGE key start end</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BITOP-operation-destkey-key-key-…"><span class="post-toc-number">21.</span> <span class="post-toc-text">BITOP operation destkey key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DECR-key"><span class="post-toc-number">22.</span> <span class="post-toc-text">DECR key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DECRBY-key-decrement"><span class="post-toc-number">23.</span> <span class="post-toc-text">DECRBY key decrement</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GETBIT-key-offset"><span class="post-toc-number">24.</span> <span class="post-toc-text">GETBIT key offset</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GETSET-key-value"><span class="post-toc-number">25.</span> <span class="post-toc-text">GETSET key value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#INCR-key"><span class="post-toc-number">26.</span> <span class="post-toc-text">INCR key</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#INCRBYFLOAT-key-increment"><span class="post-toc-number">27.</span> <span class="post-toc-text">INCRBYFLOAT key increment</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MGET-key-key-…"><span class="post-toc-number">28.</span> <span class="post-toc-text">MGET key [key …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MSET-key-value-key-value-…"><span class="post-toc-number">29.</span> <span class="post-toc-text">MSET key value [key value …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MSETNX-key-value-key-value-…"><span class="post-toc-number">30.</span> <span class="post-toc-text">MSETNX key value [key value …]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PSETEX-key-milliseconds-value"><span class="post-toc-number">31.</span> <span class="post-toc-text">PSETEX key milliseconds value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SET-key-value-EX-seconds-PX-milliseconds-NX-XX"><span class="post-toc-number">32.</span> <span class="post-toc-text">SET key value [EX seconds] [PX milliseconds] [NX|XX]</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SETEX-key-seconds-value"><span class="post-toc-number">33.</span> <span class="post-toc-text">SETEX key seconds value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SETNX-key-value"><span class="post-toc-number">34.</span> <span class="post-toc-text">SETNX key value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SETRANGE-key-offset-value"><span class="post-toc-number">35.</span> <span class="post-toc-text">SETRANGE key offset value</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#STRLEN-key"><span class="post-toc-number">36.</span> <span class="post-toc-text">STRLEN key</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Redis命令学习笔记part1-Key-String部分"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Redis命令学习笔记part1:Key/String篇</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-04-28 15:13:52" datetime="2016-04-28T07:13:52.000Z"  itemprop="datePublished">2016-04-28</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以<code>redis-doc</code>为准。</p>
+<h3 id="SET-key-value-GET-key"><a href="#SET-key-value-GET-key" class="headerlink" title="SET key value/GET key"></a>SET key value/GET key</h3><p>存取值的通用方法</p>
+<h3 id="DUMP-key"><a href="#DUMP-key" class="headerlink" title="DUMP key"></a>DUMP key</h3><p>序列化给定 key ，并返回被序列化的值，使用 RESTORE 命令可以将这个值反序列化为Redis 键。<br>序列化生成的值有以下几个特点：<br>1.它带有 64 位的校验和，用于检测错误， RESTORE 在进行反序列化之前会先检查校验和。<br>2.值的编码格式和 RDB 文件保持一致。<br>3.RDB 版本会被编码在序列化值当中，如果因为 Redis 的版本不同造成 RDB 格式不兼容，那么 Redis 会拒绝对这个值进行反序列化操作。</p>
+<h3 id="EXPIRE-key-time"><a href="#EXPIRE-key-time" class="headerlink" title="EXPIRE key time"></a>EXPIRE key time</h3><p>1.为给定 key 设置生存时间，当 key 过期时(生存时间为 0 )，它会被自动删除。<br>2.在 Redis 中，带有生存时间的 key 被称为『易失的』(volatile)。<br>3.生存时间可以通过使用 DEL 命令来删除整个 key 来移除，或者被 SET 和 GETSET 命令覆写(overwrite)，这意味着，如果一个命令只是修改(alter)一个带生存时间的 key 的值而不是用一个新的 key 值来代替(replace)它的话，那么生存时间不会被改变。如果使用 RENAME 对一个 key 进行改名，那么改名后的 key 的生存时间和改名前一样。RENAME 命令的另一种可能是，尝试将一个带生存时间的 key 改名成另一个带生存时间的another_key ，这时旧的 another_key (以及它的生存时间)会被删除，然后旧的 key 会改名为 another_key ，因此，新的 another_key 的生存时间也和原本的 key 一样。同时，对已有生存时间的key执行expire命令可以更新生存时间<br>4.所以若不过期 返回为-1 否则返回过期时间为剩余的秒时间值，可以使用ttl查询键的生存时间</p>
+<h3 id="EXPIREAT-key-timestamp"><a href="#EXPIREAT-key-timestamp" class="headerlink" title="EXPIREAT key timestamp"></a>EXPIREAT key timestamp</h3><p>EXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置生存时间。<br>不同在于 EXPIREAT 命令接受的时间参数是 UNIX 时间戳(unix timestamp)。<br>如果生存时间设置成功，返回 1 。当 key 不存在或没办法设置生存时间，返回 0 。<br><a id="more"></a></p>
+<h3 id="MIGRATE-host-port-key-destination-db-timeout-COPY-REPLACE"><a href="#MIGRATE-host-port-key-destination-db-timeout-COPY-REPLACE" class="headerlink" title="MIGRATE host port key destination-db timeout [COPY] [REPLACE]"></a>MIGRATE host port key destination-db timeout [COPY] [REPLACE]</h3><p>将 key 原子性地从当前实例传送到目标实例的指定数据库上，一旦传送成功， key 保证会出现在目标实例上，而当前实例上的 key 会被删除。<br>原理还是使用DUMP、RESTORE进行序列化和反序列化<br>由于这是一个原子操作，所以是阻塞执行。</p>
+<h3 id="MOVE-key-db"><a href="#MOVE-key-db" class="headerlink" title="MOVE key db"></a>MOVE key db</h3><p>将当前数据库的 key 移动到给定的数据库 db 当中<br>如果当前数据库(源数据库)和给定数据库(目标数据库)有相同名字的给定 key ，或者 key 不存在于当前数据库，那么 MOVE 没有任何效果</p>
+<h3 id="OBJECT"><a href="#OBJECT" class="headerlink" title="OBJECT"></a>OBJECT</h3><p>OBJECT 命令允许从内部察看给定 key 的 Redis 对象。<br>-REFCOUNT 引用数目<br>-IDLETIME 空闲时间<br>-ENCODING 编码方式</p>
+<h3 id="PERSIST-key"><a href="#PERSIST-key" class="headerlink" title="PERSIST key"></a>PERSIST key</h3><p>移除指定key的TTL，让它获得永生。</p>
+<h3 id="PEXPIRE-key"><a href="#PEXPIRE-key" class="headerlink" title="PEXPIRE key"></a>PEXPIRE key</h3><p>与EXPIRE相同作用相同，只是以毫秒为时间单位</p>
+<h3 id="PEXPIREAT-key"><a href="#PEXPIREAT-key" class="headerlink" title="PEXPIREAT key"></a>PEXPIREAT key</h3><p>同PEXPIRE与EXPIRE的关系</p>
+<h3 id="PTTL-key"><a href="#PTTL-key" class="headerlink" title="PTTL key"></a>PTTL key</h3><p>TTL的毫秒版</p>
+<h3 id="RANDOMKEY"><a href="#RANDOMKEY" class="headerlink" title="RANDOMKEY"></a>RANDOMKEY</h3><p>随机返回一个key，数据库为空时返回nil，抽奖程序知道怎么写了才不会被喷了吧？</p>
+<h3 id="RENAME-key-newkey"><a href="#RENAME-key-newkey" class="headerlink" title="RENAME key newkey"></a>RENAME key newkey</h3><p>改名，<br>1.当 key 和 newkey 相同，或者 key 不存在时，返回一个错误。<br>2.当 newkey 已经存在时， RENAME 命令将覆盖旧值。</p>
+<h3 id="RENAMENX-key-new-key"><a href="#RENAMENX-key-new-key" class="headerlink" title="RENAMENX key new key"></a>RENAMENX key new key</h3><p>当且仅当 newkey 不存在时，将 key 改名为 newkey 。<br>当 key 不存在时，返回一个错误。</p>
+<h3 id="RESTORE-key-ttl-serialized-value-REPLACE"><a href="#RESTORE-key-ttl-serialized-value-REPLACE" class="headerlink" title="RESTORE key ttl serialized-value [REPLACE]"></a>RESTORE key ttl serialized-value [REPLACE]</h3><p>反序列化 </p>
+<h3 id="SORT"><a href="#SORT" class="headerlink" title="SORT"></a>SORT</h3><p>SORT key 返回键值从小到大排序的结果。<br>SORT key DESC 返回键值从大到小排序的结果。<br>SORT {SET} ALPHA 按字符对set排序<br>LIMIT offset cout 结果集数量<br>SORT numbers STORE sorted-numbers 讲结果集保存在指定的键上</p>
+<h3 id="TYPE-key"><a href="#TYPE-key" class="headerlink" title="TYPE key"></a>TYPE key</h3><p>返回key的类型<br>none (key不存在) string (字符串) list (列表) set (集合) zset (有序集) hash (哈希表)</p>
+<p>SCAN cursor [MATCH pattern] [COUNT count]<br>SCAN 命令及其相关的 SSCAN 命令、 HSCAN 命令和 ZSCAN 命令都用于增量地迭代（incrementally iterate）一集元素（a collection of elements）：<br>SCAN 命令用于迭代当前数据库中的数据库键。<br>SSCAN 命令用于迭代集合键中的元素。<br>HSCAN 命令用于迭代哈希键中的键值对。<br>ZSCAN 命令用于迭代有序集合中的元素（包括元素成员和元素分值）。</p>
+<p>SCAN 命令是一个基于游标的迭o代器（cursor based iterator）： SCAN 命令每次被调用之后， 都会向用户返回一个新的游标， 用户在下次迭代时需要使用这个新游标作为 SCAN 命令的游标参数， 以此来延续之前的迭代过程。当 SCAN 命令的游标参数被设置为 0 时， 服务器将开始一次新的迭代， 而当服务器向用户返回值为 0 的游标时， 表示迭代已结束。<br>-COUNT 选项 调整一次迭代的数量<br>-MATCH 选项 scan {SET_NAME} {cursor} {RegularExpression}</p>
+<h3 id="APPEND-key-value"><a href="#APPEND-key-value" class="headerlink" title="APPEND key value"></a>APPEND key value</h3><p>如果 key 已经存在并且是一个字符串， APPEND 命令将 value 追加到 key 原来的值的末尾。如果 key 不存在， APPEND 就简单地将给定 key 设为 value ，就像执行SET key value 一样。</p>
+<h3 id="BITCOUNT-key-start-end"><a href="#BITCOUNT-key-start-end" class="headerlink" title="BITCOUNT key [start] [end]"></a>BITCOUNT key [start] [end]</h3><p>计算给定字符串中，被设置为 1 的比特位的数量。<br>一般情况下，给定的整个字符串都会被进行计数，通过指定额外的 start 或 end 参数，可以让计数只在特定的位上进行。</p>
+<h3 id="GETRANGE-key-start-end"><a href="#GETRANGE-key-start-end" class="headerlink" title="GETRANGE key start end"></a>GETRANGE key start end</h3><p>返回 key 中字符串值的子字符串，字符串的截取范围由 start 和 end 两个偏移量决定(包括 start 和 end 在内)。</p>
+<h3 id="BITOP-operation-destkey-key-key-…"><a href="#BITOP-operation-destkey-key-key-…" class="headerlink" title="BITOP operation destkey key [key …]"></a>BITOP operation destkey key [key …]</h3><p>对一个或多个保存二进制位的字符串 key 进行位元操作，并将结果保存到 destkey 上。</p>
+<h3 id="DECR-key"><a href="#DECR-key" class="headerlink" title="DECR key"></a>DECR key</h3><p>将 key 中储存的数字值减一。<br>1.如果 key 不存在，那么 key 的值会先被初始化为 0 ，然后再执行 DECR 操作。<br>2.如果值包含错误的类型，或字符串类型的值不能表示为数字，那么返回一个错误。<br>3.本操作的值限制在 64 位(bit)有符号数字表示之内。</p>
+<h3 id="DECRBY-key-decrement"><a href="#DECRBY-key-decrement" class="headerlink" title="DECRBY key decrement"></a>DECRBY key decrement</h3><p>DECR减去指定数值的版本</p>
+<h3 id="GETBIT-key-offset"><a href="#GETBIT-key-offset" class="headerlink" title="GETBIT key offset"></a>GETBIT key offset</h3><p>对 key 所储存的字符串值，获取指定偏移量上的位(bit)。</p>
+<h3 id="GETSET-key-value"><a href="#GETSET-key-value" class="headerlink" title="GETSET key value"></a>GETSET key value</h3><p>1.将给定 key 的值设为 value ，并返回 key 的旧值(old value)。<br>2.当 key 存在但不是字符串类型时，返回一个错误。<br>3.与INCR key联用可以做计数器~</p>
+<h3 id="INCR-key"><a href="#INCR-key" class="headerlink" title="INCR key"></a>INCR key</h3><p>将 key 中储存的数字值增一。</p>
+<h3 id="INCRBYFLOAT-key-increment"><a href="#INCRBYFLOAT-key-increment" class="headerlink" title="INCRBYFLOAT key increment"></a>INCRBYFLOAT key increment</h3><p>为 key 中所储存的值加上浮点数增量 increment 。</p>
+<h3 id="MGET-key-key-…"><a href="#MGET-key-key-…" class="headerlink" title="MGET key [key …]"></a>MGET key [key …]</h3><p>返回所有(一个或多个)给定 key 的值。</p>
+<h3 id="MSET-key-value-key-value-…"><a href="#MSET-key-value-key-value-…" class="headerlink" title="MSET key value [key value …]"></a>MSET key value [key value …]</h3><p>同时设置一个或多个 key-value 对。</p>
+<h3 id="MSETNX-key-value-key-value-…"><a href="#MSETNX-key-value-key-value-…" class="headerlink" title="MSETNX key value [key value …]"></a>MSETNX key value [key value …]</h3><p>同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在。</p>
+<h3 id="PSETEX-key-milliseconds-value"><a href="#PSETEX-key-milliseconds-value" class="headerlink" title="PSETEX key milliseconds value"></a>PSETEX key milliseconds value</h3><p>这个命令和 SETEX 命令相似，但它以毫秒为单位设置 key 的生存时间，而不是像 SETEX命令那样，以秒为单位。</p>
+<h3 id="SET-key-value-EX-seconds-PX-milliseconds-NX-XX"><a href="#SET-key-value-EX-seconds-PX-milliseconds-NX-XX" class="headerlink" title="SET key value [EX seconds] [PX milliseconds] [NX|XX]"></a>SET key value [EX seconds] [PX milliseconds] [NX|XX]</h3><p>1.将字符串值 value 关联到 key 。<br>2.如果 key 已经持有其他值， SET 就覆写旧值，无视类型。<br>3.对于某个原本带有生存时间（TTL）的键来说， 当 SET 命令成功在这个键上执行时， 这个键原有的 TTL 将被清除。</p>
+<h3 id="SETEX-key-seconds-value"><a href="#SETEX-key-seconds-value" class="headerlink" title="SETEX key seconds value"></a>SETEX key seconds value</h3><p>1.将值 value 关联到 key ，并将 key 的生存时间设为 seconds (以秒为单位)。<br>2如果 key 已经存在， SETEX 命令将覆写旧值。<br>3.这个命令类似于以下两个命令：<br>SET key value<br>EXPIRE key seconds  设置生存时间</p>
+<h3 id="SETNX-key-value"><a href="#SETNX-key-value" class="headerlink" title="SETNX key value"></a>SETNX key value</h3><p>1.将 key 的值设为 value ，当且仅当 key 不存在。<br>2.若给定的 key 已经存在，则 SETNX 不做任何动作。<br>3.SETNX 是『SET if Not eXists』(如果不存在，则 SET)的简写。</p>
+<h3 id="SETRANGE-key-offset-value"><a href="#SETRANGE-key-offset-value" class="headerlink" title="SETRANGE key offset value"></a>SETRANGE key offset value</h3><p>用 value 参数覆写(overwrite)给定 key 所储存的字符串值，从偏移量 offset 开始。<br>不存在的 key 当作空白字符串处理。</p>
+<h3 id="STRLEN-key"><a href="#STRLEN-key" class="headerlink" title="STRLEN key"></a>STRLEN key</h3><p>返回 key 所储存的字符串值的长度。<br>当 key 储存的不是字符串值时，返回一个错误。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-02-12T13:45:16.000Z" itemprop="dateUpdated">2017-02-12 21:45:16</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/" target="_blank" rel="external">https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/&title=《Redis命令学习笔记part1:Key/String篇》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/&title=《Redis命令学习笔记part1:Key/String篇》 — Sequarius&source=最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/G..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis命令学习笔记part1:Key/String篇》 — Sequarius&url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/05/05/Redis学习笔记-集合篇/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Redis命令学习笔记-集合篇</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SpringReloaded Spring应用的热交换技术踩坑路</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/&title=《Redis命令学习笔记part1:Key/String篇》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/&title=《Redis命令学习笔记part1:Key/String篇》 — Sequarius&source=最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/G..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis命令学习笔记part1:Key/String篇》 — Sequarius&url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/04/28/Redis命令学习笔记part1-Key-String部分/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtElEQVR42u3awY7qQAwEQP7/p3cv7/AklNC2xxErVU4IBZIapIxp+/WKj5+34//338+pfufVVa6ue/jAw8PDG9/6/YWrN/e+ENXlqy4EHh4e3jO8q0tenXP1Tv7+PTXZQpLP4uHh4X0PL9laJmfe3wMeHh7e3+X1Hvf5azw8PLxv5uVRQi84mJfd61kLHh4e3kIX6Xter/T38PDw8MZd9d6D/uyjv3ef/z6Lh4eHt8DLH7j3ZWtv4KBXQOf3iYeHh7fHO1XsVqPes0FGIavGw8PDG/Oqjf+8dO5tIcn9FLYNPDw8vDVeUp4mEUPyqWrJnsPKkxF4eHh4RV4ewlYj2lFwcLZrh4eHh7fM65W/1ahiskyFO8HDw8N7hJcXtQmyuhXlhXX0Y+Dh4eEt8O4f6PNG12RoIOraVWNcPDw8vDFv/nDPx63m20C1lMfDw8Pb5p0Ndqthbm+D+RBh4OHh4S3wzn5FPiCVhxrVIbBoFfHw8PAGvGoLqlr+Thaut9lcBrh4eHh4h3i9SDdfgmqo0Yt0Cz8AHh4e3iFePgowL4J7Ie+oq4WHh4d3lNdrfc0L6GoUUg2UP6TUeHh4eGNeXkDnYUTv6F3xw9AVHh4e3jIvAVdj37wXlz/0C/8V8PDw8I7ykhAhDyDy8ne+SRRiXzw8PLwHecnG0Asm8tGBZjHdy33x8PDwiry8BZWHqnnZ3VviqDTHw8PDW+MV/t4H8UReFp+Nhg8MEODh4eHFz8z88kkR3Bsg6BXl0WQEHh4e3iHePFTNt4rJUW2n4eHh4W3zel+dN8MmZXp1Y8DDw8N7kpdfpjpc1TuzF0BcZi14eHh4X8PLY9xq4d7bMF75joSHh4f3IG8Cq4a8kyEDPDw8vG1e3sTaa31NljuajMDDw8M7xGvOahWbZNWlWWHg4eHhTXm/QwPFOnlAVhkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

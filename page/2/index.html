@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="undefined">
+    <meta name="description" content="Quietly, we embrace in a world lit up by binary.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sequarius">
+<meta property="og:url" content="https://www.sequarius.com/page/2/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="Quietly, we embrace in a world lit up by binary.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sequarius">
+<meta name="twitter:description" content="Quietly, we embrace in a world lit up by binary.">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Sequarius</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Sequarius</h1>
+        <h5 class="subtitle">
+            
+                A boy without story
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-SpringReloaded-Spring应用的热交换技术踩坑路"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-04-03 17:13:47" datetime="2016-04-03T09:13:47.000Z"  itemprop="datePublished">2016-04-03</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/">SpringReloaded Spring应用的热交换技术踩坑路</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        关于Spring Loaded 最近在倒腾Spring全家桶的应用，在阅读官方文档19.5节的时候无意中发现了了一个被称作hot-swapping的技术，这类在java5代理技术出现之后出现的字节码热交换技术其实也不是新鲜事，但是对于spring这样application动不动启动10来秒的框架如若使用热交换对开发效率无疑有一个质的提升，于是就根据文档踩了下坑。
+引入Maven&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;        &lt;optional&gt;true&lt;/optional&gt;    &lt;/dependency&gt;&lt;/dependencies&gt;
+Gradle如果作为gradle引入的话要稍微麻烦一点首先需要加入依赖dependencies &#123;    compile &quot;org.springframework.boot:spring-boot-gradle-plugin&quot;    compile &apos;org.springframework:springloaded&apos;&#125;idea &#123;    module &#123;        inheritOutputDirs = false        outputDir = file(&quot;$buildDir/classes/main/&quot;)    &#125;&#125;buildscript &#123;	repositories &#123;		jcenter()	&#125;&#125;
+    
+
+        <a href="/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringLoaded/">SpringLoaded</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/热交换/">热交换</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2015-12-21 18:19:47" datetime="2015-12-21T10:19:47.000Z"  itemprop="datePublished">2015-12-21</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/">[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如：
+    
+
+        <a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AutoLayout/">AutoLayout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/屏幕适配/">屏幕适配</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-android基于重力感应的记步算法"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2015-12-16 15:58:36" datetime="2015-12-16T07:58:36.000Z"  itemprop="datePublished">2015-12-16</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2015/12/16/android基于重力感应的记步算法/">android基于重力感应的计步算法</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        早期很多android设备并未配置陀螺仪，所以无法调用SensorManager的Sensor.TYPE_STEP_COUNTER的Sensor，试了很多算法，发现这个算法最好，下面是SensorEventListener的实现，更多细节参阅https://github.com/bagilevi/android-pedometer
+    
+
+        <a href="/2015/12/16/android基于重力感应的记步算法/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pedemoter/">pedemoter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sensor/">sensor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计步/">计步</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-spring-boot-1.3.0-初探踩坑日记"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2015-12-06 16:20:23" datetime="2015-12-06T08:20:23.000Z"  itemprop="datePublished">2015-12-06</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2015/12/06/spring-boot-1.3.0-初探踩坑日记/">spring-boot 1.3.0 初探踩坑日记</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Spring Boot介绍[引自Spring Boot Reference Guide]Spring Boot使开发独立的，产品级别的基于Spring的应用变得非常简单，你只需”just run”。 我们为Spring平台及第三方库提供开箱即用的设置，这样你就可以有条不紊地开始。多数Spring Boot应用需要很少的Spring配置。
+你可以使用Spring Boot创建Java应用，并使用java -jar启动它或采用传统的war部署方式。我们也提供了一个运行”spring脚本”的命令行工具。
+我们主要的目标是：
+1.为所有的Spring开发提供一个从根本上更快的和广泛使用的入门经验。2.开箱即用，但你可以通过不采用默认设置来摆脱这种方式。3.提供一系列大型项目常用的非功能性特征（比如，内嵌服务器，安全，指标，健康检测，外部化配置）。4.绝对不需要代码生成及XML配置。
+    
+
+        <a href="/2015/12/06/spring-boot-1.3.0-初探踩坑日记/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/1-3-0/">1.3.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rest-framework/">rest-framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/simple-guide/">simple-guide</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/">spring-boot</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Gradle构建springboot基础配置"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2015-12-06 13:39:09" datetime="2015-12-06T05:39:09.000Z"  itemprop="datePublished">2015-12-06</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2015/12/06/Gradle构建springboot基础配置/">Gradle构建spring-boot 1.3.0 项目 基础配置</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        
+buildscript &#123;    ext &#123;        springBootVersion = &apos;1.3.0.RELEASE&apos;    &#125;    repositories &#123;        jcenter()        maven &#123; url &quot;https://oss.sonatype.org/conte...
+    
+
+        <a href="/2015/12/06/Gradle构建springboot基础配置/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle/">gradle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rest-framework/">rest_framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/">spring-boot</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Hexo3-1-1-github-pages-使用https搭建博客及踩坑录"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2015-12-03 17:18:46" datetime="2015-12-03T09:18:46.000Z"  itemprop="datePublished">2015-12-03</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/">Hexo3.1.1 github pages使用https搭建博客及踩坑录</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到GithubPages等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老或者过为冗余，本文秉承快速入门的初衷，记录了下我在安装部署hexo的经过以及踩过的那些坑。
+note：很多童鞋因为SSHkey的关系弄了很久没有成功便放弃了，本文介绍的方法是脱离SSHkey利用https的方式的部署，如需ssh部署的请自行参阅官方文档Reference:[项目地址] [官方文档]
+    
+
+        <a href="/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitpages/">gitpages</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </div>
+</nav>
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/page/2/&title=Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/page/2/&title=Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/page/2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=Sequarius&url=https://www.sequarius.com/page/2/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/page/2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABw0lEQVR42u3aS46EMAwFQO5/aeYAM8Cz8wGNKqsWokNlYzm2jyNe58W6euf386s9jxULFxd3mHverpxSPVLy3z+OhIuLu5F7H2iSD1+9nx81Cna4uLif5OZhKAl5uLi4/5V7f0+5v7/g4uJ+mdtLWar06p64uLhvcfMq5brfS+q7uLi4Le5ZXL0DVMujl1/HxcXdws0DytxGS++7uLi4O7lJ0Kkeppo2lXfDxcVdxk2Sj14htZoqlTMyXFzcZdz8ipIPZFSvQNULFS4u7mpuHrCSMDcyhJHsiYuLu4c7kqaMjF8kadNDQQQXF3cxtxrCooJmPH6RJD0P++Pi4m7h5u2TKquX1uDi4u7kriiV5iWVciDDxcXdwh0pgvQmKvMm60PExcXFXcztha18dKMX4MpzZLi4uMu41cZqr+g5dFfDxcXdyB0peSTFzWkNGFxc3MXcuS3V6sWp2UzFxcVdzO19vjpgMVKtaR4GFxd3mJsEr2q5M0l9kmIKLi7uu9xqoLl/kqPzpg4uLu6XuXNHr5rzYri4uJ/kVuuyI6WWyT1hXFzcmJtcfkYGrXqjGLi4uG9xy6Gk1azNhzOm1XdxcXE73B85KnGwGPRsWwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

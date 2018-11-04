@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="undefined">
+    <meta name="description" content="Quietly, we embrace in a world lit up by binary.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sequarius">
+<meta property="og:url" content="https://www.sequarius.com/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="Quietly, we embrace in a world lit up by binary.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sequarius">
+<meta name="twitter:description" content="Quietly, we embrace in a world lit up by binary.">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect active">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Sequarius</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Sequarius</h1>
+        <h5 class="subtitle">
+            
+                A boy without story
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-JShell源码带逛，Java-REPL实现分析"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-10-22 21:04:24" datetime="2017-10-22T13:04:24.000Z"  itemprop="datePublished">2017-10-22</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/10/22/JShell源码带逛，Java-REPL实现分析/">JShell源码解读，REPL实现分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Java9不出意外的又跳票了，传闻Java9加入了JEP 222，所以用OpenJDK体验了一把JShell并分析了下其实现。
+JShell简述JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。
+JShell简易使用指北
+通过${J...
+    
+
+        <a href="/2017/10/22/JShell源码带逛，Java-REPL实现分析/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-OKHttp开启SSL证书支持"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-08-06 11:23:33" datetime="2017-08-06T03:23:33.000Z"  itemprop="datePublished">2017-08-06</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/08/06/OKHttp开启SSL证书支持/">OkHttp开启SSL证书支持</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前段时间，遇到了一个微信支付调用Rest接口需要SSL授信的问题，遂看了一段时间自SSL证书的集成方式。
+Java对安全证书的支持JDK在java.security下有一个KeyStore的工具类，可以通过工厂方法getInstance(String type, String provider)初始化一个密钥存储对象，该对象对主流的密钥格式，如PKCS12、PEM都有了默认支持。
+以下是初始...
+    
+
+        <a href="/2017/08/06/OKHttp开启SSL证书支持/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-使用MyBatisGenerator-自定义生成的XML"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-02-13 21:33:36" datetime="2017-02-13T13:33:36.000Z"  itemprop="datePublished">2017-02-13</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/">使用MyBatisGenerator 自定义生成的XML</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        概述根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目MyBatis Generator,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文...
+    
+
+        <a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用MyBatisGenerator/">使用MyBatisGenerator</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义生成的XML/">自定义生成的XML</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-基于Redis的定时任务实现"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-09-19 21:50:14" datetime="2016-09-19T13:50:14.000Z"  itemprop="datePublished">2016-09-19</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/09/19/基于Redis的定时任务实现/">基于Redis的计划任务实现</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        使用场景常有一些使用场景，比如操作远程服务失败，需要在指定时间后重试。业务方面，比如有订单在X分钟后没有完成操作则变更状态等需求，这里使用RedisTemplete，利用expired消息实现了一个基于Redis在指时间后进行操作的服务实现。
+redis 远程访问redis-cli -h {redis_host} -p {redis_port}配置修改Redis配置文件/etc/redis/...
+    
+
+        <a href="/2016/09/19/基于Redis的定时任务实现/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redise/">Redise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xpired/">xpired</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/失败重试/">失败重试</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计划任务/">计划任务</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-RxJava初探-一些细节"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-05-26 22:25:30" datetime="2016-05-26T14:25:30.000Z"  itemprop="datePublished">2016-05-26</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/05/26/RxJava初探-一些细节/">RxJava初探，一些细节</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        RxJava 概述a library for composing asynchronous and event-based programs using observable sequences for the Java VM”
+一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库。
+概念RxJava中观察者模式概念Observable-可观察者，即被观察者
+Observer-观察者
+subscribe-订阅事件。Observable 和 Observer 通过 subscribe() 。
+观察者/订阅者的回调事件onNext(T t)正常的回调事件
+onError(Throwable e) 异常发生时的回调事件
+onCompleted() 完成时的回调事件
+    
+
+        <a href="/2016/05/26/RxJava初探-一些细节/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-一键评教是怎么通过Java实现的"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-05-12 22:30:12" datetime="2016-05-12T14:30:12.000Z"  itemprop="datePublished">2016-05-12</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/05/12/一键评教是怎么通过Java实现的/">一键评教是怎么通过OkHttp实现的</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选项，还要写评论，每学期课程大概有10门，最奇葩的是，如果没有完成评教请求其他的服务还会被自动拦截到评教页面，这也意味着完成这项工作耗费时间，至于对教学有没有实际作用就只有仁者见仁了。所以，在最新一版加入了自动评教功能。这篇主要说下通过OkHttp爬虫的一些细节。
+如何保存保存Session？对于如何保存页面状态获取需要Session认证的方法，可以使用OkHttp的拦截器，当然，OKHttp提供了一个 CookieJar 的接口可以方便完成这个任务，这里示例是一个没有做持久化存储Cookie的示例。public class EPCookieJar implements CookieJar &#123;    private final HashMap&lt;String, List&lt;Cookie&gt;&gt; cookieStore = new HashMap&lt;&gt;();    @Override    public void saveFromResponse(HttpUrl httpUrl, List&lt;Cookie&gt; list) &#123;        cookieStore.put(httpUrl.host(), list);    &#125;    @Override    public List&lt;Cookie&gt; loadForRequest(HttpUrl httpUrl) &#123;        List&lt;Cookie&gt; cookies = cookieStore.get(httpUrl.host());        return cookies != null ? cookies : new ArrayList&lt;Cookie&gt;();    &#125;&#125;
+    
+
+        <a href="/2016/05/12/一键评教是怎么通过Java实现的/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp模拟登陆/">OkHttp模拟登陆</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Redis学习笔记-集合篇"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-05-05 21:14:50" datetime="2016-05-05T13:14:50.000Z"  itemprop="datePublished">2016-05-05</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/05/05/Redis学习笔记-集合篇/">Redis命令学习笔记-集合篇</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “hash” to look, with field-value pairs:实际是一种散列集合结构，结构也如下：{key} {domain1} {value1} {domain 2} {value2} … {domain n} {valuen}
+HMSET key field value [field value …]同时将多个 field-value (域-值)对设置到哈希表 key 中。此命令会覆盖哈希表中已存在的域。如果 key 不存在，一个空哈希表被创建并执行 HMSET 操作。
+HSET key field value将哈希表 key 中的域 field 的值设为 value 。如果 key 不存在，一个新的哈希表被创建并进行 HSET 操作。如果域 field 已经存在于哈希表中，旧值将被覆盖。
+HSETNX key field value上述版本的不覆盖set版本 如果存在返回为false
+HGET key field返回哈希表 key 中给定域 field 的值。
+    
+
+        <a href="/2016/05/05/Redis学习笔记-集合篇/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Redis命令学习笔记part1-Key-String部分"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-04-28 15:13:52" datetime="2016-04-28T07:13:52.000Z"  itemprop="datePublished">2016-04-28</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/">Redis命令学习笔记part1:Key/String篇</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/GET key存取值的通用方法
+DUMP key序列化给定 key ，并返回被序列化的值，使用 RESTORE 命令可以将这个值反序列化为Redis 键。序列化生成的值有以下几个特点：1.它带有 64 位的校验和，用于检测错误， RESTORE 在进行反序列化之前会先检查校验和。2.值的编码格式和 RDB 文件保持一致。3.RDB 版本会被编码在序列化值当中，如果因为 Redis 的版本不同造成 RDB 格式不兼容，那么 Redis 会拒绝对这个值进行反序列化操作。
+EXPIRE key time1.为给定 key 设置生存时间，当 key 过期时(生存时间为 0 )，它会被自动删除。2.在 Redis 中，带有生存时间的 key 被称为『易失的』(volatile)。3.生存时间可以通过使用 DEL 命令来删除整个 key 来移除，或者被 SET 和 GETSET 命令覆写(overwrite)，这意味着，如果一个命令只是修改(alter)一个带生存时间的 key 的值而不是用一个新的 key 值来代替(replace)它的话，那么生存时间不会被改变。如果使用 RENAME 对一个 key 进行改名，那么改名后的 key 的生存时间和改名前一样。RENAME 命令的另一种可能是，尝试将一个带生存时间的 key 改名成另一个带生存时间的another_key ，这时旧的 another_key (以及它的生存时间)会被删除，然后旧的 key 会改名为 another_key ，因此，新的 another_key 的生存时间也和原本的 key 一样。同时，对已有生存时间的key执行expire命令可以更新生存时间4.所以若不过期 返回为-1 否则返回过期时间为剩余的秒时间值，可以使用ttl查询键的生存时间
+EXPIREAT key timestampEXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置生存时间。不同在于 EXPIREAT 命令接受的时间参数是 UNIX 时间戳(unix timestamp)。如果生存时间设置成功，返回 1 。当 key 不存在或没办法设置生存时间，返回 0 。
+    
+
+        <a href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/" class="post-more waves-effect waves-button">
+            閱讀全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    </div>
+</nav>
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/&title=Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/&title=Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=Sequarius&url=https://www.sequarius.com/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABYUlEQVR42u3a0Q7CMAhA0f3/T9fE+GbWXaAxEW6fFp317KGUMq4Lj/Ue39fRbw8PWbIasdZ2RO8h1/t5ZMmazCJBYX/n3T378HH7uSxZsoILvrLNy5Ilq8KKhg9ZsmQRFk+ISWj4aS4vS1YLVqWQdGo7P1zfkiXrr1grOMg8lfk/M8iSNYy1LwPxzZiUk6KPJEvWNFbuwBlNpisFX1myerMqf89bDcKbvSxZw1j85Bg9yvJNHRWnZMlqzeIJa66tJ5kiy5I1jLX/AQkTlaQZHZhlyRrAqre3klCSzOVlyRrJ4kuaRx3eEhRImmXJasciCzuaEOeaDB7e/MiS1ZqVawWotM+ShjxZsqaxoguYL/5c4UmWrMksHhT4ETR3iEXveWTJas3KLfJcewHK5WXJkgUOtKh/IVVgkiVLVrS0lCOi0CNL1kgWT5pPtQE9PJIsWcNYuUIS2YB5mTg5ZMnqwHoBGpMXDmy+G4kAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

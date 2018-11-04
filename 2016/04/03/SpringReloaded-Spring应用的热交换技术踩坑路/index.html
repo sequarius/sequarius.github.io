@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>SpringReloaded Spring应用的热交换技术踩坑路 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="热交换,SpringLoaded">
+    <meta name="description" content="关于Spring Loaded 最近在倒腾Spring全家桶的应用，在阅读官方文档19.5节的时候无意中发现了了一个被称作hot-swapping的技术，这类在java5代理技术出现之后出现的字节码热交换技术其实也不是新鲜事，但是对于spring这样application动不动启动10来秒的框架如若使用热交换对开发效率无疑有一个质的提升，于是就根据文档踩了下坑。
+引入Maven&amp;lt;depend">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringReloaded Spring应用的热交换技术踩坑路">
+<meta property="og:url" content="https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="关于Spring Loaded 最近在倒腾Spring全家桶的应用，在阅读官方文档19.5节的时候无意中发现了了一个被称作hot-swapping的技术，这类在java5代理技术出现之后出现的字节码热交换技术其实也不是新鲜事，但是对于spring这样application动不动启动10来秒的框架如若使用热交换对开发效率无疑有一个质的提升，于是就根据文档踩了下坑。
+引入Maven&amp;lt;depend">
+<meta property="og:image" content="https://www.sequarius.com/image/debug_button_localtion.png">
+<meta property="og:image" content="https://www.sequarius.com/image/springboot_reload_class.png">
+<meta property="og:updated_time" content="2017-01-03T05:52:15.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringReloaded Spring应用的热交换技术踩坑路">
+<meta name="twitter:description" content="关于Spring Loaded 最近在倒腾Spring全家桶的应用，在阅读官方文档19.5节的时候无意中发现了了一个被称作hot-swapping的技术，这类在java5代理技术出现之后出现的字节码热交换技术其实也不是新鲜事，但是对于spring这样application动不动启动10来秒的框架如若使用热交换对开发效率无疑有一个质的提升，于是就根据文档踩了下坑。
+引入Maven&amp;lt;depend">
+<meta name="twitter:image" content="https://www.sequarius.com/image/debug_button_localtion.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SpringReloaded Spring应用的热交换技术踩坑路</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SpringReloaded Spring应用的热交换技术踩坑路</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-04-03T09:13:47.000Z" itemprop="datePublished" class="page-time">
+  2016-04-03
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#关于Spring-Loaded"><span class="post-toc-number">1.</span> <span class="post-toc-text">关于Spring Loaded </span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#引入"><span class="post-toc-number">2.</span> <span class="post-toc-text">引入</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Maven"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Maven</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Gradle"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Gradle</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#坑"><span class="post-toc-number">4.</span> <span class="post-toc-text">坑</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-SpringReloaded-Spring应用的热交换技术踩坑路"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SpringReloaded Spring应用的热交换技术踩坑路</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-04-03 17:13:47" datetime="2016-04-03T09:13:47.000Z"  itemprop="datePublished">2016-04-03</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="关于Spring-Loaded"><a href="#关于Spring-Loaded" class="headerlink" title="关于Spring Loaded "></a>关于Spring Loaded </h1><p>最近在倒腾Spring全家桶的应用，在阅读<a href="http://docs.spring.io/spring-boot/docs/1.4.0.M1/reference/htmlsingle/#using-boot-hot-swapping" target="_blank" rel="external">官方文档19.5节</a>的时候无意中发现了了一个被称作hot-swapping的技术，这类在java5代理技术出现之后出现的字节码热交换技术其实也不是新鲜事，但是对于spring这样application动不动启动10来秒的框架如若使用热交换对开发效率无疑有一个质的提升，于是就根据文档踩了下坑。</p>
+<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h2><p>如果作为gradle引入的话要稍微麻烦一点<br>首先需要加入依赖<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile &quot;org.springframework.boot:spring-boot-gradle-plugin&quot;</div><div class="line">    compile &apos;org.springframework:springloaded&apos;</div><div class="line">&#125;</div><div class="line">idea &#123;</div><div class="line">    module &#123;</div><div class="line">        inheritOutputDirs = false</div><div class="line">        outputDir = file(&quot;$buildDir/classes/main/&quot;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">buildscript &#123;</div><div class="line">	repositories &#123;</div><div class="line">		jcenter()</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>运行时加入VM参数<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">-javaagent:&#123;path_to_jar&#125;\springloaded-1.2.5.RELEASE.jar -noverify</div></pre></td></tr></table></figure></p>
+<p>如果想完成静态资源静态替换，则需要在application.properties中加入<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">spring.freemarker.cache=false //此为freemarker配置，其他模版引擎请参照文档</div></pre></td></tr></table></figure></p>
+<p>完成上述配置之后便可以使用热交换插件了</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>1.使用调试模式运行Spring boot application，笔者使用的IDEA为图示按钮<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/debug_button_localtion.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>2.修改字节码后使用上图左侧make按钮（默认快捷键alt+f9）编译新的项目，由于插件的存在，会自动将output中的代码进行热替换而无需重新启动整个application。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/springboot_reload_class.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>3.模版引擎在make之后也能马上变化（非Spring Loaded特性，无论是否配置Spring Loaded，静态资源替换在make候会自动生效）</p>
+<h1 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h1><p>1.如果是一般类/方法修改热替换，代理技术会起到很好的作用，但是需要注意我是我们使用的是Ioc容器，如springmvc的注解映射依赖于启动时扫描，假如替换了映射的类，springmvc并不知道这一变化，而会寻找之前的方法，这时候就会抛出找不到方法异常<br>简单看下示例<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/finduser/&#123;username&#125;"</span>)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findUser</span><span class="params">(@PathVariable String username)</span></span>&#123;</div><div class="line"></div><div class="line">    User user=userService.findByUsername(username);</div><div class="line">    <span class="keyword">return</span> user;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时我们如果把该方法改为<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/finduser/&#123;username&#125;"</span>)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">findUser</span><span class="params">(@PathVariable String username)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"ok"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>虽然字节码被热替换了，但是框架抛出了异常<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">java.lang.NoSuchMethodError: &#123;packagename&#125;.UserController.findUser(Ljava/lang/String;)L&#123;packagename&#125;/domain/User;</div></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于普通类的修改，spring loaded确实是是一个很好的工具，整个make/替换过程短暂极大提升了开发效率，但对于部分ioc容器，依旧需要重启appliction才能完全看到修改后的代码。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:15.938Z" itemprop="dateUpdated">2017-01-03 13:52:15</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" target="_blank" rel="external">https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringLoaded/">SpringLoaded</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/热交换/">热交换</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/&title=《SpringReloaded Spring应用的热交换技术踩坑路》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/&title=《SpringReloaded Spring应用的热交换技术踩坑路》 — Sequarius&source=关于Spring Loaded 最近在倒腾Spring全家桶的应用，在阅读官方文档19.5节的时候无意中发现了了一个被称作hot-swapping的技术，..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringReloaded Spring应用的热交换技术踩坑路》 — Sequarius&url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Redis命令学习笔记part1:Key/String篇</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/&title=《SpringReloaded Spring应用的热交换技术踩坑路》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/&title=《SpringReloaded Spring应用的热交换技术踩坑路》 — Sequarius&source=关于Spring Loaded 最近在倒腾Spring全家桶的应用，在阅读官方文档19.5节的时候无意中发现了了一个被称作hot-swapping的技术，..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringReloaded Spring应用的热交换技术踩坑路》 — Sequarius&url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADMUlEQVR42u3aQY7iQAwFUO5/aWbbI5TubztIlHlZjZqQ1Cuksexfj0d8PX9cP//yek/yrdfr6lvJp6/33HZhY2NjH8J+/nr17qluR3U9V88vfBcbGxt7HTt5XL64fDuSbUoqUW7BxsbGxs5blHwLJm0PNjY2NnaVnTcGk5FTbxOxsbGxv5mdtBP50D/frDwwSO5/yywNGxsb++PZk8HNp/37Lfk2NjY29gezn8VrXpbycLe3wkiBjY2NvYidF4DeduQtRxIYVAdJf4TK2NjY2F/DnpS0apCQj5PKyDzHwMbGxj6Q3QtZ802sbkF+rCf/qbCxsbG3svMRT3LgJokTep/evBJsbGzsRez8P/354vIYIC9XvdViY2Nj72NXR/PVJiRvVKqYvKXBxsbG3souHHCJi1ayTXk70QsbbjiphI2NjX0guxoY9IrcJDaoNk6X68fGxsZeyq6Wq3lDkpec/AnRz4ONjY29lF0F947mVEvUXeHB5VAJGxsbex27VzaSEX+12PSeEx0GwsbGxl7EngySJsHwvRs6j4exsbGxd7DnJedZvG4YDxUj4cvzStjY2NjHsqvDo96AqVr8Jm+J3ouNjY29lJ03FUn56QW3eUmrhtD/fYqNjY29jp0P6HPeJACuPiFZQ3RkBxsbG/tA9vwAzXyJ1dald2yo2ZxgY2NjH8XOC1W+Kb1Clf9lUoCxsbGxd7B7R3PyZmAS91ZHTnlrhI2Njb2JPT92c1fom8fJedxb+DmxsbGxD2dPQtNecJsvrlqQ8q3BxsbG3sTOX1wtG9UmJCmKkyeX8xBsbGzsQ9i9QUx+T683SqKC/I2XdRsbGxt7EXseG/SO7CQDqfmmR00INjY29uHsd7wyPxJUbYEereuybmNjY2Mfy54fr8njhHwL8q3JvxX1XtjY2NgHsnsNRvVlk+2YH9AZ4bGxsbEPYVej1vmxm7si3uoYKwp6sbGxsY9l56R5JFzdoPnkDBsbGxs7aTDysVQv+q22HH+sGRsbG/uL2dVv3RUzJIOqwogKGxsbex07X2I1YagGBr3BU7JCbGxs7K3s+YCmutxe0crj3knZw8bGxj6K/Q/NNdmFPr1giQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

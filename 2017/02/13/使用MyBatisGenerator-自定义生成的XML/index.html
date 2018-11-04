@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>使用MyBatisGenerator 自定义生成的XML | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="使用MyBatisGenerator,自定义生成的XML">
+    <meta name="description" content="概述根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目MyBatis Generator,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用MyBatisGenerator 自定义生成的XML">
+<meta property="og:url" content="https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="概述根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目MyBatis Generator,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文档。">
+<meta property="og:updated_time" content="2017-02-13T13:39:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用MyBatisGenerator 自定义生成的XML">
+<meta name="twitter:description" content="概述根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目MyBatis Generator,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文档。">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用MyBatisGenerator 自定义生成的XML</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用MyBatisGenerator 自定义生成的XML</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-02-13T13:33:36.000Z" itemprop="datePublished" class="page-time">
+  2017-02-13
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#generatedKey"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">generatedKey</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#suppressDate"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">suppressDate</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#plugin"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">plugin</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开发"><span class="post-toc-number">2.</span> <span class="post-toc-text">开发</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Plugin与PluginAdapter"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Plugin与PluginAdapter</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#关系"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">关系</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#基础方法"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">基础方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#普通方法"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">普通方法</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实战"><span class="post-toc-number">3.</span> <span class="post-toc-text">实战</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使生成的查询列表方法支持分页"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">使生成的查询列表方法支持分页</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#create-time和update-time不在update时候更新"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">create_time和update_time不在update时候更新</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-使用MyBatisGenerator-自定义生成的XML"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用MyBatisGenerator 自定义生成的XML</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-02-13 21:33:36" datetime="2017-02-13T13:33:36.000Z"  itemprop="datePublished">2017-02-13</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目<a href="http://www.mybatis.org/generator/" target="_blank" rel="external">MyBatis Generator</a>,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文档。</p>
+<h4 id="generatedKey"><a href="#generatedKey" class="headerlink" title="generatedKey"></a>generatedKey</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;generatedKey column=&quot;id&quot; sqlStatement=&quot;MySql&quot; identity=&quot;true&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>该节点是<code>&lt;table&gt;</code>节点的子节点。</p>
+<p>通过该项配置在生成的select语句会生成<code>keyProperty=&quot;id&quot;</code>属性，即在调用<code>insert(T t)</code>或者<code>insertSelective(T t)</code>方法后T会在插入成功后同时被设置主键，方便后续进行<code>updateByPrimeryKey(T t)</code>的操作。</p>
+<h4 id="suppressDate"><a href="#suppressDate" class="headerlink" title="suppressDate"></a>suppressDate</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;commentGenerator&gt;</div><div class="line">    &lt;property name=&quot;suppressDate&quot; value=&quot;false&quot;/&gt;</div><div class="line">&lt;/commentGenerator&gt;</div></pre></td></tr></table></figure>
+<p>该节点是<code>&lt;context&gt;</code>的子节点，通过该项设置可以避免生成很多无用的<code>generate by MyBatis generator xxx</code>之类的注解，当然如果使用maven deploy的话有没有注释影响也不是很大。</p>
+<h4 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;plugin type=&quot;gov.sequarius.mybatis.MySQLPaginationPlugin&quot;/&gt;</div></pre></td></tr></table></figure>
+<p>该节点是<code>&lt;context&gt;</code> 的子节点，为生成器提供的插件支持,也是本文所介绍的重点内容，所谓插件为MyBatis Generator提供的自定义最灵活的地方，通过插件接口可以对生成的类文件、XML文件提供强大的自定义功能。</p>
+<h3 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h3><h4 id="Plugin与PluginAdapter"><a href="#Plugin与PluginAdapter" class="headerlink" title="Plugin与PluginAdapter"></a>Plugin与PluginAdapter</h4><h5 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h5><p>插件接口为<code>org.mybatis.generator.api.Plugin</code>当然这是一个最上层的接口，在同层包下提供了<code>org.mybatis.generator.api.PluginAdapter</code>一个适配器，可以看到官方的一些插件（位于<code>org.mybatis。
+.generator.plugins</code>包下）基本都继承自这个抽象类，我们这里主要研究的对象也是<code>PluginAdapter</code>。</p>
+<h5 id="基础方法"><a href="#基础方法" class="headerlink" title="基础方法"></a>基础方法</h5><p>首先看下基本方法，对于<code>Plugin</code>的各类方法，<code>PluginAdapter</code>都进行了基础实现，抽象的方法仅仅只有<code>boolean validate(List&lt;String&gt; warnings)</code>一个，看名字可以猜出这是一个校验方法，用于传入warnnings来检查是否插件可用。</p>
+<h5 id="普通方法"><a href="#普通方法" class="headerlink" title="普通方法"></a>普通方法</h5><p>由于方法众多，故只寻找有代表的两个讲下，更多细节可以参考官方文档。</p>
+<p><code>sqlMap???ElementGenerated(XmlElement element, IntrospectedTable introspectedTable)</code> 该方法在基础XML生成后调用，可以看到入参有XmlElement，拿到XmlElement后就可以操作生成的XML了。</p>
+<p><code>modelExampleClassGenerated(TopLevelClass, IntrospectedTable)</code>该方法在生成modelExample时调用，如果要修改生成的modelExample内容，可以使用TopLevelClass进行反射操作。</p>
+<p>剩下的方法基本根据命名规则都可以猜到是干什么，对于类和XML的函数参数都是一样的，只要有参数，就可以进行定制。</p>
+<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><h4 id="使生成的查询列表方法支持分页"><a href="#使生成的查询列表方法支持分页" class="headerlink" title="使生成的查询列表方法支持分页"></a>使生成的查询列表方法支持分页</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public class PagePlug extends PluginAdapter &#123;</div><div class="line">@Override</div><div class="line">    public boolean modelExampleClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable)</div><div class="line">    &#123;</div><div class="line">        String pageEntityName=&quot;page&quot;;</div><div class="line">        topLevelClass.addImportedType(new FullyQualifiedJavaType(&quot;cn.bekky.microstore.repository.mapper.page.Page&quot;));</div><div class="line">        CommentGenerator commentGenerator = context.getCommentGenerator();</div><div class="line">        Field field = new Field();</div><div class="line">        field.setVisibility(JavaVisibility.PROTECTED);</div><div class="line">        field.setType(new FullyQualifiedJavaType(&quot;cn.bekky.microstore.repository.mapper.page.Page&quot;));</div><div class="line">        field.setName(pageEntityName);</div><div class="line">        commentGenerator.addFieldComment(field, introspectedTable);</div><div class="line">        topLevelClass.addField(field);</div><div class="line">        char c = pageEntityName.charAt(0);</div><div class="line">        String camel = Character.toUpperCase(c) + pageEntityName.substring(1);</div><div class="line">        Method method = new Method();</div><div class="line">        method.setVisibility(JavaVisibility.PUBLIC);</div><div class="line">        method.setName(&quot;set&quot; + camel);</div><div class="line">        method.addParameter(new Parameter(new FullyQualifiedJavaType(&quot;cn.bekky.microstore.repository.mapper.page.Page&quot;), pageEntityName));</div><div class="line">        method.addBodyLine(&quot;this.&quot; + pageEntityName + &quot;=&quot; + pageEntityName + &quot;;&quot;);</div><div class="line">        commentGenerator.addGeneralMethodComment(method, introspectedTable);</div><div class="line">        topLevelClass.addMethod(method);</div><div class="line">        method = new Method();</div><div class="line">        method.setVisibility(JavaVisibility.PUBLIC);</div><div class="line">        method.setReturnType(new FullyQualifiedJavaType(&quot;cn.bekky.microstore.repository.mapper.page.Page&quot;));</div><div class="line">        method.setName(&quot;get&quot; + camel);</div><div class="line">        method.addBodyLine(&quot;return &quot; + pageEntityName + &quot;;&quot;);</div><div class="line">        commentGenerator.addGeneralMethodComment(method, introspectedTable);</div><div class="line">        topLevelClass.addMethod(method);</div><div class="line">        return super.modelExampleClassGenerated(topLevelClass, introspectedTable);</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public boolean sqlMapSelectByExampleWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable)</div><div class="line">    &#123;</div><div class="line">        XmlElement page = new XmlElement(&quot;if&quot;);</div><div class="line">        page.addAttribute(new Attribute(&quot;test&quot;, &quot;page != null&quot;));</div><div class="line">        page.addElement(new TextElement(&quot;limit #&#123;page.begin&#125; , #&#123;page.length&#125;&quot;));</div><div class="line">        element.addElement(page);</div><div class="line">        return super.sqlMapUpdateByExampleWithoutBLOBsElementGenerated(element, introspectedTable);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public boolean validate(List&lt;String&gt; warnings)</div><div class="line">    &#123;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="create-time和update-time不在update时候更新"><a href="#create-time和update-time不在update时候更新" class="headerlink" title="create_time和update_time不在update时候更新"></a>create_time和update_time不在update时候更新</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">public class IgnoreFieldPlug extends PluginAdapter &#123;</div><div class="line">    @Override</div><div class="line">    public boolean sqlMapUpdateByExampleSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) &#123;</div><div class="line">        removeTimeAttribute(element);</div><div class="line">        return super.sqlMapUpdateByExampleSelectiveElementGenerated(element, introspectedTable);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) &#123;</div><div class="line">        removeTimeAttribute(element);</div><div class="line">        return super.sqlMapUpdateByPrimaryKeySelectiveElementGenerated(element, introspectedTable);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean sqlMapUpdateByExampleWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) &#123;</div><div class="line">//        removeTimeTextAttribute(element);</div><div class="line">        removeTimeTextAttribute(element);</div><div class="line">        return super.sqlMapUpdateByExampleWithoutBLOBsElementGenerated(element, introspectedTable);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) &#123;</div><div class="line">        removeTimeTextAttribute(element);</div><div class="line">        return super.sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(element, introspectedTable);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void removeTimeTextAttribute(XmlElement element) &#123;</div><div class="line">        List&lt;Element&gt; elements = element.getElements();</div><div class="line">        int removeCommaIndex=0;</div><div class="line">        TextElement replaceElement=null;</div><div class="line">        Iterator&lt;Element&gt; iterator = elements.iterator();</div><div class="line">        while (iterator.hasNext())&#123;</div><div class="line">            Element baseElements=elements.get(i);</div><div class="line">            if (baseElements instanceof TextElement)&#123;</div><div class="line">                TextElement targetElment=(TextElement)baseElements;</div><div class="line">                if(targetElment.getContent().contains(&quot;update_time&quot;)||targetElment.getContent().contains(&quot;create_time&quot;))&#123;</div><div class="line">                    iterator.remove();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (baseElements instanceof TextElement)&#123;</div><div class="line">                TextElement targetElment=(TextElement)baseElements;</div><div class="line">                if(targetElment.getContent().contains(&quot;where&quot;))&#123;</div><div class="line">                    removeCommaIndex=i-1;</div><div class="line">                    replaceElement=(TextElement)(elements.get(removeCommaIndex));</div><div class="line">                    String content = replaceElement.getContent().trim();</div><div class="line">                    replaceElement=new TextElement(content.substring(0,content.length()-1));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            iterator.next();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public boolean validate(List&lt;String&gt; warnings)</div><div class="line">    &#123;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">    private void removeTimeAttribute(XmlElement element) &#123;</div><div class="line">        List&lt;Element&gt; elements = element.getElements();</div><div class="line">        Iterator&lt;Element&gt; iterator = elements.iterator();</div><div class="line">        while (iterator.hasNext())&#123;</div><div class="line">            Element baseElements=elements.get(i);</div><div class="line">            if (!(baseElements instanceof XmlElement))&#123;</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line">            XmlElement targetElment=(XmlElement)baseElements;</div><div class="line">            if(targetElment.getName().contains(&quot;set&quot;))&#123;</div><div class="line">                List&lt;Element&gt; innerElements = targetElment.getElements();</div><div class="line">                for (int i1 = 0; i1 &lt; innerElements.size(); i1++) &#123;</div><div class="line">                    Element baseInnerElements=elements.get(i);</div><div class="line">                    if (!(baseInnerElements instanceof XmlElement))&#123;</div><div class="line">                        continue;</div><div class="line">                    &#125;</div><div class="line">                    targetElment=(XmlElement)innerElements.get(i1);</div><div class="line">                    Iterator&lt;Attribute&gt; attributeIterator = targetElment.getAttributes().iterator();</div><div class="line">                    while (attributeIterator.hasNext())&#123;</div><div class="line">                        attributeIterator.remove();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-02-13T13:39:37.000Z" itemprop="dateUpdated">2017-02-13 21:39:37</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" target="_blank" rel="external">https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用MyBatisGenerator/">使用MyBatisGenerator</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义生成的XML/">自定义生成的XML</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/06/OKHttp开启SSL证书支持/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">OkHttp开启SSL证书支持</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/09/19/基于Redis的定时任务实现/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于Redis的计划任务实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACv0lEQVR42u3awW7bMBAEUP//TztATy0QKTNL0naRp5OR1BSfAlDb2X084uv557r6yfOv6+q7Vyvkv71af8OFh4eHN9r6/XJXn/OH0m432UO0Jh4eHt4xXrK55EBv//3st8l98fDw8D6BlxTN95vIt3V/dzw8PLz/hRcttxw3JKU8Hh4e3ifwktvMDui2vE7CiyNZCx4eHl7MmwWy7/18sL+Hh4eHt9BVz69ZvJtHEsNd4eHh4R3gJRFt29pPytx2aCAfKaiXw8PDwyt5CSnf7q422Mp4wT/r4+Hh4R3g5QFEG63uCjhadvF6w8PDwzvGS9r5ydHfhhqzV85SyIuHh4cXxxDJpmfl7K5vtfvBw8PDO8dLXgB7m1J5gDsLLC7/hnh4eHhbefl4U37jWbCbDxzU/1fAw8PD28pbOYKTx7TeDJuNcOHh4eGd4OUtqFkDLA9k8zZYEaPg4eHhHeDNRpraIYO2zZ88piLexcPDwzvAy18MK5uYfV5vieHh4eHt5eWRa9vKykONGSy6Cx4eHt5LeO2i+aBVG3k8yusbCx4eHt4x3ixESFpZ+YhVDs5LeTw8PLzTvPZlMBsvWBkIyBtseHh4eOd4bROrLXnbB3Su4MbDw8Pby8vD3Lb4zkcQ8geRDCIMs2o8PDy8brfFWZpHDO2o1qwcr5tzeHh4eJt47UBAu9E2htj1EPHw8PBO8JJgdKXsziPj/BEUhTseHh7eYd7Ksd5+dz2eKKIHPDw8vE28Z3nNItT747ttfRV3xMPDwzvAWx8sSErkpLxu2evjYnh4eHgrvNOjA+srt+u/dOgKDw/vF/PazlH7SmgD3zaM+CGSwMPDw3srrx04mB3xKxEwHh4e3ufw7ovdE6+WWcGNh4eH9xpe3vRKXg8r41N58FEk0Hh4eHhbeRvmtkaDVknUey7CwMPDwxvxvgAyPJxxzri86QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

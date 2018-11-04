@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Gradle构建spring-boot 1.3.0 项目 基础配置 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="spring-boot,gradle,java,rest_framework">
+    <meta name="description" content="buildscript &amp;#123;    ext &amp;#123;        springBootVersion = &amp;apos;1.3.0.RELEASE&amp;apos;    &amp;#125;    repositories &amp;#123;        jcenter()        maven &amp;#123; url &amp;quot;https://oss.sonatype.org/content/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle构建spring-boot 1.3.0 项目 基础配置">
+<meta property="og:url" content="https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="buildscript &amp;#123;    ext &amp;#123;        springBootVersion = &amp;apos;1.3.0.RELEASE&amp;apos;    &amp;#125;    repositories &amp;#123;        jcenter()        maven &amp;#123; url &amp;quot;https://oss.sonatype.org/content/">
+<meta property="og:updated_time" content="2017-01-03T05:52:08.668Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle构建spring-boot 1.3.0 项目 基础配置">
+<meta name="twitter:description" content="buildscript &amp;#123;    ext &amp;#123;        springBootVersion = &amp;apos;1.3.0.RELEASE&amp;apos;    &amp;#125;    repositories &amp;#123;        jcenter()        maven &amp;#123; url &amp;quot;https://oss.sonatype.org/content/">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Gradle构建spring-boot 1.3.0 项目 基础配置</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Gradle构建spring-boot 1.3.0 项目 基础配置</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-12-06T05:39:09.000Z" itemprop="datePublished" class="page-time">
+  2015-12-06
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Gradle构建springboot基础配置"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Gradle构建spring-boot 1.3.0 项目 基础配置</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015-12-06 13:39:09" datetime="2015-12-06T05:39:09.000Z"  itemprop="datePublished">2015-12-06</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    ext &#123;</div><div class="line">        springBootVersion = &apos;1.3.0.RELEASE&apos;</div><div class="line">    &#125;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">        maven &#123; url &quot;https://oss.sonatype.org/content/repositories/snapshots&quot; &#125;</div><div class="line">//        maven &#123; url &quot;http://maven.oschina.net/content/groups/public/&quot; &#125; 国内源</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath(&quot;org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;&quot;) </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">apply plugin: &apos;java&apos;</div><div class="line">apply plugin: &apos;eclipse&apos;</div><div class="line">apply plugin: &apos;idea&apos;</div><div class="line">apply plugin: &apos;spring-boot&apos; </div><div class="line"></div><div class="line">jar &#123;</div><div class="line">    baseName = &apos;spring.boot&apos;</div><div class="line">    version = &apos;0.0.1-SNAPSHOT&apos;</div><div class="line">&#125;</div><div class="line">sourceCompatibility = 1.8</div><div class="line">targetCompatibility = 1.8</div><div class="line"></div><div class="line">repositories &#123;</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">//    compile(&apos;org.springframework.boot:spring-boot-starter&apos;)</div><div class="line">    compile(&quot;org.springframework.boot:spring-boot-starter-web:$&#123;springBootVersion&#125;&quot;)</div><div class="line">    testCompile(&apos;org.springframework.boot:spring-boot-starter-test&apos;) </div><div class="line">&#125;</div><div class="line"></div><div class="line">eclipse &#123;</div><div class="line">    classpath &#123;</div><div class="line">         containers.remove(&apos;org.eclipse.jdt.launching.JRE_CONTAINER&apos;)</div><div class="line">         containers &apos;org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8&apos;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">task wrapper(type: Wrapper) &#123;</div><div class="line">    gradleVersion = &apos;2.7&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:08.668Z" itemprop="dateUpdated">2017-01-03 13:52:08</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2015/12/06/Gradle构建springboot基础配置/" target="_blank" rel="external">https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle/">gradle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rest-framework/">rest_framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/">spring-boot</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/&title=《Gradle构建spring-boot 1.3.0 项目 基础配置》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/&title=《Gradle构建spring-boot 1.3.0 项目 基础配置》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Gradle构建spring-boot 1.3.0 项目 基础配置》 — Sequarius&url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2015/12/06/spring-boot-1.3.0-初探踩坑日记/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">spring-boot 1.3.0 初探踩坑日记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hexo3.1.1 github pages使用https搭建博客及踩坑录</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/&title=《Gradle构建spring-boot 1.3.0 项目 基础配置》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/&title=《Gradle构建spring-boot 1.3.0 项目 基础配置》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Gradle构建spring-boot 1.3.0 项目 基础配置》 — Sequarius&url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/06/Gradle构建springboot基础配置/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACu0lEQVR42u3awWojMRAE0Pz/T2dhTwvBclVLGmfhzck4nrGeDJJS3V9f8fX99/r5ev3X9V3/vr9+5voJBy48PDy80dBfXa8Gkdy1noJkmtaTFX07Hh4e3jXebECzxb3dZpK7Xr6Ph4eH91HebFnPF/H1dODh4eH977xkw2g3j/Vz8PDw8H4bLwkj8klpY9k8/riYteDh4eF1KeuwAPap1w/V9/Dw8PDKqnqySay3gaScthNMvBktHh4e3gXeLCrNAW1gkePzozweHh7eWd6pQn4yxFlTQvEr/Xw+Hh4e3gVePqz8iNw2H+QBbntMx8PDw7vBm83ErOCUNygkI0kO8Xh4eHg3eDvhwixEyA/xO1HIgewEDw8PbxngJl/fHppnMXH7tDcbDx4eHt41XvTRET6/N5n0uvUKDw8P7xovX75nLVlt41RR0ErKXXh4eHhHee1Bdr8Zq20dyEMNPDw8vGd4+y1WbVF/5+hcxyJ4eHh413jt8r1T4koO66cKY3h4eHjP886GCzvbTD7dxcaAh4eHt8Fr/4vPpyCfsnzoRVENDw8P7wIvb41qwbNiVX5oboNjPDw8vFO8NhpIIoM8mJhtJMX04eHh4V3jtSFCHv7m5f/Z4fvNZ/Dw8PCu8dq4oW01mE3H4aYrPDw8vEO8tgR16ut3mrR2thk8PDy8fd6s8D884G5sBrOWAjw8PLxneLM4YL8wth8fH+spw8PDw4uTh2TBTQ7Hee2pJc0mCA8PD+8s77u8kuh21hywUzB7OQY8PDy8C7x2wc0j2va43DZs4eHh4X2Wtx/jPoPPfx88PDy8Z3h5S1by6HYop8IIPDw8vN/Ga4PdncasZFqjUeHh4eH9Ml4eFuxsQkmk+yaMwMPDw7vAy8OItiQ2a7SafeZA1oKHh4c3r+DX59J77VnJtG5deHh4eCnvDwO+sYZXQ5RfAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

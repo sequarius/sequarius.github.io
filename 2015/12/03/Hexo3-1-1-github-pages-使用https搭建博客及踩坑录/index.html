@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Hexo3.1.1 github pages使用https搭建博客及踩坑录 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="hexo,github,博客,gitpages">
+    <meta name="description" content="概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到GithubPages等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo3.1.1 github pages使用https搭建博客及踩坑录">
+<meta property="og:url" content="https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到GithubPages等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgnew_repository_in_github.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgget_repository_url.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgcheck_for_git.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgcheck_for_node_npm.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgblog_preview.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgpost_created.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgpost_templete.jpg">
+<meta property="og:image" content="http://emptypointer.qiniudn.com/imgpost_helloworld.jpg">
+<meta property="og:updated_time" content="2017-01-03T05:52:19.623Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo3.1.1 github pages使用https搭建博客及踩坑录">
+<meta name="twitter:description" content="概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到GithubPages等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老">
+<meta name="twitter:image" content="http://emptypointer.qiniudn.com/imgnew_repository_in_github.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Hexo3.1.1 github pages使用https搭建博客及踩坑录</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Hexo3.1.1 github pages使用https搭建博客及踩坑录</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-12-03T09:18:46.000Z" itemprop="datePublished" class="page-time">
+  2015-12-03
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#安装过程"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-github"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.github</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-本地"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.本地</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#写文章"><span class="post-toc-number">3.</span> <span class="post-toc-text">写文章</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#PUSH内容到github"><span class="post-toc-number">4.</span> <span class="post-toc-text">PUSH内容到github</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#关于Markdown-wiki"><span class="post-toc-number">5.</span> <span class="post-toc-text">关于Markdown[wiki]</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Hexo3-1-1-github-pages-使用https搭建博客及踩坑录"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Hexo3.1.1 github pages使用https搭建博客及踩坑录</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015-12-03 17:18:46" datetime="2015-12-03T09:18:46.000Z"  itemprop="datePublished">2015-12-03</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><a href="https://hexo.io/zh-cn/" target="_blank" rel="external">Hexo</a>是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到<a href="https://pages.github.com/" target="_blank" rel="external">GithubPages</a>等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老或者过为冗余，本文秉承快速入门的初衷，记录了下我在安装部署hexo的经过以及踩过的那些坑。</p>
+<p><strong>note：很多童鞋因为SSHkey的关系弄了很久没有成功便放弃了，本文介绍的方法是脱离SSHkey利用https的方式的部署，如需ssh部署的请自行参阅<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">官方文档</a></strong><br><strong>Reference</strong>:[<a href="https://github.com/hexojs/hexo" target="_blank" rel="external">项目地址</a>] [<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">官方文档</a>]<br><a id="more"></a></p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><h2 id="1-github"><a href="#1-github" class="headerlink" title="1.github"></a>1.github</h2><p>①登录<a href="http://www.github.com" target="_blank" rel="external">github</a>帐号，新建一个版本仓库。仓库名字为USER_NAME.github.com 这个仓库名称既为你的pages访问链接-&gt;<em>PAGES_URL</em>。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgnew_repository_in_github.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>②我选择了https的方式进行项目部署，每次部署需要输入github帐号密码进行认证，当然你也可以选择ssh的方式,已经有很多人写过了类似的教程，如若需要请自行查阅，我就不再赘述了。<br>进入主页，copy到Http的Clone地址<em>CLONE_URL</em>（即后缀为.git的地址）<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgget_repository_url.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>准备完成。</p>
+<h2 id="2-本地"><a href="#2-本地" class="headerlink" title="2.本地"></a>2.本地</h2><p>1)git<br>根据系统版本到<a href="https://git-scm.com/downloads" target="_blank" rel="external">git下载页</a>下载并安装.</p>
+<p>2)nodejs<br>根据系统版本到<a href="https://nodejs.org/en/download/" target="_blank" rel="external">nodejs下载页</a>下载并安装.</p>
+<p>3)配置环境变量，将git nodejs npm配入环境变量。配置成功后确认能执行git node npm指令<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgcheck_for_git.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgcheck_for_node_npm.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>3)hexo 包<br>①安装hexo<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; npm install -g hexo</div></pre></td></tr></table></figure></p>
+<p>②初始化hexo路径<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; hexo init *DIR_NAME* //FLOD_NAME为你创建给hexo的目录名字</div><div class="line">&gt; cd DIR_NAME;</div></pre></td></tr></table></figure></p>
+<p>③早期的hexo包是全家桶，我找了很多之前的教学攻略都是只安装了一个hexo导致组件不全无法预览、部署，查阅了官方的文档发现了解决方案<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; npm install hexo-renderer-ejs --save //ejs</div><div class="line">&gt; npm install hexo-renderer-stylus --save</div><div class="line">&gt; npm install hexo-renderer-stylus --save</div><div class="line">&gt; npm install hexo-server //服务器模块</div><div class="line">&gt; npm install</div></pre></td></tr></table></figure></p>
+<p>consle得到如下输出即为成功<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; npm install</div><div class="line">npm WARN optional dep failed, continuing fsevents@0.3.8</div><div class="line">npm WARN optional dep failed, continuing fsevents@1.0.5</div><div class="line">|</div><div class="line"></div><div class="line"></div><div class="line">&gt; dtrace-provider@0.6.0 install *HEXO_HOME*\node_modules\hexo\node_modules\buny</div><div class="line">an\node_modules\dtrace-provider</div><div class="line">&gt; node scripts/install.js</div><div class="line"></div><div class="line">hexo-generator-category@0.1.3 node_modules\hexo-generator-category</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-generator-index@0.1.3 node_modules\hexo-generator-index</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-generator-tag@0.1.2 node_modules\hexo-generator-tag</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-generator-archive@0.1.3 node_modules\hexo-generator-archive</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-server@0.1.2 node_modules\hexo-server</div><div class="line">├── object-assign@2.1.1</div><div class="line">├── open@0.0.5</div><div class="line">├── mime@1.3.4</div><div class="line">├── bluebird@2.10.2</div><div class="line">├── chalk@0.5.1 (ansi-styles@1.1.0, escape-string-regexp@1.0.3, supports-colo</div><div class="line">r@0.2.0, strip-ansi@0.3.0, has-ansi@0.1.0)</div><div class="line">├── morgan@1.6.1 (on-headers@1.0.1, basic-auth@1.0.3, depd@1.0.1, on-finished</div><div class="line">@2.3.0, debug@2.2.0)</div><div class="line">├── serve-static@1.10.0 (escape-html@1.0.2, parseurl@1.3.0, send@0.13.0)</div><div class="line">├── connect@3.4.0 (parseurl@1.3.0, utils-merge@1.0.0, debug@2.2.0, finalhandl</div><div class="line">er@0.4.0)</div><div class="line">└── compression@1.6.0 (bytes@2.1.0, vary@1.1.0, on-headers@1.0.1, compressibl</div><div class="line">e@2.0.6, debug@2.2.0, accepts@1.3.0)</div><div class="line"></div><div class="line">hexo-renderer-stylus@0.3.0 node_modules\hexo-renderer-stylus</div><div class="line">├── stylus@0.52.4 (css-parse@1.7.0, debug@2.2.0, mkdirp@0.5.1, source-map@0.1</div><div class="line">.43, glob@3.2.11, sax@0.5.8)</div><div class="line">└── nib@1.1.0 (stylus@0.49.3)</div><div class="line"></div><div class="line">hexo-renderer-marked@0.2.5 node_modules\hexo-renderer-marked</div><div class="line">├── object-assign@2.1.1</div><div class="line">├── marked@0.3.5</div><div class="line">├── strip-indent@1.0.1 (get-stdin@4.0.1)</div><div class="line">└── hexo-util@0.1.7 (ent@2.2.0, bluebird@2.10.2, highlight.js@8.9.1)</div><div class="line"></div><div class="line">hexo@3.1.1 node_modules\hexo</div><div class="line">├── hexo-front-matter@0.2.2</div><div class="line">├── pretty-hrtime@1.0.1</div><div class="line">├── abbrev@1.0.7</div><div class="line">├── archy@1.0.0</div><div class="line">├── titlecase@1.0.2</div><div class="line">├── text-table@0.2.0</div><div class="line">├── strip-indent@1.0.1 (get-stdin@4.0.1)</div><div class="line">├── tildify@1.1.2 (os-homedir@1.0.1)</div><div class="line">├── chalk@1.1.1 (escape-string-regexp@1.0.3, supports-color@2.0.0, ansi-style</div><div class="line">s@2.1.0, strip-ansi@3.0.0, has-ansi@2.0.0)</div><div class="line">├── hexo-i18n@0.2.1 (sprintf-js@1.0.3)</div><div class="line">├── minimatch@2.0.10 (brace-expansion@1.1.2)</div><div class="line">├── through2@1.1.1 (xtend@4.0.1, readable-stream@1.1.13)</div><div class="line">├── bluebird@2.10.2</div><div class="line">├── swig-extras@0.0.1 (markdown@0.5.0)</div><div class="line">├── moment-timezone@0.3.1</div><div class="line">├── js-yaml@3.4.6 (inherit@2.2.2, esprima@2.7.0, argparse@1.0.3)</div><div class="line">├── warehouse@1.0.3 (graceful-fs@4.1.2, cuid@1.2.5, JSONStream@1.0.7)</div><div class="line">├── nunjucks@1.3.4 (chokidar@0.12.6, optimist@0.6.1)</div><div class="line">├── cheerio@0.19.0 (entities@1.1.1, dom-serializer@0.1.0, css-select@1.0.0, h</div><div class="line">tmlparser2@3.8.3)</div><div class="line">├── moment@2.10.6</div><div class="line">├── hexo-cli@0.1.9 (minimist@1.2.0, bluebird@3.0.6)</div><div class="line">├── lodash@3.10.1</div><div class="line">├── swig@1.4.2 (optimist@0.6.1, uglify-js@2.4.24)</div><div class="line">├── hexo-util@0.1.7 (ent@2.2.0, highlight.js@8.9.1)</div><div class="line">├── bunyan@1.5.1 (safe-json-stringify@1.0.3, dtrace-provider@0.6.0, mv@2.1.1)</div><div class="line"></div><div class="line">└── hexo-fs@0.1.5 (escape-string-regexp@1.0.3, graceful-fs@4.1.2, bluebird@3.</div><div class="line">0.6, chokidar@1.3.0)</div></pre></td></tr></table></figure></p>
+<p>④生成页面<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; hexo generate //生成静态网页 hexo g也可以</div><div class="line">&gt; hexo server //启动预览服务器 hexo s也可以</div></pre></td></tr></table></figure></p>
+<p><strong>note：</strong> hexo 启动的时候如果修改了markdown文件会自动生成，也就是说静态页面在启动服务器之后保存修改的文件内容会自动生成，不需要重复④步骤，直接刷新在浏览器中刷新即可查看效果，如果效果不对很有可能是markdown语法错误，这时候查看下console的输出信息。</p>
+<p>⑤ 访问<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 你就发现新的大陆了。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgblog_preview.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h1 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h1><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;hexo new &quot;*POST_NAME*&quot; //新建文章</div><div class="line">//hexo new page &quot;*PAGE_NAME*&quot; 新建页面</div></pre></td></tr></table></figure>
+<p>执行之后则会在/<em>HEXO_HOME</em>/source/_posts/POST_NAME.md生成一个markdown文件。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgpost_created.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>打开后已经具有了一个基础模版，在这里加入一个hello wold。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgpost_templete.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>启动服务器，新建的post便出现了<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://emptypointer.qiniudn.com/imgpost_helloworld.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h1 id="PUSH内容到github"><a href="#PUSH内容到github" class="headerlink" title="PUSH内容到github"></a>PUSH内容到github</h1><p>①打开/<em>HEXO_HOME</em>/_config.yml<br>在中间找到 deploy内容修改并保存</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: *CLONE_URL* //gitclone地址</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<p>②部署<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; hexo deploy</div></pre></td></tr></table></figure></p>
+<p>输入自己的github帐号密码等待push成功即可</p>
+<p>使用浏览器中访问<a href="http://USER_NAME.github.io/" target="_blank" rel="external">http://USER_NAME.github.io/</a> (既<em>PAGES_URL</em>) 整个部署过程就完成了，是不是简单到没朋友？ </p>
+<h1 id="关于Markdown-wiki"><a href="#关于Markdown-wiki" class="headerlink" title="关于Markdown[wiki]"></a>关于Markdown[<a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">wiki</a>]</h1><p>Markdown 是一种轻量级标记语言，语法也十分简单易学。</p>
+<p>关于Markdown的语法学习推荐一个我无意中发现的网站<a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Cmd Markdown</a>,左边代码右边效果同步预览上手很快！<br>坑就填到这里，enjoy！</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:19.623Z" itemprop="dateUpdated">2017-01-03 13:52:19</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" target="_blank" rel="external">https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitpages/">gitpages</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/&title=《Hexo3.1.1 github pages使用https搭建博客及踩坑录》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/&title=《Hexo3.1.1 github pages使用https搭建博客及踩坑录》 — Sequarius&source=概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hexo3.1.1 github pages使用https搭建博客及踩坑录》 — Sequarius&url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2015/12/06/Gradle构建springboot基础配置/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Gradle构建spring-boot 1.3.0 项目 基础配置</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/&title=《Hexo3.1.1 github pages使用https搭建博客及踩坑录》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/&title=《Hexo3.1.1 github pages使用https搭建博客及踩坑录》 — Sequarius&source=概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hexo3.1.1 github pages使用https搭建博客及踩坑录》 — Sequarius&url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADKklEQVR42u3a0U7jQAwFUP7/p7sS2rcq4dpOpcQ9eaoCJHMGCWPf+fmJr9fvdXTn/fP7979/9eg7X/F1tLbLLmxsbOyHsPNHn2PONyVZ6Pl7z7cpt2BjY2NvZZ9jzhddXVC+3HxTcgs2Njb2N7PzpRxhqj+VNBvY2NjY2D12r7zlg6Fq+4GNjY2NnS+rB5u8K9+Uj8zSsLGxsW/Prga9d/78wXwbGxsb+5bsV+uaH+ipfq4Wqj/Wj42Njb2Inb+muqA8Bk5I+YGeQsCAjY2NvYid/MeeHMHsxQa9dqi3cmxsbOzd7BwzX2jyrl5IUFZgY2NjL2InzUYe4s4Zyf15EcXGxsbewa6WmclRniRUyDeumt6Oqis2Njb27dnVqDVfev7kPJaoxr3lyRM2Njb2A9k5shoDT6KF3uGhKIrAxsbGXsGuLj0h9eLbq3hRKcXGxsZex+6d68kbhrwEzmPdaBOxsbGxF7GrQWkeD1w7qMpDglFBxcbGxn4gu/onvjck6h33mTQhze4HGxsb++Hs6mhmMqDvjavygPmPJ2BjY2MvYn/iqE3y+qvKZG/4hY2Njb2PnYyQckweOUyOBOV3Du9jY2Njr2BXB/G9O73PeZuRbyU2Njb2PnavCOUFL494E1geCZQnatjY2NgPZycP7S20d6wnb3h6R46wsbGxN7GrkW21gOULrQ79R6EyNjY29jp2dTRf3Yj8fu/XkK///31sbGzspey8kci3oAeebFy5gGFjY2OvYFdfk7cE1fhhcoSoMPDCxsbGXsquLjo/WJOP/pNCWA0YomQbGxsb+7HseeibP7TXwFTLXu+IDzY2NvZz2b1RzvwwzXxbq19t1m1sbGzs27N77UTy6PmYKdmayagLGxsbewf7VbzyklYtgdXWKA8DsLGxsXeze2OmTzcJk+HRaJaGjY2N/Vh29RBM78hO9QhOr+VIyic2Njb2VnZetPJooVca51F0tCnY2NjYX8zO24Nq2auWoklLg42Njf2d7KvmVXmQXG1akl8JNjY29lZ2/tBeGDzZ1iQSqJZYbGxs7E3syRCnuk05u7qVF4OxsbGxn8H+BzNEtamfpwb5AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

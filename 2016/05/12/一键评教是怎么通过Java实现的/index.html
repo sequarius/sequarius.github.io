@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>一键评教是怎么通过OkHttp实现的 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="OkHttp,OkHttp模拟登陆">
+    <meta name="description" content="最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选项，还要写评论，每学期课程大概有10门，最奇葩的是，如果没有完成评教请求其他的服务还会被自动拦截到评教页面，这也意味着完成这项工作耗费时间，至于对教学有没有实际作用就只有仁者见仁了。所以，在最新一版加入了自动评教功能。这篇主要说下通过OkHttp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一键评教是怎么通过OkHttp实现的">
+<meta property="og:url" content="https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选项，还要写评论，每学期课程大概有10门，最奇葩的是，如果没有完成评教请求其他的服务还会被自动拦截到评教页面，这也意味着完成这项工作耗费时间，至于对教学有没有实际作用就只有仁者见仁了。所以，在最新一版加入了自动评教功能。这篇主要说下通过OkHttp">
+<meta property="og:updated_time" content="2017-01-03T05:52:18.797Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一键评教是怎么通过OkHttp实现的">
+<meta name="twitter:description" content="最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选项，还要写评论，每学期课程大概有10门，最奇葩的是，如果没有完成评教请求其他的服务还会被自动拦截到评教页面，这也意味着完成这项工作耗费时间，至于对教学有没有实际作用就只有仁者见仁了。所以，在最新一版加入了自动评教功能。这篇主要说下通过OkHttp">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">一键评教是怎么通过OkHttp实现的</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">一键评教是怎么通过OkHttp实现的</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-05-12T14:30:12.000Z" itemprop="datePublished" class="page-time">
+  2016-05-12
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#如何保存保存Session？"><span class="post-toc-number">1.</span> <span class="post-toc-text">如何保存保存Session？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构建请求"><span class="post-toc-number">2.</span> <span class="post-toc-text">构建请求</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解析页面"><span class="post-toc-number">3.</span> <span class="post-toc-text">解析页面</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-一键评教是怎么通过Java实现的"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">一键评教是怎么通过OkHttp实现的</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-05-12 22:30:12" datetime="2016-05-12T14:30:12.000Z"  itemprop="datePublished">2016-05-12</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选项，还要写评论，每学期课程大概有10门，最奇葩的是，如果没有完成评教请求其他的服务还会被自动拦截到评教页面，这也意味着完成这项工作耗费时间，至于对教学有没有实际作用就只有仁者见仁了。<br>所以，在最新一版加入了自动评教功能。这篇主要说下通过OkHttp爬虫的一些细节。</p>
+<h2 id="如何保存保存Session？"><a href="#如何保存保存Session？" class="headerlink" title="如何保存保存Session？"></a>如何保存保存Session？</h2><p>对于如何保存页面状态获取需要Session认证的方法，可以使用OkHttp的拦截器，当然，OKHttp提供了一个 CookieJar 的接口可以方便完成这个任务，这里示例是一个没有做持久化存储Cookie的示例。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public class EPCookieJar implements CookieJar &#123;</div><div class="line"></div><div class="line">    private final HashMap&lt;String, List&lt;Cookie&gt;&gt; cookieStore = new HashMap&lt;&gt;();</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void saveFromResponse(HttpUrl httpUrl, List&lt;Cookie&gt; list) &#123;</div><div class="line">        cookieStore.put(httpUrl.host(), list);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public List&lt;Cookie&gt; loadForRequest(HttpUrl httpUrl) &#123;</div><div class="line">        List&lt;Cookie&gt; cookies = cookieStore.get(httpUrl.host());</div><div class="line">        return cookies != null ? cookies : new ArrayList&lt;Cookie&gt;();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="构建请求"><a href="#构建请求" class="headerlink" title="构建请求"></a>构建请求</h2><p>在构建请求Builder的时候设置实现的CookieJar<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public OKHttpJar login(String username, String password) &#123;</div><div class="line">        OKHttpJar OKHttpJar = new OKHttpJar();</div><div class="line">        OkHttpClient client = new OkHttpClient.Builder().cookieJar(new EPCookieJar()).build();</div><div class="line">        OKHttpJar.setClient(client);</div><div class="line">        String sign = String.valueOf(System.currentTimeMillis());</div><div class="line">        FormBody formBody = new FormBody.Builder().add(&quot;Action&quot;, &quot;Login&quot;)</div><div class="line">                .add(&quot;userName&quot;, username)</div><div class="line">                .add(&quot;pwd&quot;, CommonUtils.getMD5String((username + sign + CommonUtils.getMD5String(password.trim()))))</div><div class="line">                .add(&quot;sign&quot;, sign).build();</div><div class="line">        Request request = new Request.Builder().url(Constant.AAO_HOST + &quot;/Common/Handler/UserLogin.ashx&quot;).post(formBody).build();</div><div class="line">        JSONObject object = new JSONObject();</div><div class="line">        OKHttpJar.setJsonObject(object);</div><div class="line">        try &#123;</div><div class="line">            Response response = client.newCall(request).execute();</div><div class="line">            Integer resultCode = Integer.valueOf(response.body().string());</div><div class="line">            OKHttpJar.setResultCode(resultCode);</div><div class="line"></div><div class="line">            switch (resultCode) &#123;</div><div class="line">                case 0:</div><div class="line">                    break;</div><div class="line">                case 2:</div><div class="line">                    object.put(&quot;result&quot;, false);</div><div class="line">                    object.put(&quot;message&quot;, &quot;账号已被封停！&quot;);</div><div class="line">                    break;</div><div class="line">                case 4:</div><div class="line">                    object.put(&quot;result&quot;, false);</div><div class="line">                    object.put(&quot;message&quot;, &quot;账号或者密码错误！&quot;);</div><div class="line">                    break;</div><div class="line">                default:</div><div class="line">                    break;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            OKHttpJar.setResultCode(-1);</div><div class="line">            object.put(&quot;result&quot;, false);</div><div class="line">            object.put(&quot;message&quot;, &quot;server error！&quot;);</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        return OKHttpJar;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="解析页面"><a href="#解析页面" class="headerlink" title="解析页面"></a>解析页面</h2><p>使用Jsoup构造Document对象，然后就可以像JavaScript操作DOM内容了。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"> public List&lt;ClassInfo&gt; getEvaluationList(OKHttpJar OKHttpJar) &#123;</div><div class="line">        Request request = new Request.Builder().url(Constant.AAO_HOST + &quot;/TeachingEvaluation/List.aspx&quot;).get().build();</div><div class="line">        List&lt;ClassInfo&gt; classInfos = new ArrayList&lt;&gt;();</div><div class="line">        try &#123;</div><div class="line">            OkHttpClient client = OKHttpJar.getClient();</div><div class="line">            Response response = client.newCall(request).execute();</div><div class="line">            String string = response.body().string();</div><div class="line"></div><div class="line"></div><div class="line">//            System.out.println(string);</div><div class="line">            Document parse = Jsoup.parse(string);</div><div class="line">            Elements links = parse.getElementsByTag(&quot;a&quot;);</div><div class="line">            for (Element link : links) &#123;</div><div class="line">                String linkHref = link.attr(&quot;href&quot;);</div><div class="line">                if (linkHref.contains(&quot;Eval.aspx?id=&quot;)) &#123;</div><div class="line">                    classInfos.add(new ClassInfo(linkHref.replace(&quot;Eval.aspx?id=&quot;, &quot;&quot;)));</div><div class="line">                &#125;</div><div class="line">//                String linkText = link.text();</div><div class="line">            &#125;</div><div class="line">            Elements TeacherElements = parse.getElementsByAttributeValueContaining(&quot;style&quot;, &quot;width:200px;&quot;);</div><div class="line">            for (int i = 0; i &lt; TeacherElements.size(); i++) &#123;</div><div class="line">                classInfos.get(i).setTeacher(TeacherElements.get(i).text());</div><div class="line">            &#125;</div><div class="line">            Elements ClassNameElements = parse.getElementsByAttributeValueContaining(&quot;style&quot;, &quot;width: 300px;&quot;);</div><div class="line">            for (int i = 0; i &lt; ClassNameElements.size(); i++) &#123;</div><div class="line">                classInfos.get(i).setClassName(ClassNameElements.get(i).text());</div><div class="line">            &#125;</div><div class="line">            Elements statusElements = parse.getElementsByClass(&quot;btn_conn1&quot;);</div><div class="line">            for (int i = 0; i &lt; statusElements.size(); i++) &#123;</div><div class="line">                if (statusElements.get(i).text().equals(&quot;查看&quot;)) &#123;</div><div class="line">                    classInfos.get(i).setEvaluated(true);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            for (int i = 0; i &lt; classInfos.size(); i++) &#123;</div><div class="line">                classInfos.get(i).setClassId(getClassID(client, classInfos.get(i)));</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            OKHttpJar.setResultCode(-1);</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        return classInfos;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public String getClassID(OkHttpClient client, ClassInfo info) &#123;</div><div class="line">    Request request = new Request.Builder().url(Constant.AAO_HOST + &quot;/TeachingEvaluation/Eval.aspx?id=&quot; + info.getId()).get().build();</div><div class="line">    String reslut = null;</div><div class="line">    try &#123;</div><div class="line">        Response response = client.newCall(request).execute();</div><div class="line">        Document parse = Jsoup.parse(response.body().string());</div><div class="line">        Elements elements = parse.getElementsByAttributeValue(&quot;name&quot;, &quot;teachclassid&quot;);</div><div class="line">        for (Element element : elements) &#123;</div><div class="line">            reslut = element.attr(&quot;value&quot;);</div><div class="line">        &#125;</div><div class="line">        __VIEWSTATEGENERATOR = parse.getElementById(&quot;__VIEWSTATEGENERATOR&quot;).attr(&quot;value&quot;);</div><div class="line">        __VIEWSTATE = parse.getElementById(&quot;__VIEWSTATE&quot;).attr(&quot;value&quot;);</div><div class="line"></div><div class="line">    &#125; catch (IOException e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return reslut;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到这里就已经拿到了所有完成请求的参数信息了，剩下的就不用说了吧。这个小玩具已经被归进了<a href="https://github.com/sequarius/SequariusToys/tree/master/AAOClient" target="_blank" rel="external">SequariusToys_AAOClient</a>项目中。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:18.797Z" itemprop="dateUpdated">2017-01-03 13:52:18</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2016/05/12/一键评教是怎么通过Java实现的/" target="_blank" rel="external">https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp模拟登陆/">OkHttp模拟登陆</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/&title=《一键评教是怎么通过OkHttp实现的》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/&title=《一键评教是怎么通过OkHttp实现的》 — Sequarius&source=最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《一键评教是怎么通过OkHttp实现的》 — Sequarius&url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/05/26/RxJava初探-一些细节/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">RxJava初探，一些细节</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/05/05/Redis学习笔记-集合篇/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Redis命令学习笔记-集合篇</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/&title=《一键评教是怎么通过OkHttp实现的》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/&title=《一键评教是怎么通过OkHttp实现的》 — Sequarius&source=最近很多人问一键评教的一些细节，所以写一点在Java做爬虫程序的一些技术点。首先，什么是评教？教务系统神来之笔了一个评教系统，每门课程有大约6、7个评论选..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《一键评教是怎么通过OkHttp实现的》 — Sequarius&url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2016/05/12/一键评教是怎么通过Java实现的/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsUlEQVR42u3awWrcQBAE0P3/n07Ap0Ci3apujeXA08nEQpo3Bk2nul+v+Pr1df3589/X1Z3tk5M7b77w8PDwRktPFn3122Qp7UZcvT1fMx4eHt5pXn4Y5Ituj5l2PdHhgYeHh/cory18k2MmP07w8PDw/l9eewDkyPfFOh4eHt5P483C2fdBQBttJJHEwawFDw8PL+bNGmDP/ny8v4eHh4c36qrPmmGzAnpToF+uBw8PD+8AbxOVbgak8ihhhn/tk2A8PDy8izvbD3obubYbkcQZRZiLh4eHd5h318jUbOmb0vnD/xjw8PDwvpE3a1PtA+L9KAMeHh7e9/D2S9yU0TmyeCMeHh7eAV4SHOzHqt7/S7vd9Trx8PDwDvCS189aVhtke1QUZxceHh7eAV47GtUW0/loVxtSXP4x8PDw8G7itSFCfhjMYoX2XR+ehoeHh3eAlwS4m3GrvKn2voif3Y+Hh4d3grcPbTcBbj64MCvu8fDw8E7z2se1wcRs42ZNLzw8PLyneG0S3G7BrIVWlPt4eHh4B3jtRzkJBdoIOI9oh9uBh4eHdyuvaCONIok8nJ3FuB/weHh4eAd4+SBUHrnmzf68sN4cNnh4eHj38vKyuC21Z3fOnnzpwsPDwzvA2zTs24B1XzQP23V4eHh4t/JmsWwObscOZs/Hw8PDe4rXBg23ZSGjAyPaMjw8PLwDvLuaXm0kUQ9OlUMJxV8SDw8Pr+RtFnrXB70NMvKYGA8PD+8Eb/bZbYvyfFQr35r9QYKHh4e34c3a//tdbCPg/NP/j/4eHh4e3gHeLFqdFcftu16bCw8PD+9R3mxcoC2dk0GBYtPx8PDwfgAvOQbu6s5tIl08PDy807w2jGiDgzwIzjcxmozAw8PDO8Dbf7jbh+YDB21JfUNggYeHh/fut78BKbFpziPJxqEAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

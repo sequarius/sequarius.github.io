@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="android,屏幕适配,AutoLayout">
+    <meta name="description" content="关于屏幕适配&amp;emsp;&amp;emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配">
+<meta property="og:url" content="https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="关于屏幕适配&amp;emsp;&amp;emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如">
+<meta property="og:image" content="https://www.sequarius.com/image/different_values.jpg">
+<meta property="og:updated_time" content="2017-01-03T05:52:17.451Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配">
+<meta name="twitter:description" content="关于屏幕适配&amp;emsp;&amp;emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如">
+<meta name="twitter:image" content="https://www.sequarius.com/image/different_values.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-12-21T10:19:47.000Z" itemprop="datePublished" class="page-time">
+  2015-12-21
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#关于屏幕适配"><span class="post-toc-number">1.</span> <span class="post-toc-text">关于屏幕适配</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#原理"><span class="post-toc-number">2.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-加入依赖"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1.加入依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-在manifest里面加入稿纸尺寸，即参考屏幕的宽高像素"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2.在manifest里面加入稿纸尺寸，即参考屏幕的宽高像素</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-把需要自适应宽高的Activity继承于AutoLayoutActivity-或者覆写自定义的Activity中onCreateView-String-name-Context-context-AttributeSet-attrs-方法"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3.把需要自适应宽高的Activity继承于AutoLayoutActivity.或者覆写自定义的Activity中onCreateView(String name, Context context, AttributeSet attrs)方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#扩展的方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">扩展的方法</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#后记"><span class="post-toc-number">5.</span> <span class="post-toc-text">后记</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015-12-21 18:19:47" datetime="2015-12-21T10:19:47.000Z"  itemprop="datePublished">2015-12-21</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="关于屏幕适配"><a href="#关于屏幕适配" class="headerlink" title="关于屏幕适配"></a>关于屏幕适配</h1><p>&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。<br>例如：<br><a id="more"></a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/different_values.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>&emsp;&emsp;采用比例兑换的对应分辨率下的sp，产生了大量了values文件，据说优酷客户端就是这样干的。</p>
+<p>&emsp;&emsp;android借鉴了CSS的精髓，提供了一个百分比布局support库<code>[com.android.support:percent]</code>，但依赖于替换原有的布局标签，同样，你如果想让一个view支持百分比，就必须在外面嵌套一个百分比布局。<br>&emsp;&emsp;android设备可谓百花齐放，然而并不是所有的设备都和Google Api设备一样，所以适配成了日常开发过程中必须要踩的坑。所谓适配，适配大致分为ROM适配，设备适配、屏幕适配。这里来记录下最近比较火的国产<a href="https://github.com/hongyangAndroid/AndroidAutoLayout" target="_blank" rel="external">AndroidAutoLayout</a>适配方案。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;其实整个实现的代码也比较简单，总的说来就是算的过程。花了大概半个小时看完。<br>主包也只有三个，分别是：attr存放布局属性，config存放配置实现了初始化读取<code>manifest</code>、屏幕参数，utils定义了<code>AutoLayoutHelper</code>辅助布局进行参数重绘，算是这个项目的核心所在、<code>AutoUtils</code>实现了属性参数换算、<code>ScreenUtils</code>测量屏幕分辨率。<br>整理实现思路大致如下：<br>&emsp;&emsp;通过<code>AutoLayoutActivity</code>的<code>onCreateView</code>方法获得根布局属性，替换为<code>Auto***Layout</code>，layout在<code>onMesure</code>时候调用AutoLayoutHelper的<code>adjustChildren()</code>方法重新调整布局属性,遍历子控件，运算重写布局间距参数。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="1-加入依赖"><a href="#1-加入依赖" class="headerlink" title="1.加入依赖"></a>1.加入依赖</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile &apos;com.zhy:autolayout:1.3.4&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-在manifest里面加入稿纸尺寸，即参考屏幕的宽高像素"><a href="#2-在manifest里面加入稿纸尺寸，即参考屏幕的宽高像素" class="headerlink" title="2.在manifest里面加入稿纸尺寸，即参考屏幕的宽高像素"></a>2.在manifest里面加入稿纸尺寸，即参考屏幕的宽高像素</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;meta-data android:name=&quot;design_width&quot; android:value=&quot;720&quot;&gt;</div><div class="line">&lt;/meta-data&gt;</div><div class="line">&lt;meta-data android:name=&quot;design_height&quot; android:value=&quot;1280&quot;&gt;</div><div class="line">&lt;/meta-data&gt;</div></pre></td></tr></table></figure>
+<h2 id="3-把需要自适应宽高的Activity继承于AutoLayoutActivity-或者覆写自定义的Activity中onCreateView-String-name-Context-context-AttributeSet-attrs-方法"><a href="#3-把需要自适应宽高的Activity继承于AutoLayoutActivity-或者覆写自定义的Activity中onCreateView-String-name-Context-context-AttributeSet-attrs-方法" class="headerlink" title="3.把需要自适应宽高的Activity继承于AutoLayoutActivity.或者覆写自定义的Activity中onCreateView(String name, Context context, AttributeSet attrs)方法"></a>3.把需要自适应宽高的<code>Activity</code>继承于<code>AutoLayoutActivity</code>.或者覆写自定义的<code>Activity</code>中<code>onCreateView(String name, Context context, AttributeSet attrs)</code>方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(String name, Context context, AttributeSet attrs)</span></span></div><div class="line">&#123;</div><div class="line">    View view = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (name.equals(LAYOUT_FRAMELAYOUT))</div><div class="line">    &#123;</div><div class="line">        view = <span class="keyword">new</span> AutoFrameLayout(context, attrs);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (name.equals(LAYOUT_LINEARLAYOUT))</div><div class="line">    &#123;</div><div class="line">        view = <span class="keyword">new</span> AutoLinearLayout(context, attrs);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (name.equals(LAYOUT_RELATIVELAYOUT))</div><div class="line">    &#123;</div><div class="line">        view = <span class="keyword">new</span> AutoRelativeLayout(context, attrs);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (view != <span class="keyword">null</span>) <span class="keyword">return</span> view;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onCreateView(name, context, attrs);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="扩展的方法"><a href="#扩展的方法" class="headerlink" title="扩展的方法"></a>扩展的方法</h1><p>&emsp;&emsp;对于一些继承自基础布局的的布局控件，可以复写<code>generateLayoutParams(AttributeSet attrs)</code>、<code>onMeasure(int widthMeasureSpec, int heightMeasureSpec)</code>方法让其支持布局自动调整<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">public</span> AutoFrameLayout.<span class="function">LayoutParams <span class="title">generateLayoutParams</span><span class="params">(AttributeSet attrs)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> AutoFrameLayout.LayoutParams(getContext(), attrs);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (!isInEditMode())</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">new</span> AutoLayoutHelper(<span class="keyword">this</span>).adjustChildren();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>1.<code>ListView</code>类因为外层布局是<code>ListView</code>所以要在获得view的时候调用<code>AutoUtils.autoSize(View view)</code>方法达到自适应的效果。</p>
+<p>2.看issue据说<code>Bitmap</code>有OMM情况，这个我没验证。</p>
+<p>3.作者提供了<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">app:layout_auto_basewidth="height"，代表height上编写的像素值参考宽度。</div><div class="line">app:layout_auto_baseheight="width"，代表width上编写的像素值参考高度。</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;这两个方法实现了布局“高度与宽度相等”、“宽度与高度相等”在解决一些图片空间确实有一定作用。<br>4.关于性能<br>&emsp;&emsp;理论上，整个适配过程只是一个修改宽高参数的过程，并未对控件进行重绘，理论上损失的只是计算参数时的性能。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2017-01-03T05:52:17.451Z" itemprop="dateUpdated">2017-01-03 13:52:17</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" target="_blank" rel="external">https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AutoLayout/">AutoLayout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/屏幕适配/">屏幕适配</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&source=关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SpringReloaded Spring应用的热交换技术踩坑路</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/12/16/android基于重力感应的记步算法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">android基于重力感应的计步算法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&source=关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD+UlEQVR42u3aSW7cQBAEwPn/p2XA8EGGNWRmVROeQ/AkjLl0Bw0Ua3m94uPr9/H97++/JFe1v18/8d87JOccO3DgwIEDR7Dod0f++M3vCdb1tvNf3u0RBw4cOHCc5WjDXrKldkHX57fnJEEXBw4cOHD8X47rM6MwNtrG5lMABw4cOHB8MsemONhetQnzOHDgwIHjEziSMNYmS0nwS+6ZXNuu/0CtFAcOHDhwpJHu1Qbdz//78fkOHDhw4MBRhqtN0yh/epJuzUJptAscOHDgwHFmF0XZrg3Ds4A3a1zlL+ZmPThw4MCBY8FxNqC2bZ5ZU2r2kqKyIw4cOHDgWHPMxgjyobS8dRSNGhxtdBXRHgcOHDhwxBzXoSgfX2hHEzZtrTZ85qkgDhw4cOA4y3F9cRvY8iA6KwXu4X64FgcOHDhwPMyRFwpvRgRK7k0ZcfV0HDhw4MCx5pgNJcxCWp56JcE4eTF5wXE1o4EDBw4cOIIWzmwbp4YbNmXHWUqJAwcOHDjOciThMwlp+wJfPdBWwt28JBw4cODAseZoQ2++uBYxWWI7GHFg5AIHDhw4cIw4NkMMT5QUZy9mFlDffn3gwIEDB44HOPICYh4y8wGIU0lmnkziwIEDB449R9SMKUcNXkePtg222QsOHDhw4DjFMQuo+bjDqfvM2lQJ059/xYEDBw4chzhmo2x5QXBWfMyf2JYmh98dOHDgwIEj5tgHyHwALgmEX/ExSy9vpjlw4MCBA8ea40BZ7VAqNUv52vW/xcWBAwcOHIc4koSqLeftR+tuguJo9OEmmcSBAwcOHI9xJCFqlvjtRyLyQJu8sCjQ4sCBAweOBUeemLWLmzWQZuMObeHywINx4MCBA8doOOA5rDY8Jx8H+TgFDhw4cOA4y5FvZt8o2jS62pGFZF9/nYMDBw4cONYcbWOmLcm1owmbQuSM9eb/CA4cOHDgKDnyUlr7yOSqtll1NjmMhHDgwIEDx4gjLw7m296MwT3RDItyNBw4cODAcYgjuXgTpGcNodmG2xEHHDhw4MDxNMf1MEFe4EuGEmYNpHbEoUhNceDAgQPHIY62wJcsqG1KtZvPG2N5YREHDhw4cOw52nSoLfPNGlezcYpZYwwHDhw4cJzl+CqPhCNP9vKQnJcjZ6MMOHDgwIHjFMcmLOUlxTryx0+Z3b/9UMCBAwcOHC1HG1yTZeVJ16YEmbzCNoHEgQMHDhynOPaBcLWIdao2Y8KBAwcOHJ/GkYfM9imzNli+Ehw4cODA8Qkcs3G0WfCblQuTu92sDQcOHDhwHOJo2zz5MME+BCbp3IoABw4cOHAc5Zj1YtoUKxmJSEJ+/kGQrHYIhAMHDhw4fl7DLzDR96oeLSC6AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>JShell源码解读，REPL实现分析 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="Java9不出意外的又跳票了，传闻Java9加入了JEP 222，所以用OpenJDK体验了一把JShell并分析了下其实现。
+JShell简述JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。
+JShell简易使用指北
+通过${JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JShell源码解读，REPL实现分析">
+<meta property="og:url" content="https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="Java9不出意外的又跳票了，传闻Java9加入了JEP 222，所以用OpenJDK体验了一把JShell并分析了下其实现。
+JShell简述JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。
+JShell简易使用指北
+通过${JAVA">
+<meta property="og:image" content="https://www.sequarius.com/image/jshell_command_list.png">
+<meta property="og:image" content="https://www.sequarius.com/image/jshell_eval_express.png">
+<meta property="og:image" content="https://www.sequarius.com/image/jshell_import_express.png">
+<meta property="og:image" content="https://www.sequarius.com/image/jshell_class_express.png">
+<meta property="og:updated_time" content="2018-11-04T12:32:37.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JShell源码解读，REPL实现分析">
+<meta name="twitter:description" content="Java9不出意外的又跳票了，传闻Java9加入了JEP 222，所以用OpenJDK体验了一把JShell并分析了下其实现。
+JShell简述JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。
+JShell简易使用指北
+通过${JAVA">
+<meta name="twitter:image" content="https://www.sequarius.com/image/jshell_command_list.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://www.sequarius.com/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JShell源码解读，REPL实现分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JShell源码解读，REPL实现分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-22T13:04:24.000Z" itemprop="datePublished" class="page-time">
+  2017-10-22
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JShell简述"><span class="post-toc-number">1.</span> <span class="post-toc-text">JShell简述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JShell简易使用指北"><span class="post-toc-number">2.</span> <span class="post-toc-text">JShell简易使用指北</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JShell基础对象"><span class="post-toc-number">3.</span> <span class="post-toc-text">JShell基础对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MemoryFileManager"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">MemoryFileManager</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TaskFactory"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">TaskFactory</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Eval"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">Eval</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Snippet"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">Snippet</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SnippetEvent"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">SnippetEvent</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ReplParserFactory"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">ReplParserFactory</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DiagList"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">DiagList</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MaskCommentsAndModifiers"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">MaskCommentsAndModifiers</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Warp"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">Warp</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JShell源码分析"><span class="post-toc-number">4.</span> <span class="post-toc-text">JShell源码分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JShell-eval"><span class="post-toc-number">5.</span> <span class="post-toc-text">JShell eval</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-JShell源码带逛，Java-REPL实现分析"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JShell源码解读，REPL实现分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-22 21:04:24" datetime="2017-10-22T13:04:24.000Z"  itemprop="datePublished">2017-10-22</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Java9不出意外的又跳票了，传闻Java9加入了<a href="http://openjdk.java.net/jeps/222" target="_blank" rel="external">JEP 222</a>，所以用OpenJDK体验了一把JShell并分析了下其实现。</p>
+<h3 id="JShell简述"><a href="#JShell简述" class="headerlink" title="JShell简述"></a>JShell简述</h3><p>JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。</p>
+<h3 id="JShell简易使用指北"><a href="#JShell简易使用指北" class="headerlink" title="JShell简易使用指北"></a>JShell简易使用指北</h3><ol>
+<li>通过${JAVA_HOME}/bin/jshell便可以启动一个JShell。</li>
+<li>如其他Java工具一样，JShell已自带普通话补丁，在其OepnJDK源码资源文件也可以看到有<code>l10n_zh_CN.properties</code>的多语言支持。</li>
+<li>执行命令<br>类似于IPython，JShell除了可以执行Java代码，还内置了部分命令，键入<code>\help</code>便可以获得命令列表。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/jshell_command_list.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></li>
+<li>表达式执行<br>JShell可以直接执行一个算术表达式，输出计算值或者函数的返回值。对于单条语句，可以省略句尾句号<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/jshell_eval_express.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></li>
+<li>import<br>JShell同时可以支持import外部包，使用Tab进行自动补全等功能。这里import还可以使用<code>\evn</code>指令导入的合法classpath下的任意jar。也就是说导入<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/jshell_import_express.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></li>
+<li>类创建初始化<br>JShell同时可以创建初始化类实例，调用实例方法。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/jshell_class_express.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+</li>
+</ol>
+<h3 id="JShell基础对象"><a href="#JShell基础对象" class="headerlink" title="JShell基础对象"></a>JShell基础对象</h3><h4 id="MemoryFileManager"><a href="#MemoryFileManager" class="headerlink" title="MemoryFileManager"></a>MemoryFileManager</h4><p>JShell编译器内存文件API的管理器，同时具有一个OutputMemoryJavaFileObject的Map用于类文件的缓存。</p>
+<h4 id="TaskFactory"><a href="#TaskFactory" class="headerlink" title="TaskFactory"></a>TaskFactory</h4><p>编译器用于解析、分析、在内存编译class文件的API基本接口，其中CompileTask、AnalyzeTask、ParseTask均继承自BaseTask，这几个Task均为TaskFactory的内部类，通过TaskFactory的工厂方法产生对应的实例。</p>
+<h4 id="Eval"><a href="#Eval" class="headerlink" title="Eval"></a>Eval</h4><p>赋值引擎，将source 封装成方法、属性等等，在外部封装了imports和class，为整个JShell的核心部分</p>
+<p>编译 声明 重定义 替换 执行</p>
+<h4 id="Snippet"><a href="#Snippet" class="headerlink" title="Snippet"></a>Snippet</h4><p>代表传递的Java代码片段，同一个片段是不可变的，这一特性也就意味着它的任意方法都会有相同的返回，并且是线程安全的。<br>Snippet为抽象类，只有继承终点为实现类，其中派生Snippet结构如图所示。<br>ExpressionSnippet为表达式片段，StatementSnippet为声明片段，ErroneousSnippet为非法片段，PersistentSnippet为被存储影响后续代码结果的片段。DeclarationSnippet为值片段，其下属值、类型、函数都是其实现类。</p>
+<h4 id="SnippetEvent"><a href="#SnippetEvent" class="headerlink" title="SnippetEvent"></a>SnippetEvent</h4><p>直接/间接通过 JShell.eval(String)或者JShell.drop(Snippet), 或者Snippet被直接生成的关于这个变化描述的片段</p>
+<h4 id="ReplParserFactory"><a href="#ReplParserFactory" class="headerlink" title="ReplParserFactory"></a>ReplParserFactory</h4><p>继承自<code>com.sun.tools.javac.parser.ParserFactory</code>解析器工厂，通过<code>com.sun.tools.javac.util.Context</code>初始化了,<code>com.sun.tools.javac.parser.ScannerFactory</code>用于产生Scanner。</p>
+<h4 id="DiagList"><a href="#DiagList" class="headerlink" title="DiagList"></a>DiagList</h4><p>一个存放Snippet诊断信息的向量，这些包含是否有不可达、未声明、无法解析等错误。</p>
+<h4 id="MaskCommentsAndModifiers"><a href="#MaskCommentsAndModifiers" class="headerlink" title="MaskCommentsAndModifiers"></a>MaskCommentsAndModifiers</h4><p>对一个输入的String，通过Context隐藏其注释和修饰符细节。</p>
+<h4 id="Warp"><a href="#Warp" class="headerlink" title="Warp"></a>Warp</h4><p>将源输入包装成方法，成员变量，等等。</p>
+<h3 id="JShell源码分析"><a href="#JShell源码分析" class="headerlink" title="JShell源码分析"></a>JShell源码分析</h3><p>由于时间有限，这里先把程序的主要执行逻辑写在这里，以后有时间绘成流程图。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">JShell.eval(String input) throws IllegalStateException</div><div class="line">    -》Eval.eval(String userSource) throws IllegalStateException</div><div class="line">    //初始化</div><div class="line">    -》List&lt;SnippetEvent&gt; allEvents</div><div class="line">    -》Eval sourceToSnippets(String userSource)</div><div class="line">    -》分析语句、通过MaskCommentsAndModifiers隐藏修饰符细节，通过工具类分析行尾，组成可以被编译的语句</div><div class="line">    -》创建ParseTask进行语义分析获得分析树List&lt;? extends Tree&gt; units</div><div class="line">    -》分析units首语句类型，进入对应执行模块</div><div class="line">        -》解剖unit Eval.processVariables(String userSource, List&lt;? extends Tree&gt; units, String compileSource, ParseTask pt)</div><div class="line">            -》TreeDissector.createByFirstClass(TaskFactory.BaseTask bt)</div><div class="line">                -》static TreeDissector createByFirstClass(TaskFactory.BaseTask bt) &#123;</div><div class="line">                    Pair&lt;CompilationUnitTree, ClassTree&gt; pair = classes(bt.firstCuTree())</div><div class="line">                    .findFirst().orElseGet(() -&gt; new Pair&lt;&gt;(bt.firstCuTree(), null));</div><div class="line">                    return new TreeDissector(bt, pair.first, pair.second);</div><div class="line">                    &#125;</div><div class="line">            -》根据遍历units,获取Variable基本类型、变量名、基类</div><div class="line">                VariableTree vt = (VariableTree) unitTree;</div><div class="line">                String name = vt.getName().toString();</div><div class="line">                String typeName = EvalPretty.prettyExpr((JCTree) vt.getType(), false);</div><div class="line">                Tree baseType = vt.getType();</div><div class="line">            -》扫描语义依赖TreeDependencyScanner.scan(Tree node) </div><div class="line">            -》通过VariableTree.getInitializer();获得ExpressionTree</div><div class="line">            -》Wrap.varWrap(String source, Range rtype, String brackets, Range rname, Range rinit)</div><div class="line">    -》allEvents.addAll(declare(snip, snip.syntheticDiags()));</div></pre></td></tr></table></figure></p>
+<h3 id="JShell-eval"><a href="#JShell-eval" class="headerlink" title="JShell eval"></a>JShell eval</h3><p>通过以上源码分析，我们我们可以通过建立一个JShell对象来尝试执行一个简单的Java程序块。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JShellTry</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        List&lt;SnippetEvent&gt; evals = JShell.create().eval(<span class="string">"System.out.print(\"xdsjsd\");"</span>);</div><div class="line">        evals.forEach(evals-&gt; System.out.println(evals.value()));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>虽然执行过程稍微长了一点，但是程序成功输出了xdsjsd，实验成功。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>JShell为开发者提供了一个稳定的交互式终端，程序开发者可以通过JShell进行一些简单的程序执行结果验证，同时它还赋予了Java应用程序动态执行Java代码的能力，如果不出意外接下来会有很多基于JShell机制的Virtual Runtime，OJ平台出现，大家拭目以待吧！</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2018-11-04T12:32:37.920Z" itemprop="dateUpdated">2018-11-04 20:32:37</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2017/10/22/JShell源码带逛，Java-REPL实现分析/" target="_blank" rel="external">https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JShell源码解读，REPL实现分析》 — Sequarius&url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/06/OKHttp开启SSL证书支持/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">OkHttp开启SSL证书支持</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JShell源码解读，REPL实现分析》 — Sequarius&url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/10/22/JShell源码带逛，Java-REPL实现分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsElEQVR42u3aQW4DIQwF0Nz/0u22UgP9tmEUVW9WkZIBHgvj2Lxe8fP149l/+/vJx9y/ux9t9ODh4eENlr6aIPl2v8TV59V6qhux3FA8PDy8a7z9NMmRkC8uid6T9eDh4eF9Gm+y0F7ajYeHh/efeD1Gb2Q8PDy8T+NNyg15Qpxsxz41v1hrwcPDw+v0pF6T1PbJz1f6e3h4eHjjrnq1GTYv105mfPMuHh4e3gVeHnAnzfv8CkLvytcfv8TDw8M7yqu+kJRZ5wG9euVr+QcADw8P7wKvWkit/rJ6zOSYctEWDw8P7xFer0CQJ+JJmbiaXi/fxcPDw7vGy8Nufl3g3giFQwIPDw/vKG8e3CdXpqrJ+v5wevMWHh4e3gVekiJPkuBTBYheuRkPDw/vLC8pPRSCbyuN3m9cr1yCh4eHd4+3D/rVttOp6wXJAVAoWODh4eE9wqseEtVkd95mK6T4eHh4eEd5yaCT6SfpdT5CoXSLh4eHd5SXJ6yTIu+k/JE00padPTw8PLyjvHmLKw/r1TLEqNSLh4eHd5mXX42aX4FqtrKKyT0eHh7eDV7eauqF+D01P3jy9ls+Gh4eHl6PV11Qr/TQu2owKQeX7zLg4eHhxbxqKaEaxHshvtcqW86Oh4eHd4GXt6aqobmaKFePqLyEgYeHh3eWN0msq8E9b/9Xt7VQw8DDw8M7xOu1uKoL7V3YyvHRiYeHh4d3jVeF5cluXqjNDx48PDy8Z3iT6fO21jzLzY+EN3fK8PDw8I7yqgH3LHuSfJdvkOHh4eEd5fWGTkoSk42YHAx4eHh4z/Cq09xopPVOsz82Dg8PD+/DeL0SwPwgyY8ZPDw8vE/gzcG91lqvCYeHh4d3j9crMYwmjhPr6mUFPDw8vNu85l2tINDvC6zVjWim1Hh4eHgned8MpZKXucTIjQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
