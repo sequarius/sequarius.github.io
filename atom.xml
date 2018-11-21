@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.sequarius.com/"/>
-  <updated>2018-11-06T13:50:24.137Z</updated>
+  <updated>2018-11-21T16:13:54.794Z</updated>
   <id>https://www.sequarius.com/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringMVC MultipartFile InputStream探秘</title>
+    <link href="https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream%E6%8E%A2%E7%A7%98/"/>
+    <id>https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/</id>
+    <published>2017-12-17T15:19:02.000Z</published>
+    <updated>2018-11-21T16:13:54.794Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在一次处理上传文件的时候遇到需要guess encode问题，在使用<a href="https://github.com/albfernandez/juniversalchardet" target="_blank" rel="external">jchardet</a>的过程中使用<code>UniversalDetector</code>调用<code>handleData(buf, 0, read)</code>需要传入一个byte buffer，故大致写了如下一个实现试图从MultipartFile获取InputSteam然后读取buffer。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@PostMapping</span>(<span class="string">"/upload"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">(@RequestParam(<span class="string">"file"</span>)</span> MultipartFile multipartFile) <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    log.debug(<span class="string">"file name==&#123;&#125;,size==&#123;&#125;"</span>,multipartFile.getOriginalFilename(),multipartFile.getSize());</div><div class="line">    <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">120</span>];</div><div class="line">    <span class="keyword">int</span> length=<span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span> ((length = multipartFile.getInputStream().read(buf))&gt;<span class="number">0</span>)&#123;</div><div class="line">        log.debug(<span class="string">"bytes==&#123;&#125;"</span>,buf);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="string">"ok"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看上去简单明了，不过部署后发现程序似乎进入了infinite loop没有进行正常响应，调试进入发现程序果然陷入第5行持续循环无法结束，经过watcher发现每次loop都只read到了文件开头的字节，并未如预期read完整个Stream，难道是<code>MultipartFile.getInputStream()</code>实现和预想的不一样？遂step into <code>MultipartFile.getInputStream()</code>发现调用的是<code>StandardMultipartHttpServletRequest</code>的实现，<code>StandardMultipartHttpServletRequest</code>继承自<code>AbstractMultipartHttpServletRequest</code>，是对当前<code>HttpServletRequest</code>的封装。这看上去没什么问题，调用的是<code>part</code>的<code>getInputStream()</code>实现，没错，这里的part是<code>javax.servlet.http.Part</code>的JavaEE接口,具体逻辑由容器的实现。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.part.getInputStream();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继续跟进，发现part果然进入了<code>org.apache.catalina.core.ApplicationPart</code>的tomcat实现<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.fileItem.getInputStream();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里的fileItem应该是容器对于上传表单中文件的封装，继续跟进fileItem进入了<code>org.apache.tomcat.util.http.fileupload.disk.DiskFileItem</code>实现，下面是<code>DiskFileItem</code>的一些关键方法，其中dfos是一个<code>DeferredFileOutputStream</code>接口。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">transient</span> DeferredFileOutputStream dfos;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.isInMemory()) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FileInputStream(<span class="keyword">this</span>.dfos.getFile());</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.cachedContent == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.cachedContent = <span class="keyword">this</span>.dfos.getData();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream(<span class="keyword">this</span>.cachedContent);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isInMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.cachedContent != <span class="keyword">null</span> ? <span class="keyword">true</span> : <span class="keyword">this</span>.dfos.isInMemory();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继续step into进入了<code>org.apache.tomcat.util.http.fileupload.ThresholdingOutputStream</code>，<code>ThresholdingOutputStream</code>是<code>DeferredFileOutputStream</code>的一个实现。果然在上传文件大小大于阈值时候tomcat会将内容放置在一个临时目录里，并不会持续将文件保留在内存中。有趣的是默认的threshold配置是0，换言之就是默认情况下对于上传的文件，只要存在内容，tomcat总会将其持久化，并在调用<code>getInputStream()</code>方法的时候创建FileInputStream返回。换言之，就是每次调用<code>getInputStream()</code>返回的都是一个全新的FileInputStream，也解释了为什么在调用<code>getInputStream()</code>总是只能读取前buffer长度的字节，一直无法读取完全的问题。其中<code>ThresholdingOutputStream</code>的关键代码如下。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> threshold; <span class="comment">//默认为0</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isInMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> !<span class="keyword">this</span>.isThresholdExceeded();</div><div class="line">&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isThresholdExceeded</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.written &gt; (<span class="keyword">long</span>)<span class="keyword">this</span>.threshold;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近在一次处理上传文件的时候遇到需要guess encode问题，在使用&lt;a href=&quot;https://github.com/albfernandez/juniversalchardet&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;jchardet&lt;/
+    
+    </summary>
+    
+    
+      <category term="SpringMVC" scheme="https://www.sequarius.com/tags/SpringMVC/"/>
+    
+      <category term="MultipartFile" scheme="https://www.sequarius.com/tags/MultipartFile/"/>
+    
+  </entry>
   
   <entry>
     <title>JShell源码解读，REPL实现分析</title>

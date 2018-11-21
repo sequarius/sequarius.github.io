@@ -118,7 +118,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -150,6 +150,55 @@
 <div class="container body-wrap">
 
     <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-Redis命令学习笔记part1-Key-String部分"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-04-28 15:13:52" datetime="2016-04-28T07:13:52.000Z"  itemprop="datePublished">2016-04-28</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/">Redis命令学习笔记part1:Key/String篇</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近在研究Redis，根据官方文档抽取了些可能会忘的命令的摘要记下来，部分是自己的理解，具体内容以redis-doc为准。
+SET key value/GET key存取值的通用方法
+DUMP key序列化给定 key ，并返回被序列化的值，使用 RESTORE 命令可以将这个值反序列化为Redis 键。序列化生成的值有以下几个特点：1.它带有 64 位的校验和，用于检测错误， RESTORE 在进行反序列化之前会先检查校验和。2.值的编码格式和 RDB 文件保持一致。3.RDB 版本会被编码在序列化值当中，如果因为 Redis 的版本不同造成 RDB 格式不兼容，那么 Redis 会拒绝对这个值进行反序列化操作。
+EXPIRE key time1.为给定 key 设置生存时间，当 key 过期时(生存时间为 0 )，它会被自动删除。2.在 Redis 中，带有生存时间的 key 被称为『易失的』(volatile)。3.生存时间可以通过使用 DEL 命令来删除整个 key 来移除，或者被 SET 和 GETSET 命令覆写(overwrite)，这意味着，如果一个命令只是修改(alter)一个带生存时间的 key 的值而不是用一个新的 key 值来代替(replace)它的话，那么生存时间不会被改变。如果使用 RENAME 对一个 key 进行改名，那么改名后的 key 的生存时间和改名前一样。RENAME 命令的另一种可能是，尝试将一个带生存时间的 key 改名成另一个带生存时间的another_key ，这时旧的 another_key (以及它的生存时间)会被删除，然后旧的 key 会改名为 another_key ，因此，新的 another_key 的生存时间也和原本的 key 一样。同时，对已有生存时间的key执行expire命令可以更新生存时间4.所以若不过期 返回为-1 否则返回过期时间为剩余的秒时间值，可以使用ttl查询键的生存时间
+EXPIREAT key timestampEXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置生存时间。不同在于 EXPIREAT 命令接受的时间参数是 UNIX 时间戳(unix timestamp)。如果生存时间设置成功，返回 1 。当 key 不存在或没办法设置生存时间，返回 0 。
+    
+
+        <a href="/2016/04/28/Redis命令学习笔记part1-Key-String部分/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
     
         <li class="post-list-item fade">
             <article id="post-SpringReloaded-Spring应用的热交换技术踩坑路"
@@ -184,7 +233,7 @@ Gradle如果作为gradle引入的话要稍微麻烦一点首先需要加入依�
     
 
         <a href="/2016/04/03/SpringReloaded-Spring应用的热交换技术踩坑路/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -229,7 +278,7 @@ Gradle如果作为gradle引入的话要稍微麻烦一点首先需要加入依�
     
 
         <a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -274,7 +323,7 @@ Gradle如果作为gradle引入的话要稍微麻烦一点首先需要加入依�
     
 
         <a href="/2015/12/16/android基于重力感应的记步算法/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -322,7 +371,7 @@ Gradle如果作为gradle引入的话要稍微麻烦一点首先需要加入依�
     
 
         <a href="/2015/12/06/spring-boot-1.3.0-初探踩坑日记/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -368,7 +417,7 @@ buildscript &#123;    ext &#123;        springBootVersion = &apos;1.3.0.RELEASE&
     
 
         <a href="/2015/12/06/Gradle构建springboot基础配置/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -414,7 +463,7 @@ note：很多童鞋因为SSHkey的关系弄了很久没有成功便放弃了，�
     
 
         <a href="/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -457,7 +506,7 @@ note：很多童鞋因为SSHkey的关系弄了很久没有成功便放弃了，�
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
