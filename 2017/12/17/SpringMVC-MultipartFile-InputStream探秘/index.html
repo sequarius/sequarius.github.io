@@ -30,7 +30,7 @@
     <meta name="description" content="最近在一次处理上传文件的时候遇到需要guess encode问题，在使用jchardet的过程中使用UniversalDetector调用handleData(buf, 0, read)需要传入一个byte buffer，故大致写了如下一个实现试图从MultipartFile获取InputSteam然后读取buffer。@PostMapping(&quot;/upload&quot;)public String up">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC MultipartFile InputStream探秘">
-<meta property="og:url" content="https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/index.html">
+<meta property="og:url" content="https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/index.html">
 <meta property="og:site_name" content="Sequarius">
 <meta property="og:description" content="最近在一次处理上传文件的时候遇到需要guess encode问题，在使用jchardet的过程中使用UniversalDetector调用handleData(buf, 0, read)需要传入一个byte buffer，故大致写了如下一个实现试图从MultipartFile获取InputSteam然后读取buffer。@PostMapping(&quot;/upload&quot;)public String up">
 <meta property="og:updated_time" content="2018-11-22T14:42:51.487Z">
@@ -56,7 +56,7 @@
     <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
       <div class="brand">
         <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="https://www.sequarius.com/image/avatar.jpg">
+          <img src="/image/avatar.jpg">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">Sequarius</h5>
@@ -191,12 +191,12 @@
 
 
         
-        本文系本站原创文章，地址:[<a href="/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" target="_blank" rel="external">https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/</a>]，转载请注明出处。
+        本文系本站原创文章，地址:[<a href="/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" target="_blank" rel="external">https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/</a>]，转载请注明出处。
         
     </div>
     <footer>
-        <a href="https://www.sequarius.com">
-            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+        <a href="https://blog.sequarius.com">
+            <img src="/image/avatar.jpg" alt="Sequarius">
             Sequarius
         </a>
     </footer>
@@ -217,7 +217,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -227,22 +227,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -337,7 +337,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -347,22 +347,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&title=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC MultipartFile InputStream探秘》 — Sequarius&url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -373,7 +373,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACpUlEQVR42u3awU4rMQwFUP7/p8uGBVLb6bUd0yKdWaF5NPXJk5Jw46+v+Ln9eu7f3//87E0y2v1zPdqBBw8PD29Q+vXQz8qaF5ePn9eMh4eHt81LhssxyTZwTb0eIakZDw8P73N4vQNxeUEPasDDw8P7j7w8pEgK7X0KDw8P7128XpRQPSjnG8YbshY8PDy82tm1EBB8ws8r93t4eHh441v13oKbbC35Yb1X589n8fDw8BZ4+YJbbRq4DhSSCKN3hYaHh4e3zTtVSt5QNQkX8grx8PDw9nj5ofbsX/rJgTtv+SrnKHh4eHjLvPyYe6rc5DcL1eLh4eEt8CZNTr0WgeomVL2iw8PDw9vm5a1O1+/n4cV8Y8DDw8Pb5k2W6epW0YtuR/8NeHh4eAu80ceCOCB/05u4KNLFw8PDW+D1rvmT43UeVUyikMIE4eHh4S3wTh18e5PVG78cOuPh4eENeMkBtxfUzqes12pQToXx8PDwFng9fHWh7208L/4YwMPDw1vgVaPSPLqdbzPzsAMPDw/vb3j5Aj0JUudBRhIE4+Hh4W3zqrDk9/Ovz5tZq1OGh4eHt8GrxgRJ6ZMNZhJnPBDh4eHhLfDyA+s82O29720keHh4eHu8s01UvaW/utnkb/Dw8PC2eWcbRs8ymldoeHh4eGu866us6rVTNcCdTFMha8HDw8M7ypscrHuRbjXkbcYTeHh4eEd5t+Izuebv5cr5ZdiDf8XDw8Nb4FWX3Y2D9Xxa55sKHh4e3uRuvdpi1ds2emf/5saAh4eHt8brfU3SQJBP33w6XqTUeHh4eG/lJUt/UnR16S/Xg4eHh/cxvLw1Ko85qt9bbrrCw8PDO8rLj7zVYCK/mupFty/Gx8PDw1vgjTq2xs0EycinGhHw8PDwxrxvO4MW20OTv48AAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACr0lEQVR42u3awU5rMQwEUP7/p4v0ttAy9iSFJ527QlB6c7KIo7E/PuLn8e959vPX5/X3PPv81//Nv7l68PDw8FZLz1/8+pWvl7L7/bP1RJuLh4eHd42XF4O+qOw2K1kPHh4e3l/jTV+TlI0choeHh/c/8vIX5/FB8j15ocLDw8N7J+/Uopso9hE8F7MWPDw8vJjXN8De//Nb+3t4eHh4w4M4OXanF+JkudNi8M068fDw8C7wkmZ/Hh9MBwh21+I80sXDw8O7wZsu4lTosBssGIfOeHh4eNd40yLRsJtm2HSsAQ8PD+8Gbxra5gMHO3ZTGA5k0nh4eHgrUt6IyttU00O83yA8PDy8d/Jex6x5Ycgvyq9/M73K4+Hh4b2HlwDyYzq5pu/ij/xdeHh4eLd5/YhAfqwnGzotOflW4uHh4d3gDRrzcfSQh8V9qBHNl+Hh4eEVvCQ4mI6cJkFDEnzkgfLT0oKHh4d3gbcbF0gaY/0V/HpKjYeHh1d3iPIDvV9Wc4E+UBLw8PDwal5/TPd/nTbbxqvCw8PDO8TbHdC7cYH8KM+L0w8lBA8PD+8CbxrgTvtp05i4iXEHV2o8PDy8o7zm4ju9mh9oa+UDEHh4eHiHeNPG/7ShtYsk+oEDPDw8vHu8vE01jSSmy8rj2ul34uHh4d3j9Yd+0/6ffrIZZcDDw8PrebuLbBPONjHx+OqPh4eHd5mXvD6h7tpg0+v1oL7h4eHhHeI9hk9+wd0VkibSjRpgeHh4eDVvF0w0AWszRJVv8bKE4OHh4cW8pumVhwu7WKGJSPDw8PBu86bjpHlwsNuaPnPAw8PD+8u8/DPTCDjZoB+2GA8PD+9XeX1Em4fC/VUbDw8P7zYvb0dNj+/pNXo3oFBNRuDh4eEdHcnaDU41BSAPKY6x8fDw8FLeJ1Nyu2DrimB7AAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

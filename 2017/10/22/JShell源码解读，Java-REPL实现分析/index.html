@@ -33,16 +33,16 @@ JShell简易使用指北
 通过${JAVA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JShell源码解读，REPL实现分析">
-<meta property="og:url" content="https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/index.html">
+<meta property="og:url" content="https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/index.html">
 <meta property="og:site_name" content="Sequarius">
 <meta property="og:description" content="Java9不出意外的又跳票了，传闻Java9加入了JEP 222，所以用OpenJDK体验了一把JShell并分析了下其实现。
 JShell简述JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。
 JShell简易使用指北
 通过${JAVA">
-<meta property="og:image" content="https://www.sequarius.com/image/jshell_command_list.png">
-<meta property="og:image" content="https://www.sequarius.com/image/jshell_eval_express.png">
-<meta property="og:image" content="https://www.sequarius.com/image/jshell_import_express.png">
-<meta property="og:image" content="https://www.sequarius.com/image/jshell_class_express.png">
+<meta property="og:image" content="https://blog.sequarius.com/image/jshell_command_list.png">
+<meta property="og:image" content="https://blog.sequarius.com/image/jshell_eval_express.png">
+<meta property="og:image" content="https://blog.sequarius.com/image/jshell_import_express.png">
+<meta property="og:image" content="https://blog.sequarius.com/image/jshell_class_express.png">
 <meta property="og:updated_time" content="2018-11-06T13:50:24.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JShell源码解读，REPL实现分析">
@@ -50,7 +50,7 @@ JShell简易使用指北
 JShell简述JShell是一个能够执行Java代码片段、表达式的Shell，从外表看上去像是一个Java的解释器，实际上它是一个Read-Eval-Print Loop，接受命令、代码片段输入，输出运算结果或者一个变更状态。
 JShell简易使用指北
 通过${JAVA">
-<meta name="twitter:image" content="https://www.sequarius.com/image/jshell_command_list.png">
+<meta name="twitter:image" content="https://blog.sequarius.com/image/jshell_command_list.png">
     
         <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
     
@@ -70,7 +70,7 @@ JShell简易使用指北
     <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
       <div class="brand">
         <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="https://www.sequarius.com/image/avatar.jpg">
+          <img src="/image/avatar.jpg">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">Sequarius</h5>
@@ -257,12 +257,12 @@ JShell简易使用指北
 
 
         
-        本文系本站原创文章，地址:[<a href="/2017/10/22/JShell源码解读，Java-REPL实现分析/" target="_blank" rel="external">https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/</a>]，转载请注明出处。
+        本文系本站原创文章，地址:[<a href="/2017/10/22/JShell源码解读，Java-REPL实现分析/" target="_blank" rel="external">https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/</a>]，转载请注明出处。
         
     </div>
     <footer>
-        <a href="https://www.sequarius.com">
-            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+        <a href="https://blog.sequarius.com">
+            <img src="/image/avatar.jpg" alt="Sequarius">
             Sequarius
         </a>
     </footer>
@@ -283,7 +283,7 @@ JShell简易使用指北
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -293,22 +293,22 @@ JShell简易使用指北
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JShell源码解读，REPL实现分析》 — Sequarius&url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JShell源码解读，REPL实现分析》 — Sequarius&url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -410,7 +410,7 @@ JShell简易使用指北
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -420,22 +420,22 @@ JShell简易使用指北
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&title=《JShell源码解读，REPL实现分析》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JShell源码解读，REPL实现分析》 — Sequarius&url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JShell源码解读，REPL实现分析》 — Sequarius&url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2017/10/22/JShell源码解读，Java-REPL实现分析/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -446,7 +446,7 @@ JShell简易使用指北
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACs0lEQVR42u3aMXYbMQwEUN//0kmTInm2VzMg4aj4qvRkmcu/xQIa8OMjfv366/X8yef3szU/r5CsOXzh4eHhHWz9uws8//V5tRb/HSzZzxcr4+Hh4a3xni+TbyjZXH5T2v3g4eHhvSfvZKN5gZntAQ8PD+89eclDP2nQk/d4eHh478xrN5R8c1YwnlvzxawFDw8PL+blU6T3eb8y38PDw8M7nqq3466NqGK2zz//i4eHh7fAmx2QyiODth1Prl5/Ew8PD+8q7yREeEaePNBPjnz9szc8PDy8Bd5J6HCSfJzExD+UqeDh4eGVsPZwwHMznZeQPM5I2nc8PDy8bV774z8PefdWGBYqPDw8vANe0rzm0e0szJ0VmygowcPDw1vgtc/PWRN8K4AYlhk8PDy8q7y2DOQDs3wTM0a0Jh4eHt4Cr4g+y9h31o6fF5iP9n7j4eHhHfNmzfStYpAftypafDw8PLyrvFl02x5LnbGTwdiL8oCHh4e3zEsWOq9C7a1ph2Qv8mk8PDy8S7zzkCJ/rLcxRBv1vkip8fDw8I55s+AgH0fl39mILfDw8PA2eLO2NX/E5+3vbPR1OcbFw8PDi3n5uKudzs+i2DYULo5b4eHh4R3z2mNMCaMdfbVhR1u08PDw8DZ4eTDaktpGOWnHZxEGHh4e3l3erSNTt9ruywUGDw8Pb5k3OxbQFo9ZQJzgozACDw8Pb43Xju3bkpNHtB/xCw8PD2+bN7t8W0jaTedh8Ytbj4eHh7fAax+4w+FTfAArb76TsoSHh4e3xztfetY0nx9QiAoSHh4e3hovv0z7SbJOHnAkDfoXkQQeHh7ef+Wdd+5tMz273Xh4eHjvw2uHXjPeyTfx8PDwfoaXD73aEVRSMNqYuDhqgIeHh7fAm/3gTx70zxs6vxEXYHh4eHgd7zfNoQ0B4ZSWnQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACxUlEQVR42u3cwU7DMBAE0P7/T8MVqTSZWdstSC8nVKWOn5HiZdbi8Yivr8vr5z2v7n++53r8V2M+Tlx4eHh4x6ae864n1z4lGeH5fjw8PLzTvFdv1Ofh2ikmS5k8N99g8PDw8P4vr51iXlLj4eHh/S9ePsVZ2Z1vGHh4eHif5bXTareH60m0nxzJWvDw8PBiXt5F+js/H+nv4eHh4S131debXusNtpV54uHh4Z3gJeHprhd6eyAgD3bx8PDw3slLitS2wZ+MkMQHecRw83vDw8PDO8CbFcqzbaM9cNA26oqMGQ8PD+8YLwkXcvAswhh+Cw8PD++NvGQDSMruWYGeb0U37TE8PDy8t/BmDbBZ0NC2zeplxcPDwzvGS4abNfKTTCCPcfPy/ZcGGB4eHt4mXv749UBhPfJoDxzg4eHhneDNmv3t63slis2Rv4yJh4eHd4zXlrztVpGX4+2hhJvgGA8PD+8YL3ll5+XvektstrW8bIDh4eHhHeC1za3kkckm1IYOyThLJTUeHh5el5rW/2x0tpHkG0Z9xOr6wBYeHh7eVt4sZs2DiZVjBDnj5Z14eHh4B3jJcHnYujdQmBXieHh4eOd4+Ss7L3ZXWl958R0dL8DDw8M7wJs1q9rieNe3ZkU8Hh4e3l7eejjbls4rRxbykOKR1914eHh4Ja899pSXzm1U0Ya/xR8AeHh4eFt5bQm7HuO21HbRb7IWPDw8vGVe3gbbdYhqFlW0EUnd5cPDw8OLeV/llQe7efv/EV9JaIKHh4d3mrcydHKkIFmCHN9GHnh4eHjneMP0Ny6a2wVqN5il3Q8PDw9vgZeXy0lrKi+78w1mtqx4eHh4n+XNQtU2us2PtEZLjIeHh/dR3ixWaCPjNsCtu3l4eHh4m3j5Szk/YnUuxr3+ZJi14OHh4cW8XZtH8si88d8u94b+Hh4eHt79mN+9HKes+DnF/wAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

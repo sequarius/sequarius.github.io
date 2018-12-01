@@ -30,7 +30,7 @@
     <meta name="description" content="概述根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目MyBatis Generator,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文档。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用MyBatisGenerator 自定义生成的XML">
-<meta property="og:url" content="https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/index.html">
+<meta property="og:url" content="https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/index.html">
 <meta property="og:site_name" content="Sequarius">
 <meta property="og:description" content="概述根据数据库结构生成MyBatis可以使用的ORM映射文件的工具有很多，当然最著名的是MyBatis官方的项目MyBatis Generator,该工具提供了一个可定制的ORM生成器，可以自定义生成ORM类型（XML还是基于注解）的方式，可以对表/列进行特殊定制，还可以定义数据库支持,基本主流的数据库都进行支持，项目文档也详细说明了各项配置，下面简单说几个比较常用的配置，其余细节可以参阅文档。">
 <meta property="og:updated_time" content="2017-02-13T13:39:37.000Z">
@@ -56,7 +56,7 @@
     <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
       <div class="brand">
         <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="https://www.sequarius.com/image/avatar.jpg">
+          <img src="/image/avatar.jpg">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">Sequarius</h5>
@@ -210,12 +210,12 @@
 
 
         
-        本文系本站原创文章，地址:[<a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" target="_blank" rel="external">https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/</a>]，转载请注明出处。
+        本文系本站原创文章，地址:[<a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" target="_blank" rel="external">https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/</a>]，转载请注明出处。
         
     </div>
     <footer>
-        <a href="https://www.sequarius.com">
-            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+        <a href="https://blog.sequarius.com">
+            <img src="/image/avatar.jpg" alt="Sequarius">
             Sequarius
         </a>
     </footer>
@@ -236,7 +236,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -246,22 +246,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -363,7 +363,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -373,22 +373,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&title=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用MyBatisGenerator 自定义生成的XML》 — Sequarius&url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -399,7 +399,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACv0lEQVR42u3awW7bMBAEUP//TztATy0QKTNL0naRp5OR1BSfAlDb2X084uv557r6yfOv6+q7Vyvkv71af8OFh4eHN9r6/XJXn/OH0m432UO0Jh4eHt4xXrK55EBv//3st8l98fDw8D6BlxTN95vIt3V/dzw8PLz/hRcttxw3JKU8Hh4e3ifwktvMDui2vE7CiyNZCx4eHl7MmwWy7/18sL+Hh4eHt9BVz69ZvJtHEsNd4eHh4R3gJRFt29pPytx2aCAfKaiXw8PDwyt5CSnf7q422Mp4wT/r4+Hh4R3g5QFEG63uCjhadvF6w8PDwzvGS9r5ydHfhhqzV85SyIuHh4cXxxDJpmfl7K5vtfvBw8PDO8dLXgB7m1J5gDsLLC7/hnh4eHhbefl4U37jWbCbDxzU/1fAw8PD28pbOYKTx7TeDJuNcOHh4eGd4OUtqFkDLA9k8zZYEaPg4eHhHeDNRpraIYO2zZ88piLexcPDwzvAy18MK5uYfV5vieHh4eHt5eWRa9vKykONGSy6Cx4eHt5LeO2i+aBVG3k8yusbCx4eHt4x3ixESFpZ+YhVDs5LeTw8PLzTvPZlMBsvWBkIyBtseHh4eOd4bROrLXnbB3Su4MbDw8Pby8vD3Lb4zkcQ8geRDCIMs2o8PDy8brfFWZpHDO2o1qwcr5tzeHh4eJt47UBAu9E2htj1EPHw8PBO8JJgdKXsziPj/BEUhTseHh7eYd7Ksd5+dz2eKKIHPDw8vE28Z3nNItT747ttfRV3xMPDwzvAWx8sSErkpLxu2evjYnh4eHgrvNOjA+srt+u/dOgKDw/vF/PazlH7SmgD3zaM+CGSwMPDw3srrx04mB3xKxEwHh4e3ufw7ovdE6+WWcGNh4eH9xpe3vRKXg8r41N58FEk0Hh4eHhbeRvmtkaDVknUey7CwMPDwxvxvgAyPJxxzri86QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACp0lEQVR42u3aQW7jMBAEwPz/07vXHGK5e4b0BtjyKUAskSUD5KiHX1/x58+Lz/f/Pl/7fM/9KKsPHh4e3qGpvxq4vVsCy9n5nPHw8PBu854X9Jy6f0ztfN5ci4eHh/cLeJvBNiUyHh4e3v/Aa6/dfBMPDw/v87w2Qm3L5efIoC21r2QteHh4eDFvU87+q7+v9Pfw8PDw1l312SaRhL/JJnFgtnh4eHgXePmC205uA24bY29Kczw8PLyjvHaim5K3Zech78utBQ8PD+8Cr24mjcrcfcMsL7UP3A4PDw/vkdc245PW/nNjLG+SHY4h8PDw8A7x8inmgPYoQL79zI584eHh4Z3ltYt13rK6sYXUWw4eHh7eBd6ssG4PaSXs/ABB3R7Dw8PDu8CbbQPDzDim7o984eHh4d3m5WXxvszdx8dJsY6Hh4d3jzdrLOXHpGb4/FG+2QXw8PDwLvDyabXfnAUQs9GHXT48PDy8kjcrkZMAYnOMIG+VvZkhHh4e3sd5bXiaF7tRy38dAePh4eHd4OXlddv6ao9PtYX+bAPDw8PDO8VLBm4X8fy5tpFxW5Tj4eHhfYZ3+3BVO+khDA8PD+8yLw9b2y0kL7JnjyZ6P8DDw8M7ymsBsxgin+js0FX0I+Hh4eEd4rUv/+0hquShtFtC0TbDw8PDu8x7nmJbds8Ym43kh3vi4eHhXeblA8+W9WdGe/QqGhcPDw/vKG8WubaF76lwtj5egIeHh3eB1y64ebiQFLtJgJtf20bPeHh4eBverLV/qsWVl9f5xoCHh4f3GV5e4OblbPIIEmqdr2zqdzw8PLwLvFnjqp36rG2Gh4eH95t5s3bXJpKYBc14eHh493hJGJFHCflCv7/PGyQeHh7eBd7+hX8T1OZRRR4x4+Hh4V3j/QVoVxbbixjbcgAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

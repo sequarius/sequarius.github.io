@@ -30,15 +30,15 @@
     <meta name="description" content="关于屏幕适配&amp;emsp;&amp;emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配">
-<meta property="og:url" content="https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/index.html">
+<meta property="og:url" content="https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/index.html">
 <meta property="og:site_name" content="Sequarius">
 <meta property="og:description" content="关于屏幕适配&amp;emsp;&amp;emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如">
-<meta property="og:image" content="https://www.sequarius.com/image/different_values.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/different_values.jpg">
 <meta property="og:updated_time" content="2017-01-03T05:52:17.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配">
 <meta name="twitter:description" content="关于屏幕适配&amp;emsp;&amp;emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上是看，dp的初衷并不是让显示的效果在不同屏幕上一致，google 官方也是推荐尽量使用match-parent、weight、加以以dp为单位的边距来进行布局，然而，这对于某些工程来说，也没有达到完美适配的目的。所以邪教的适配方式也层出不穷。例如">
-<meta name="twitter:image" content="https://www.sequarius.com/image/different_values.jpg">
+<meta name="twitter:image" content="https://blog.sequarius.com/image/different_values.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
     
@@ -58,7 +58,7 @@
     <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
       <div class="brand">
         <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="https://www.sequarius.com/image/avatar.jpg">
+          <img src="/image/avatar.jpg">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">Sequarius</h5>
@@ -214,12 +214,12 @@
 
 
         
-        本文系本站原创文章，地址:[<a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" target="_blank" rel="external">https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/</a>]，转载请注明出处。
+        本文系本站原创文章，地址:[<a href="/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" target="_blank" rel="external">https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/</a>]，转载请注明出处。
         
     </div>
     <footer>
-        <a href="https://www.sequarius.com">
-            <img src="https://www.sequarius.com/image/avatar.jpg" alt="Sequarius">
+        <a href="https://blog.sequarius.com">
+            <img src="/image/avatar.jpg" alt="Sequarius">
             Sequarius
         </a>
     </footer>
@@ -240,7 +240,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -250,22 +250,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&source=关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上..." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&source=关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -367,7 +367,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -377,22 +377,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&source=关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上..." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&title=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&source=关于屏幕适配&emsp;&emsp;即使android提供了像素无关密度（dp），但是由于不同设备的dpi，也不能实现不同设备上的一致效果。从初始的角度上..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&via=https://www.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[邪教徒又一次胜利]AndroidAutoLayout实现Android多分辨率屏幕适配》 — Sequarius&url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/&via=https://blog.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2015/12/21/邪教徒又一次胜利-AndroidAutoLayout实现Android多分辨率屏幕适配/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -403,7 +403,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD+UlEQVR42u3aSW7cQBAEwPn/p2XA8EGGNWRmVROeQ/AkjLl0Bw0Ua3m94uPr9/H97++/JFe1v18/8d87JOccO3DgwIEDR7Dod0f++M3vCdb1tvNf3u0RBw4cOHCc5WjDXrKldkHX57fnJEEXBw4cOHD8X47rM6MwNtrG5lMABw4cOHB8MsemONhetQnzOHDgwIHjEziSMNYmS0nwS+6ZXNuu/0CtFAcOHDhwpJHu1Qbdz//78fkOHDhw4MBRhqtN0yh/epJuzUJptAscOHDgwHFmF0XZrg3Ds4A3a1zlL+ZmPThw4MCBY8FxNqC2bZ5ZU2r2kqKyIw4cOHDgWHPMxgjyobS8dRSNGhxtdBXRHgcOHDhwxBzXoSgfX2hHEzZtrTZ85qkgDhw4cOA4y3F9cRvY8iA6KwXu4X64FgcOHDhwPMyRFwpvRgRK7k0ZcfV0HDhw4MCx5pgNJcxCWp56JcE4eTF5wXE1o4EDBw4cOIIWzmwbp4YbNmXHWUqJAwcOHDjOciThMwlp+wJfPdBWwt28JBw4cODAseZoQ2++uBYxWWI7GHFg5AIHDhw4cIw4NkMMT5QUZy9mFlDffn3gwIEDB44HOPICYh4y8wGIU0lmnkziwIEDB449R9SMKUcNXkePtg222QsOHDhw4DjFMQuo+bjDqfvM2lQJ059/xYEDBw4chzhmo2x5QXBWfMyf2JYmh98dOHDgwIEj5tgHyHwALgmEX/ExSy9vpjlw4MCBA8ea40BZ7VAqNUv52vW/xcWBAwcOHIc4koSqLeftR+tuguJo9OEmmcSBAwcOHI9xJCFqlvjtRyLyQJu8sCjQ4sCBAweOBUeemLWLmzWQZuMObeHywINx4MCBA8doOOA5rDY8Jx8H+TgFDhw4cOA4y5FvZt8o2jS62pGFZF9/nYMDBw4cONYcbWOmLcm1owmbQuSM9eb/CA4cOHDgKDnyUlr7yOSqtll1NjmMhHDgwIEDx4gjLw7m296MwT3RDItyNBw4cODAcYgjuXgTpGcNodmG2xEHHDhw4MDxNMf1MEFe4EuGEmYNpHbEoUhNceDAgQPHIY62wJcsqG1KtZvPG2N5YREHDhw4cOw52nSoLfPNGlezcYpZYwwHDhw4cJzl+CqPhCNP9vKQnJcjZ6MMOHDgwIHjFMcmLOUlxTryx0+Z3b/9UMCBAwcOHC1HG1yTZeVJ16YEmbzCNoHEgQMHDhynOPaBcLWIdao2Y8KBAwcOHJ/GkYfM9imzNli+Ehw4cODA8Qkcs3G0WfCblQuTu92sDQcOHDhwHOJo2zz5MME+BCbp3IoABw4cOHAc5Zj1YtoUKxmJSEJ+/kGQrHYIhAMHDhw4fl7DLzDR96oeLSC6AAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD/ElEQVR42u3aQW7jQAwEQP//08k1QCynmxw5CVA+LbKSPFM+UM3h4xF/Pr58vv7l6prvV15dP7s3/97HHR8cOHDgwBFvNVnWqb+/Zk3WdvWcZD2X0Dhw4MCB4xDHVcXJr0mW0pbzzUvAbP04cODAgeO3OJJY1W4pp0nWgwMHDhw4/gtHG7F+iEwlTV7CceDAgQPH73Lkrbf23rxht9lk29w80CvFgQMHDhyTzltddP/mv2+Z78CBAwcOHGWZzEcH2qclhXbTrBwGSxw4cODAcahHtx81mLX82qrXHj4N94UDBw4cOBYcm/ZZ3gpMhthmAxOzNUTnbzhw4MCBY8TRBqRNcMrvmo0mtP/7wzNx4MCBA8ea43Uh3ASzfOxgE8/aEYokmuLAgQMHjhlHQtAWzrY8t23BWfKK2p04cODAgWPBkQwr5C3CvOwl7bzkrvxbDpRYHDhw4MAxCm+zkrZp1W2Or2bjEce2hwMHDhw4RmUyKcZn24WP0ScvsZcCOHDgwIHjBo52sKwNgW0gnJXqJAo+2R0OHDhw4DjE0c4+nG0Utsda+eFW/VqAAwcOHDjWHLOeWF7Y2liYAJ0akivO4nDgwIEDR8yRlMy8bbchyHGT9bRPwIEDBw4cZznaQYH9gN1s+CCPau0B1bA3iQMHDhw4XnLkY2p5xDr1hH2zMkLEgQMHDhxrjvyQZlOA8622pToJjTNiHDhw4MCx4WjHy2aHQ5synDQTZ4W2ePvAgQMHDhwBRx6H2uiVHxHVLbzRwFz0SoEDBw4cONYcm0GE6NFx9NqXyXb87nIlOHDgwIFjwTE7jMnjVoJ1NozNfqRochAHDhw4cHQ7qpt37eFTcmVb5nO+4XEaDhw4cOAoOT6Cz6zctk3D2WHSvnH55L0DBw4cOHCsOTYDBDll2+bLC+1m/O6yOYgDBw4cOEYcbRnLT2cSmpygDYezMIkDBw4cOM5ytIdGw9IVt/BmK8nbjjhw4MCB4w6ONmjNwtvZMpwfLOX3FpMaOHDgwIGjnEzIN7xvF+bDDZuolv9IOHDgwIFjz5FsrI1bLdMsnrXDDUksxIEDBw4cpzj24wVJGy6Pau33zlqBT+7FgQMHDhxrjrYg5fGsaMCVAxN5kR5+Fw4cOHDgWHzXrP13qvjlh1V5bFv9JDhw4MCBY83RFqR9ky5vCObEeURsV44DBw4cOGYc+ZhCMgCxaQjODpPan2EV5HDgwIEDR8zRbnXWWHxnVhoGPBw4cODA8XaOPFbNgtxmLK8uq+2pFw4cOHDguIFjjzKLeW35z1d74L0DBw4cOHCMmoOzA6SzJTYvtzNuHDhw4MCx58hbaUkEyimTK4cxrBxiwIEDBw4chzg+ASvdAZOyQS2pAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
