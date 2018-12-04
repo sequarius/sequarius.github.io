@@ -33,19 +33,19 @@
 <meta property="og:url" content="https://blog.sequarius.com/2015/12/03/Hexo3-1-1-github-pages-使用https搭建博客及踩坑录/index.html">
 <meta property="og:site_name" content="Sequarius">
 <meta property="og:description" content="概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到GithubPages等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgnew_repository_in_github.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgget_repository_url.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgcheck_for_git.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgcheck_for_node_npm.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgblog_preview.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgpost_created.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgpost_templete.jpg">
-<meta property="og:image" content="http://emptypointer.qiniudn.com/imgpost_helloworld.jpg">
-<meta property="og:updated_time" content="2017-01-03T05:52:19.623Z">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgnew_repository_in_github.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgget_repository_url.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgcheck_for_git.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgcheck_for_node_npm.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgblog_preview.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgpost_created.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgpost_templete.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/imgpost_helloworld.jpg">
+<meta property="og:updated_time" content="2018-12-04T13:32:14.667Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo3.1.1 github pages使用https搭建博客及踩坑录">
 <meta name="twitter:description" content="概述Hexo是一款基于node.js的博客框架，使用MarkDown语法进行内容编辑，与传统的wordpress等动态网站相比，博客的渲染生成均在本地完成，所生成的静态页面可以部署到GithubPages等网站，无需数据库,甚至主机主机支持。目前，hexo在github已拥有7000多start，并拥有许多实用插件以及主题元素，足以见得其受欢迎程度，本来网上已有足够多的教学帖，但大多使用的版本较老">
-<meta name="twitter:image" content="http://emptypointer.qiniudn.com/imgnew_repository_in_github.jpg">
+<meta name="twitter:image" content="https://blog.sequarius.com/image/imgnew_repository_in_github.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
     
@@ -191,14 +191,14 @@
 <h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><h2 id="1-github"><a href="#1-github" class="headerlink" title="1.github"></a>1.github</h2><p>①登录<a href="http://www.github.com" target="_blank" rel="external">github</a>帐号，新建一个版本仓库。仓库名字为USER_NAME.github.com 这个仓库名称既为你的pages访问链接-&gt;<em>PAGES_URL</em>。<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgnew_repository_in_github.jpg" alt="" title="">
+                    <img src="/image/imgnew_repository_in_github.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure></p>
 <p>②我选择了https的方式进行项目部署，每次部署需要输入github帐号密码进行认证，当然你也可以选择ssh的方式,已经有很多人写过了类似的教程，如若需要请自行查阅，我就不再赘述了。<br>进入主页，copy到Http的Clone地址<em>CLONE_URL</em>（即后缀为.git的地址）<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgget_repository_url.jpg" alt="" title="">
+                    <img src="/image/imgget_repository_url.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure><br>准备完成。</p>
@@ -207,13 +207,13 @@
 <p>3)配置环境变量，将git nodejs npm配入环境变量。配置成功后确认能执行git node npm指令<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgcheck_for_git.jpg" alt="" title="">
+                    <img src="/image/imgcheck_for_git.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure><br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgcheck_for_node_npm.jpg" alt="" title="">
+                    <img src="/image/imgcheck_for_node_npm.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure></p>
@@ -226,7 +226,7 @@
 <p>⑤ 访问<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 你就发现新的大陆了。<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgblog_preview.jpg" alt="" title="">
+                    <img src="/image/imgblog_preview.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure></p>
@@ -234,19 +234,19 @@
 <p>执行之后则会在/<em>HEXO_HOME</em>/source/_posts/POST_NAME.md生成一个markdown文件。<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgpost_created.jpg" alt="" title="">
+                    <img src="/image/imgpost_created.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure><br>打开后已经具有了一个基础模版，在这里加入一个hello wold。<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgpost_templete.jpg" alt="" title="">
+                    <img src="/image/imgpost_templete.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure><br>启动服务器，新建的post便出现了<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://emptypointer.qiniudn.com/imgpost_helloworld.jpg" alt="" title="">
+                    <img src="/image/imgpost_helloworld.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure></p>
@@ -264,7 +264,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2017-01-03T05:52:19.623Z" itemprop="dateUpdated">2017-01-03 13:52:19</time>
+    Last updated: <time datetime="2018-12-04T13:32:14.667Z" itemprop="dateUpdated">2018-12-04 21:32:14</time>
 </span><br>
 
 
