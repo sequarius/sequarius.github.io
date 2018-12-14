@@ -240,9 +240,9 @@
     <link href="https://blog.sequarius.com/2016/05/26/RxJava%E5%88%9D%E6%8E%A2-%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/"/>
     <id>https://blog.sequarius.com/2016/05/26/RxJava初探-一些细节/</id>
     <published>2016-05-26T14:25:30.000Z</published>
-    <updated>2017-01-03T05:52:18.195Z</updated>
+    <updated>2018-12-14T12:04:29.882Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="RxJava-概述"><a href="#RxJava-概述" class="headerlink" title="RxJava 概述"></a>RxJava 概述</h1><p>a library for composing asynchronous and event-based programs using observable sequences for the Java VM”</p>
+    <content type="html"><![CDATA[<h1 id="RxJava-概述"><a href="#RxJava-概述" class="headerlink" title="RxJava 概述"></a>RxJava 概述</h1><p>A library for composing asynchronous and event-based programs using observable sequences for the Java VM”</p>
 <p>一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库。</p>
 <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="RxJava中观察者模式概念"><a href="#RxJava中观察者模式概念" class="headerlink" title="RxJava中观察者模式概念"></a>RxJava中观察者模式概念</h2><p>Observable-可观察者，即被观察者</p>
 <p>Observer-观察者</p>
@@ -280,7 +280,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;RxJava-概述&quot;&gt;&lt;a href=&quot;#RxJava-概述&quot; class=&quot;headerlink&quot; title=&quot;RxJava 概述&quot;&gt;&lt;/a&gt;RxJava 概述&lt;/h1&gt;&lt;p&gt;a library for composing asynchronous and event-based programs using observable sequences for the Java VM”&lt;/p&gt;
+      &lt;h1 id=&quot;RxJava-概述&quot;&gt;&lt;a href=&quot;#RxJava-概述&quot; class=&quot;headerlink&quot; title=&quot;RxJava 概述&quot;&gt;&lt;/a&gt;RxJava 概述&lt;/h1&gt;&lt;p&gt;A library for composing asynchronous and event-based programs using observable sequences for the Java VM”&lt;/p&gt;
 &lt;p&gt;一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库。&lt;/p&gt;
 &lt;h1 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h1&gt;&lt;h2 id=&quot;RxJava中观察者模式概念&quot;&gt;&lt;a href=&quot;#RxJava中观察者模式概念&quot; class=&quot;headerlink&quot; title=&quot;RxJava中观察者模式概念&quot;&gt;&lt;/a&gt;RxJava中观察者模式概念&lt;/h2&gt;&lt;p&gt;Observable-可观察者，即被观察者&lt;/p&gt;
 &lt;p&gt;Observer-观察者&lt;/p&gt;
