@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.sequarius.com/"/>
-  <updated>2018-11-22T14:42:51.487Z</updated>
+  <updated>2018-12-15T12:34:34.320Z</updated>
   <id>https://blog.sequarius.com/</id>
   
   <author>
@@ -14,6 +14,72 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HBase笔记</title>
+    <link href="https://blog.sequarius.com/2018/02/15/HBase%E7%AC%94%E8%AE%B0/"/>
+    <id>https://blog.sequarius.com/2018/02/15/HBase笔记/</id>
+    <published>2018-02-15T12:27:34.000Z</published>
+    <updated>2018-12-15T12:34:34.320Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="WAL"><a href="#WAL" class="headerlink" title="WAL"></a>WAL</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/WAL.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提交之前都要先写入log文件中。</p>
+<ul>
+<li><p>MemStore：每个Store中有一个MemStore实例。数据写入WAL之后就会被放入MemStore。MemStore是内存的存储对象，只有当MemStore满了的时候才会将数据刷写（flush）到HFile中。</p>
+</li>
+<li><p>HFile：在Store中有多个HFile。当MemStore满了之后HBase就会在HDFS上生成一个新的HFile，然后把MemStore中的内容写到这个HFile中。HFile直接跟HDFS打交道，它是数据的存储实体。接下来我们来解剖一下单个HFile中的成分。</p>
+</li>
+<li><p>WAL是存储在HDFS上的，Memstore是存储在内存中的，HFile又是存储在HDFS上的。</p>
+</li>
+<li><p>数据是先写入WAL，再被放入Memstore，最后被持久化到HFile中。</p>
+</li>
+</ul>
+<h3 id="写入过程"><a href="#写入过程" class="headerlink" title="写入过程"></a>写入过程</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/hase-write.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><p>WAL：数据被发出之后第一时间被写入WAL。由于WAL是基于HDFS来实现的，所以也可以说现在单元格就已经被持久化了，但是WAL只是一个暂存的日志，它是不区分Store的。这些数据是不能被直接读取和使用。</p>
+</li>
+<li><p>Memstore：数据随后会立即被放入Memstore中进行整理。Memstore会负责按照LSM树的结构来存放数据。这个过程就像我们在打牌的时候，抓牌之后在手上对牌进行整理的过程。</p>
+</li>
+<li><p>HFile：最后，当Memstore太大了达到尺寸上的阀值，或者达到了刷写时间间隔阀值的时候，HBaes会被这个Memstore的内容刷写到HDFS系统上，称为一个存储在硬盘上的HFile文件。至此，我们可以称为数据真正地被持久化到硬盘上，就算宕机，断电，数据也不会丢失了。</p>
+</li>
+</ul>
+<h3 id="读出过程"><a href="#读出过程" class="headerlink" title="读出过程"></a>读出过程</h3><p>HBase实际的读取顺序是先从BlockCache中找数据，找不到了再去Memstore和HFile中查询数据。</p>
+<h3 id="Region定位"><a href="#Region定位" class="headerlink" title="Region定位"></a>Region定位</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/hbase_region.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>-ROOT-是一张存储META的表，META是一张存储所在region的简要信息，如起止行等信息。</p>
+<p>从0.96版本之后这个三层查询架构被改成了二层查询架构。-ROOT-表被去掉了，同时zk中的/hbase/root-region-server也被去掉了。这回直接把.META.表所在的RegionServer信息存储到了zk中的/hbase/meta-region-server去了。再后来引入了namespace，.META.表这样别扭的名字被修改成了hbase:meta。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;WAL&quot;&gt;&lt;a href=&quot;#WAL&quot; class=&quot;headerlink&quot; title=&quot;WAL&quot;&gt;&lt;/a&gt;WAL&lt;/h2&gt;&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbo
+    
+    </summary>
+    
+    
+      <category term="HBase" scheme="https://blog.sequarius.com/tags/HBase/"/>
+    
+      <category term="笔记" scheme="https://blog.sequarius.com/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringMVC MultipartFile InputStream探秘</title>

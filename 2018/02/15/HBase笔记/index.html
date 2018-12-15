@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>HBase笔记 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="HBase,笔记">
+    <meta name="description" content="WAL
+                
+                    
+                    
+                
+                
+            
+预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase笔记">
+<meta property="og:url" content="https://blog.sequarius.com/2018/02/15/HBase笔记/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="WAL
+                
+                    
+                    
+                
+                
+            
+预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提">
+<meta property="og:image" content="https://blog.sequarius.com/image/WAL.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/hase-write.jpg">
+<meta property="og:image" content="https://blog.sequarius.com/image/hbase_region.jpg">
+<meta property="og:updated_time" content="2018-12-15T12:34:34.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HBase笔记">
+<meta name="twitter:description" content="WAL
+                
+                    
+                    
+                
+                
+            
+预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提">
+<meta name="twitter:image" content="https://blog.sequarius.com/image/WAL.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.6.11">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">HBase笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">HBase笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-02-15T12:27:34.000Z" itemprop="datePublished" class="page-time">
+  2018-02-15
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WAL"><span class="post-toc-number">1.</span> <span class="post-toc-text">WAL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写入过程"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">写入过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读出过程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">读出过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Region定位"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Region定位</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-HBase笔记"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">HBase笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-02-15 20:27:34" datetime="2018-02-15T12:27:34.000Z"  itemprop="datePublished">2018-02-15</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="WAL"><a href="#WAL" class="headerlink" title="WAL"></a>WAL</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/WAL.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提交之前都要先写入log文件中。</p>
+<ul>
+<li><p>MemStore：每个Store中有一个MemStore实例。数据写入WAL之后就会被放入MemStore。MemStore是内存的存储对象，只有当MemStore满了的时候才会将数据刷写（flush）到HFile中。</p>
+</li>
+<li><p>HFile：在Store中有多个HFile。当MemStore满了之后HBase就会在HDFS上生成一个新的HFile，然后把MemStore中的内容写到这个HFile中。HFile直接跟HDFS打交道，它是数据的存储实体。接下来我们来解剖一下单个HFile中的成分。</p>
+</li>
+<li><p>WAL是存储在HDFS上的，Memstore是存储在内存中的，HFile又是存储在HDFS上的。</p>
+</li>
+<li><p>数据是先写入WAL，再被放入Memstore，最后被持久化到HFile中。</p>
+</li>
+</ul>
+<h3 id="写入过程"><a href="#写入过程" class="headerlink" title="写入过程"></a>写入过程</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/hase-write.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><p>WAL：数据被发出之后第一时间被写入WAL。由于WAL是基于HDFS来实现的，所以也可以说现在单元格就已经被持久化了，但是WAL只是一个暂存的日志，它是不区分Store的。这些数据是不能被直接读取和使用。</p>
+</li>
+<li><p>Memstore：数据随后会立即被放入Memstore中进行整理。Memstore会负责按照LSM树的结构来存放数据。这个过程就像我们在打牌的时候，抓牌之后在手上对牌进行整理的过程。</p>
+</li>
+<li><p>HFile：最后，当Memstore太大了达到尺寸上的阀值，或者达到了刷写时间间隔阀值的时候，HBaes会被这个Memstore的内容刷写到HDFS系统上，称为一个存储在硬盘上的HFile文件。至此，我们可以称为数据真正地被持久化到硬盘上，就算宕机，断电，数据也不会丢失了。</p>
+</li>
+</ul>
+<h3 id="读出过程"><a href="#读出过程" class="headerlink" title="读出过程"></a>读出过程</h3><p>HBase实际的读取顺序是先从BlockCache中找数据，找不到了再去Memstore和HFile中查询数据。</p>
+<h3 id="Region定位"><a href="#Region定位" class="headerlink" title="Region定位"></a>Region定位</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/hbase_region.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>-ROOT-是一张存储META的表，META是一张存储所在region的简要信息，如起止行等信息。</p>
+<p>从0.96版本之后这个三层查询架构被改成了二层查询架构。-ROOT-表被去掉了，同时zk中的/hbase/root-region-server也被去掉了。这回直接把.META.表所在的RegionServer信息存储到了zk中的/hbase/meta-region-server去了。再后来引入了namespace，.META.表这样别扭的名字被修改成了hbase:meta。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-12-15T12:34:34.320Z" itemprop="dateUpdated">2018-12-15 20:34:34</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2018/02/15/HBase笔记/" target="_blank" rel="external">https://blog.sequarius.com/2018/02/15/HBase笔记/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://blog.sequarius.com">
+            <img src="/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HBase笔记》 — Sequarius&url=https://blog.sequarius.com/2018/02/15/HBase笔记/&via=https://blog.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SpringMVC MultipartFile InputStream探秘</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HBase笔记》 — Sequarius&url=https://blog.sequarius.com/2018/02/15/HBase笔记/&via=https://blog.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIklEQVR42u3aMW7DMAwF0Nz/0u7aoXY/SbWA5KcpcBLZzwNBkfx84nV9W73rd79Jdlu2MDAwtmVcjyt53Oedk0e8AyfPhoGB8R7GZOvkXwksCdO31zEwMDCKn58DepIgYmBgYKwKuM8PmqeYGBgYGAkjOcT2Sm/z1HDxWRwDA2NDRl51///Pf9LfwMDA2IpxFVc1XauGy6u1MDAwzmbkAW5Ush8E7sLwBwYGxtGMfJyid9DNYfmVsg8DA2NbRrV0lTQAJsMTyav5YWcMDIyjGUm86hXrJ8fj6nEXAwPjDYxJ4SwHV4/E86QTAwPjDEYe2qols7WH5F/ePQYGxtGMKiYPuPlxtPrKbvfBwMA4mpEPhE2KbqvaEr1eAAYGxr6MVbestiEnO0T1QgwMjIMY+fDWvHlZDeXNmREMDIzjGNXCVjVE9hLKamEOAwPjPYxRElb81yRMl0/AGBgYRzCSh6i2J+eNycJ1DAyMoxm9Ulr1lnmhrZwUYmBgvIbRG8PKi2XVcn9zaAMDA+MFjGqE7g2KrTqTRnkuBgbGcYxJA7IcHINvy0U9DAyMQxlXceW3nzREF+e2GBgYmzN6zc68nZA8bu/3C3q2GBgYWzF6QXYyWjE/+mJgYLyTMUndqmll9UVE7QcMDAyM8RxHvltz7AMDAwOjOFoxOe72kBgYGG9g9FK6SSpZHeBYVm7DwMDYkLFqVKvaQuilkqNGJgYGxn6MLwbS0T82+UNvAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.6.11"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.6.11" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

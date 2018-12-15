@@ -118,7 +118,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -152,6 +152,58 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-HBase笔记"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-02-15 20:27:34" datetime="2018-02-15T12:27:34.000Z"  itemprop="datePublished">2018-02-15</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/02/15/HBase笔记/">HBase笔记</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        WAL
+                
+                    
+                    
+                
+                
+            
+预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修...
+    
+
+        <a href="/2018/02/15/HBase笔记/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-SpringMVC-MultipartFile-InputStream探秘"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -182,7 +234,7 @@
     
 
         <a href="/2017/12/17/SpringMVC-MultipartFile-InputStream探秘/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -230,7 +282,7 @@ JShell简易使用指北
     
 
         <a href="/2017/10/22/JShell源码解读，Java-REPL实现分析/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -277,7 +329,7 @@ Java对安全证书的支持JDK在java.security下有一个KeyStore的工具类�
     
 
         <a href="/2017/08/06/OKHttp开启SSL证书支持/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -322,7 +374,7 @@ Java对安全证书的支持JDK在java.security下有一个KeyStore的工具类�
     
 
         <a href="/2017/02/13/使用MyBatisGenerator-自定义生成的XML/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -368,7 +420,7 @@ redis 远程访问redis-cli -h {redis_host} -p {redis_port}配置修改Redis配�
     
 
         <a href="/2016/09/19/基于Redis的定时任务实现/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -420,7 +472,7 @@ onCompleted() 完成时的回调事件
     
 
         <a href="/2016/05/26/RxJava初探-一些细节/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -466,62 +518,13 @@ onCompleted() 完成时的回调事件
     
 
         <a href="/2016/05/12/一键评教是怎么通过Java实现的/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp模拟登陆/">OkHttp模拟登陆</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Redis学习笔记-集合篇"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-05-05 21:14:50" datetime="2016-05-05T13:14:50.000Z"  itemprop="datePublished">2016-05-05</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/05/05/Redis学习笔记-集合篇/">Redis命令学习笔记-集合篇</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        HashHash是什么？ redis的文档解释是Redis hashes look exactly how one might expect a “hash” to look, with field-value pairs:实际是一种散列集合结构，结构也如下：{key} {domain1} {value1} {domain 2} {value2} … {domain n} {valuen}
-HMSET key field value [field value …]同时将多个 field-value (域-值)对设置到哈希表 key 中。此命令会覆盖哈希表中已存在的域。如果 key 不存在，一个空哈希表被创建并执行 HMSET 操作。
-HSET key field value将哈希表 key 中的域 field 的值设为 value 。如果 key 不存在，一个新的哈希表被创建并进行 HSET 操作。如果域 field 已经存在于哈希表中，旧值将被覆盖。
-HSETNX key field value上述版本的不覆盖set版本 如果存在返回为false
-HGET key field返回哈希表 key 中给定域 field 的值。
-    
-
-        <a href="/2016/05/05/Redis学习笔记-集合篇/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li></ul>
 
     </div>
     
@@ -549,7 +552,7 @@ HGET key field返回哈希表 key 中给定域 field 的值。
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">
