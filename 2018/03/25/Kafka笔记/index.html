@@ -27,8 +27,7 @@
     
     
     <meta name="keywords" content="笔记,Kafka">
-    <meta name="description" content="#Kafka基础概念
-使用场景作为消息系统（Kafka as a Messaging System）
+    <meta name="description" content="Kafka基础概念使用场景作为消息系统（Kafka as a Messaging System）
 作为存储系统（Kafka as a Storage System）
 流处理（Kafka for Stream Processing）
 主题和日志主题是会被推送记录的一个类别或订阅名称
@@ -37,19 +36,17 @@
 <meta property="og:title" content="Kafka笔记">
 <meta property="og:url" content="https://www.sequarius.com/2018/03/25/Kafka笔记/index.html">
 <meta property="og:site_name" content="Sequarius">
-<meta property="og:description" content="#Kafka基础概念
-使用场景作为消息系统（Kafka as a Messaging System）
+<meta property="og:description" content="Kafka基础概念使用场景作为消息系统（Kafka as a Messaging System）
 作为存储系统（Kafka as a Storage System）
 流处理（Kafka for Stream Processing）
 主题和日志主题是会被推送记录的一个类别或订阅名称
 对于每一个主题，Kafka维护了一个分区日志群集!">
 <meta property="og:image" content="http://kafka.apache.org/images/log_anatomy.png">
 <meta property="og:image" content="https://www.sequarius.com/image/kafka_deploy_logitics.png">
-<meta property="og:updated_time" content="2018-12-16T06:21:00.552Z">
+<meta property="og:updated_time" content="2018-12-16T06:22:34.546Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka笔记">
-<meta name="twitter:description" content="#Kafka基础概念
-使用场景作为消息系统（Kafka as a Messaging System）
+<meta name="twitter:description" content="Kafka基础概念使用场景作为消息系统（Kafka as a Messaging System）
 作为存储系统（Kafka as a Storage System）
 流处理（Kafka for Stream Processing）
 主题和日志主题是会被推送记录的一个类别或订阅名称
@@ -176,7 +173,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#主题和日志"><span class="post-toc-number">2.</span> <span class="post-toc-text">主题和日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#核心API"><span class="post-toc-number">3.</span> <span class="post-toc-text">核心API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PRODUCER-API"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">PRODUCER API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CONSUMER-API"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">CONSUMER API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#STREAMS-API"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">STREAMS API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CONNECTOR-API"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">CONNECTOR API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#逻辑图"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">逻辑图</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Kafka基础概念"><span class="post-toc-number">1.</span> <span class="post-toc-text">Kafka基础概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#主题和日志"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">主题和日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#核心API"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">核心API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PRODUCER-API"><span class="post-toc-number">1.0.3.1.</span> <span class="post-toc-text">PRODUCER API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CONSUMER-API"><span class="post-toc-number">1.0.3.2.</span> <span class="post-toc-text">CONSUMER API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#STREAMS-API"><span class="post-toc-number">1.0.3.3.</span> <span class="post-toc-text">STREAMS API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CONNECTOR-API"><span class="post-toc-number">1.0.3.4.</span> <span class="post-toc-text">CONNECTOR API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#逻辑图"><span class="post-toc-number">1.0.3.5.</span> <span class="post-toc-text">逻辑图</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
     
@@ -195,8 +192,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>#<br>Kafka基础概念</p>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>作为消息系统（Kafka as a Messaging System）</p>
+            <h1 id="Kafka基础概念"><a href="#Kafka基础概念" class="headerlink" title="Kafka基础概念"></a>Kafka基础概念</h1><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>作为消息系统（Kafka as a Messaging System）</p>
 <p>作为存储系统（Kafka as a Storage System）</p>
 <p>流处理（Kafka for Stream Processing）</p>
 <h3 id="主题和日志"><a href="#主题和日志" class="headerlink" title="主题和日志"></a>主题和日志</h3><p>主题是会被推送记录的一个类别或订阅名称</p>
@@ -231,7 +227,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2018-12-16T06:21:00.552Z" itemprop="dateUpdated">2018-12-16 14:21:00</time>
+    Last updated: <time datetime="2018-12-16T06:22:34.546Z" itemprop="dateUpdated">2018-12-16 14:22:34</time>
 </span><br>
 
 
