@@ -26,7 +26,7 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="HBase,笔记">
+    <meta name="keywords" content="笔记,HBase">
     <meta name="description" content="WAL
                 
                     
@@ -37,7 +37,7 @@
 预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HBase笔记">
-<meta property="og:url" content="https://blog.sequarius.com/2018/02/15/HBase笔记/index.html">
+<meta property="og:url" content="https://www.sequarius.com/2018/02/15/HBase笔记/index.html">
 <meta property="og:site_name" content="Sequarius">
 <meta property="og:description" content="WAL
                 
@@ -47,10 +47,10 @@
                 
             
 预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提">
-<meta property="og:image" content="https://blog.sequarius.com/image/WAL.jpg">
-<meta property="og:image" content="https://blog.sequarius.com/image/hase-write.jpg">
-<meta property="og:image" content="https://blog.sequarius.com/image/hbase_region.jpg">
-<meta property="og:updated_time" content="2018-12-15T12:34:34.320Z">
+<meta property="og:image" content="https://www.sequarius.com/image/WAL.jpg">
+<meta property="og:image" content="https://www.sequarius.com/image/hase-write.jpg">
+<meta property="og:image" content="https://www.sequarius.com/image/hbase_region.jpg">
+<meta property="og:updated_time" content="2018-12-15T12:36:34.848Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HBase笔记">
 <meta name="twitter:description" content="WAL
@@ -61,7 +61,7 @@
                 
             
 预写式日志（Write-ahead logging，缩写 WAL）是关系数据库系统中用于提供原子性和持久性（ACID属性中的两个）的一系列技术。在使用WAL的系统中，所有的修改在提">
-<meta name="twitter:image" content="https://blog.sequarius.com/image/WAL.jpg">
+<meta name="twitter:image" content="https://www.sequarius.com/image/WAL.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
     
@@ -144,7 +144,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -183,7 +183,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WAL"><span class="post-toc-number">1.</span> <span class="post-toc-text">WAL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写入过程"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">写入过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读出过程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">读出过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Region定位"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Region定位</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#WAL"><span class="post-toc-number">1.</span> <span class="post-toc-text">WAL</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#写入过程"><span class="post-toc-number">2.</span> <span class="post-toc-text">写入过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读出过程"><span class="post-toc-number">3.</span> <span class="post-toc-text">读出过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Region定位"><span class="post-toc-number">4.</span> <span class="post-toc-text">Region定位</span></a></li></ol>
         </nav>
     </aside>
     
@@ -202,7 +202,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="WAL"><a href="#WAL" class="headerlink" title="WAL"></a>WAL</h2><figure class="image-bubble">
+            <h3 id="WAL"><a href="#WAL" class="headerlink" title="WAL"></a>WAL</h3><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/image/WAL.jpg" alt="" title="">
@@ -252,16 +252,16 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2018-12-15T12:34:34.320Z" itemprop="dateUpdated">2018-12-15 20:34:34</time>
+    Last updated: <time datetime="2018-12-15T12:36:34.848Z" itemprop="dateUpdated">2018-12-15 20:36:34</time>
 </span><br>
 
 
         
-        本文系本站原创文章，地址:[<a href="/2018/02/15/HBase笔记/" target="_blank" rel="external">https://blog.sequarius.com/2018/02/15/HBase笔记/</a>]，转载请注明出处。
+        本文系本站原创文章，地址:[<a href="/2018/02/15/HBase笔记/" target="_blank" rel="external">https://www.sequarius.com/2018/02/15/HBase笔记/</a>]，转载请注明出处。
         
     </div>
     <footer>
-        <a href="https://blog.sequarius.com">
+        <a href="https://www.sequarius.com">
             <img src="/image/avatar.jpg" alt="Sequarius">
             Sequarius
         </a>
@@ -283,7 +283,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -293,22 +293,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2018/02/15/HBase笔记/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HBase笔记》 — Sequarius&url=https://blog.sequarius.com/2018/02/15/HBase笔记/&via=https://blog.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HBase笔记》 — Sequarius&url=https://www.sequarius.com/2018/02/15/HBase笔记/&via=https://www.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2018/02/15/HBase笔记/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -328,7 +328,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/25/Kafka笔记/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Kafka笔记</h4>
+      </a>
+    </div>
   
 
   
@@ -372,7 +379,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
@@ -394,7 +401,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&pic=https://blog.sequarius.com/image/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -404,22 +411,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2018/02/15/HBase笔记/&title=《HBase笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2018/02/15/HBase笔记/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HBase笔记》 — Sequarius&url=https://blog.sequarius.com/2018/02/15/HBase笔记/&via=https://blog.sequarius.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HBase笔记》 — Sequarius&url=https://www.sequarius.com/2018/02/15/HBase笔记/&via=https://www.sequarius.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://blog.sequarius.com/2018/02/15/HBase笔记/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2018/02/15/HBase笔记/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -430,7 +437,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIklEQVR42u3aMW7DMAwF0Nz/0u7aoXY/SbWA5KcpcBLZzwNBkfx84nV9W73rd79Jdlu2MDAwtmVcjyt53Oedk0e8AyfPhoGB8R7GZOvkXwksCdO31zEwMDCKn58DepIgYmBgYKwKuM8PmqeYGBgYGAkjOcT2Sm/z1HDxWRwDA2NDRl51///Pf9LfwMDA2IpxFVc1XauGy6u1MDAwzmbkAW5Ush8E7sLwBwYGxtGMfJyid9DNYfmVsg8DA2NbRrV0lTQAJsMTyav5YWcMDIyjGUm86hXrJ8fj6nEXAwPjDYxJ4SwHV4/E86QTAwPjDEYe2qols7WH5F/ePQYGxtGMKiYPuPlxtPrKbvfBwMA4mpEPhE2KbqvaEr1eAAYGxr6MVbestiEnO0T1QgwMjIMY+fDWvHlZDeXNmREMDIzjGNXCVjVE9hLKamEOAwPjPYxRElb81yRMl0/AGBgYRzCSh6i2J+eNycJ1DAyMoxm9Ulr1lnmhrZwUYmBgvIbRG8PKi2XVcn9zaAMDA+MFjGqE7g2KrTqTRnkuBgbGcYxJA7IcHINvy0U9DAyMQxlXceW3nzREF+e2GBgYmzN6zc68nZA8bu/3C3q2GBgYWzF6QXYyWjE/+mJgYLyTMUndqmll9UVE7QcMDAyM8RxHvltz7AMDAwOjOFoxOe72kBgYGG9g9FK6SSpZHeBYVm7DwMDYkLFqVKvaQuilkqNGJgYGxn6MLwbS0T82+UNvAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQY7DIAwF0Nz/0p31qAr5NkmlwGM1qmjjl4XH2BxHvD4n63vP2f7xzu9vHU8sDAyM1zI+w5Xs6QU9jiGPDQMDYx/G2U8noYwBSXA9NgYGBkYSeh5uD4aBgYFxb8LNz5jjzzEwMDBmDrEzB9okuOqzMDAw9mHkXfff//3IfAMDA+NVjHtTZ/UgOhPJv6dgYGAszZh5TFLMjY+d+YAhOhJjYGAsyniusEsCqo5CTz/BwMBYmpE/ICnj8sZZMhjIW34YGBg7MHplX+9SV34V44YRJgYGxnKM5Gt5Gy55TdVkffHSMTAwlmb0ir8cVk2pvRSMgYGxNqNais28rWopWbiWgYGBsQGj15/L02u1PVdu3mFgYGzAyJvyM6k2Sp3xkThSYmBgvJwxc6Ssjjmr6bWwEwMDY2lGfv+id9k0T7K94ehF2sXAwFiC0bv+lYwBqitvvWFgYOzGqJZxN2T3ifQa3RnBwMBYmjHT3O+VidUC9CIdY2BgbMnI22TV0UJvIHoRCQYGxgaMvPn1XEB5gYiBgYGRH2LzqxJJAZqPM6fmGxgYGK9i3NW+713IuOHg2ptIYGBgvIqRr+qxNs/31ZFA/k8CAwNjJUY1ySZh5W2y/JfLNSMGBsZyjOrDqik1Lz170WJgYGCM02LeRMvHDD9KuBgYGIsyeuPMZEjZa8lhYGDsw5i5ojoOcWZE+ki7DQMD44WMat3Va+v3xgk3DzUxMDDex/gD0hn6CJaG3qUAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 

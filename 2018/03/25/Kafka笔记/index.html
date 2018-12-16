@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=63476062"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Kafka笔记 | Sequarius | A boy without story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="笔记,Kafka">
+    <meta name="description" content="#Kafka基础概念
+使用场景作为消息系统（Kafka as a Messaging System）
+作为存储系统（Kafka as a Storage System）
+流处理（Kafka for Stream Processing）
+主题和日志主题是会被推送记录的一个类别或订阅名称
+对于每一个主题，Kafka维护了一个分区日志群集!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka笔记">
+<meta property="og:url" content="https://www.sequarius.com/2018/03/25/Kafka笔记/index.html">
+<meta property="og:site_name" content="Sequarius">
+<meta property="og:description" content="#Kafka基础概念
+使用场景作为消息系统（Kafka as a Messaging System）
+作为存储系统（Kafka as a Storage System）
+流处理（Kafka for Stream Processing）
+主题和日志主题是会被推送记录的一个类别或订阅名称
+对于每一个主题，Kafka维护了一个分区日志群集!">
+<meta property="og:image" content="http://kafka.apache.org/images/log_anatomy.png">
+<meta property="og:image" content="https://www.sequarius.com/image/kafka_deploy_logitics.png">
+<meta property="og:updated_time" content="2018-12-16T06:21:00.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka笔记">
+<meta name="twitter:description" content="#Kafka基础概念
+使用场景作为消息系统（Kafka as a Messaging System）
+作为存储系统（Kafka as a Storage System）
+流处理（Kafka for Stream Processing）
+主题和日志主题是会被推送记录的一个类别或订阅名称
+对于每一个主题，Kafka维护了一个分区日志群集!">
+<meta name="twitter:image" content="http://kafka.apache.org/images/log_anatomy.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sequarius" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" href="/css/style.css?v=1.6.11">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/image/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sequarius</h5>
+          <a href="mailto:sequarius@gmail.com" title="sequarius@gmail.com" class="mail">sequarius@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sequarius" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Kafka笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Kafka笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-25T06:18:42.000Z" itemprop="datePublished" class="page-time">
+  2018-03-25
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#主题和日志"><span class="post-toc-number">2.</span> <span class="post-toc-text">主题和日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#核心API"><span class="post-toc-number">3.</span> <span class="post-toc-text">核心API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PRODUCER-API"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">PRODUCER API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CONSUMER-API"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">CONSUMER API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#STREAMS-API"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">STREAMS API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CONNECTOR-API"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">CONNECTOR API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#逻辑图"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">逻辑图</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Kafka笔记"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Kafka笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-25 14:18:42" datetime="2018-03-25T06:18:42.000Z"  itemprop="datePublished">2018-03-25</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>#<br>Kafka基础概念</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>作为消息系统（Kafka as a Messaging System）</p>
+<p>作为存储系统（Kafka as a Storage System）</p>
+<p>流处理（Kafka for Stream Processing）</p>
+<h3 id="主题和日志"><a href="#主题和日志" class="headerlink" title="主题和日志"></a>主题和日志</h3><p>主题是会被推送记录的一个类别或订阅名称</p>
+<p>对于每一个主题，Kafka维护了一个分区日志群集!</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://kafka.apache.org/images/log_anatomy.png" alt="分区日志" title="">
+                </div>
+                <div class="image-caption">分区日志</div>
+            </figure>
+<p>每个分区是一个有序的，可以不断追加消息的消息序列。分区中的每个消息都会分配一个在分区内是唯一的序列号，这个序列号叫做偏移量(offset)</p>
+<h3 id="核心API"><a href="#核心API" class="headerlink" title="核心API"></a>核心API</h3><h4 id="PRODUCER-API"><a href="#PRODUCER-API" class="headerlink" title="PRODUCER API"></a>PRODUCER API</h4><p>允许应用推送流记录到一个或多个Kafka主题上。</p>
+<p>生产者向所选的主题发布数据。生产者负责选择哪些消息应该分配到主题内的哪个分区。这种选择分区方式，可以使用简单的循环方式负载均衡； 也可以通过一些语义分区函数实现（如：基于消息的key进行划分）。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Map configs = new HashMap&lt;&gt;();</div><div class="line">configs.put...//Producer配置，这是最重要的</div><div class="line">Producer producer = new KafkaProducer&lt;&gt;(configs);</div><div class="line"></div><div class="line">//加上key会跟据消息的key进行分区划分，一般无需指定key</div><div class="line">ProducerRecord record = new ProducerRecord(topic, key, value);</div><div class="line">producer.send(record);</div></pre></td></tr></table></figure></p>
+<h4 id="CONSUMER-API"><a href="#CONSUMER-API" class="headerlink" title="CONSUMER API"></a>CONSUMER API</h4><p>允许应用程序订阅一个或多个主题并且并处理产生的流记录</p>
+<p>每个消费者都属于一个消费组,每一条被推送到主题的记录被传递给订阅该主题的消费组的其中一个消费者。消费者可以在不同进程或者不同的机器上。</p>
+<p>如果所有的消费者实例有相同的消费组,消息将会有效地负载平衡给这些消费者实例。</p>
+<h4 id="STREAMS-API"><a href="#STREAMS-API" class="headerlink" title="STREAMS API"></a>STREAMS API</h4><p>允许应用程序作为一个流处理器，从一个或多个主题获取流数据，然后输出流数据到一个或多个主题，有效地将输入流转换为输出流。</p>
+<p><strong>如果所有的消费者实例在不同的消费组中，那么每一条消息将会被广播给所有的消费者处理。</strong></p>
+<h4 id="CONNECTOR-API"><a href="#CONNECTOR-API" class="headerlink" title="CONNECTOR API"></a>CONNECTOR API</h4><p>允许构建和运行可重用的生产者（Producer)或消费者(Consumer)连接Kafka与现有应用程序或数据系统。例如,一个连接器(connector)在关系数据库中可能获取每个表变化。</p>
+<h4 id="逻辑图"><a href="#逻辑图" class="headerlink" title="逻辑图"></a>逻辑图</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/image/kafka_deploy_logitics.png" alt="kafka逻辑" title="">
+                </div>
+                <div class="image-caption">kafka逻辑</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-12-16T06:21:00.552Z" itemprop="dateUpdated">2018-12-16 14:21:00</time>
+</span><br>
+
+
+        
+        本文系本站原创文章，地址:[<a href="/2018/03/25/Kafka笔记/" target="_blank" rel="external">https://www.sequarius.com/2018/03/25/Kafka笔记/</a>]，转载请注明出处。
+        
+    </div>
+    <footer>
+        <a href="https://www.sequarius.com">
+            <img src="/image/avatar.jpg" alt="Sequarius">
+            Sequarius
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kafka/">Kafka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2018/03/25/Kafka笔记/&title=《Kafka笔记》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2018/03/25/Kafka笔记/&title=《Kafka笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2018/03/25/Kafka笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kafka笔记》 — Sequarius&url=https://www.sequarius.com/2018/03/25/Kafka笔记/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2018/03/25/Kafka笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/15/HBase笔记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">HBase笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Sequarius &copy; 2014 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.sequarius.com/2018/03/25/Kafka笔记/&title=《Kafka笔记》 — Sequarius&pic=https://www.sequarius.com/image/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sequarius.com/2018/03/25/Kafka笔记/&title=《Kafka笔记》 — Sequarius&source=Quietly, we embrace in a world lit up by binary." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.sequarius.com/2018/03/25/Kafka笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kafka笔记》 — Sequarius&url=https://www.sequarius.com/2018/03/25/Kafka笔记/&via=https://www.sequarius.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.sequarius.com/2018/03/25/Kafka笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJklEQVR42u3aSW7DMBAEQP//084DAindQzuAyOIpCGiJpcOAs7xe8XpfrN97rvbf7/z9q9c3FgYGxmMZ79uV7Jkd+v4M+dkwMDDOYVw9+n7PfaDMDzdjY2BgYMwY91e9FoaBgYExY8xSzSQo/2vAxcDAeCAjSWJXEto2fH8xF8fAwHggIw+X///3V/obGBgYj2Ksh86kwZkc672wMDAw9masvCYpqN2nnUlCW6TEGBgYmzLawtYsxU2um0ufAAMD4xjGLK29P24eiFc+FgYGxt6MPIFsj5UEytnzl/JgDAyMBzKSwllycUzCbp7u1m/EwMDYmtGOOLSVvPw/s6A8nNTAwMB4IKMd2GqLaHnhrC201bVDDAyMhzOSC1yLjIYkRp+gKLdhYGBszVgJhTmyfdof6SsGBsZ2jDbJnCWfs/Ba7MTAwDiGMQuvnwqyS2U4DAyMrRmzJkEybNGudsACAwPjNMZsYCIPkTk1aQBc/goDA+MARnvcNlB+qrVwmdZiYGAczFg5Sl6qy9PaYmYEAwNjU0aOWTlQXvovioAYGBgHMNoiV06dtQHagI6BgbErY1a+n6WdeagtEtdZLwIDA+NRjHzNktL12a18OAMDA2NvRtuebBsJs9S0/t4YGBgHMJZKXeVlsWUn78XAwMDIR7vaQbGP3WExMDAwyrblrCE6K8lhYGCcw2iHVvMjfmOYDAMD4zRGe++alfWLdHShqYCBgbEd4wciWiLgNleDmgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.6.11"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.6.11" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
