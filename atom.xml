@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.sequarius.com/"/>
-  <updated>2018-12-16T06:22:34.546Z</updated>
+  <updated>2018-12-28T12:29:08.927Z</updated>
   <id>https://www.sequarius.com/</id>
   
   <author>
@@ -14,6 +14,25 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringMVC响应H264流文件</title>
+    <link href="https://www.sequarius.com/2018/05/28/SpringMVC%E5%93%8D%E5%BA%94H264%E6%B5%81%E6%96%87%E4%BB%B6/"/>
+    <id>https://www.sequarius.com/2018/05/28/SpringMVC响应H264流文件/</id>
+    <published>2018-05-28T12:27:08.000Z</published>
+    <updated>2018-12-28T12:29:08.927Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/play/&#123;name&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;ResourceRegion&gt; <span class="title">play</span><span class="params">(@PathVariable(<span class="string">"name"</span>)</span> String name,@RequestHeader HttpHeaders httpHeaders) <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    UrlResource video =<span class="keyword">new</span> UrlResource(<span class="string">"file:"</span>+ARCHIVE_DIR_STR+<span class="string">"/"</span>+name+<span class="string">".mp4"</span>);</div><div class="line">    ResourceRegion resourceRegion = resourceRegion(video, httpHeaders);</div><div class="line">    <span class="keyword">return</span> ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)</div><div class="line">            .contentType(MediaTypeFactory</div><div class="line">                    .getMediaType(<span class="string">"video/mp4"</span>)</div><div class="line">                    .orElse(MediaType.APPLICATION_OCTET_STREAM))</div><div class="line">            .body(resourceRegion);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> ResourceRegion <span class="title">resourceRegion</span><span class="params">(UrlResource video, HttpHeaders headers)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">long</span> contentLength = video.contentLength();</div><div class="line">    HttpRange range = headers.getRange().get(<span class="number">0</span>);</div><div class="line">     <span class="keyword">if</span> (range != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">long</span> start = range.getRangeStart(contentLength);</div><div class="line">        <span class="keyword">long</span> end = range.getRangeEnd(contentLength);</div><div class="line">        <span class="keyword">long</span> rangeLength = Math.min(<span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span>, end - start + <span class="number">1</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResourceRegion(video, start, rangeLength);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">long</span> rangeLength = Math.min(<span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span>, contentLength);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResourceRegion(video, <span class="number">0</span>, rangeLength);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>PlayPage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">autoplay</span>=<span class="string">"autoplay"</span> <span class="attr">controls</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">src</span>=<span class="string">"/play/name"</span> <span class="attr">type</span>=<span class="string">"video/mp4"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">video</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@GetMapping&lt;/span&gt;(&lt;span class=&quot;string&quot;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Kafka笔记</title>
